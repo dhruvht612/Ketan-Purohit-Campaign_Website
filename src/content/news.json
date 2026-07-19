@@ -1,0 +1,56 @@
+{
+  "articles": [
+    {
+      "id": "launch",
+      "category": "Announcement",
+      "date": "2026-05-12",
+      "title": "Ketan Purohit launches campaign for TDSB Ward 12 Trustee",
+      "excerpt": "Surrounded by parents, students, and volunteers, Ketan officially kicked off his campaign with a promise: to be a full-time, listen-first voice for Ward 12 families.",
+      "image": "news-launch"
+    },
+    {
+      "id": "town-hall",
+      "category": "Event",
+      "date": "2026-06-03",
+      "title": "Recap: our first community town hall",
+      "excerpt": "Over 150 neighbours joined us to talk safer schools, mental-health supports, and how the board can be more open with families.",
+      "image": "news-townhall"
+    },
+    {
+      "id": "endorsement",
+      "category": "Campaign",
+      "date": "2026-06-21",
+      "title": "Local educators and parent groups back Ketan",
+      "excerpt": "A growing coalition of teachers, parent councils, and community organizations are lending their support to the campaign.",
+      "image": "news-endorse"
+    },
+    {
+      "id": "mental-health-plan",
+      "category": "Policy",
+      "date": "2026-07-08",
+      "title": "Our plan for mental health in every school",
+      "excerpt": "Ketan released a detailed plan to expand counselling access and speed up support for students who need it most.",
+      "image": "news-plan"
+    }
+  ],
+  "videos": [
+    {
+      "id": "why-i-run",
+      "title": "Why I'm running for Ward 12",
+      "duration": "2:14",
+      "thumb": "video-why"
+    },
+    {
+      "id": "town-hall-highlights",
+      "title": "Town hall highlights",
+      "duration": "3:48",
+      "thumb": "video-townhall"
+    },
+    {
+      "id": "meet-ketan",
+      "title": "Meet Ketan: a day in Ward 12",
+      "duration": "1:57",
+      "thumb": "video-meet"
+    }
+  ]
+}

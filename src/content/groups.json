@@ -1,0 +1,8 @@
+[
+  { "id": "parents-united", "name": "Ward 12 Parents United", "type": "Parent Council", "description": "A coalition of parent councils working for safer schools and stronger family voice." },
+  { "id": "teachers-for-change", "name": "Educators for Ward 12", "type": "Educators", "description": "Local teachers and education workers advocating for well-resourced classrooms." },
+  { "id": "newcomer-network", "name": "Newcomer Family Network", "type": "Community", "description": "Supporting newcomer families as they navigate schools and settle into the community." },
+  { "id": "youth-council", "name": "Ward 12 Youth Council", "type": "Students", "description": "Students organizing for mental-health support and a real say in school decisions." },
+  { "id": "seniors-alliance", "name": "Community Seniors Alliance", "type": "Community", "description": "Longtime residents invested in strong, accountable neighbourhood schools." },
+  { "id": "small-business", "name": "Local Business Partners", "type": "Business", "description": "Ward 12 businesses offering mentorship, co-op placements, and career pathways." }
+]

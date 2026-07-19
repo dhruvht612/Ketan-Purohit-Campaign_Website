@@ -1,0 +1,11 @@
+[
+  { "id": "g1", "category": "Community", "caption": "Meeting families at the Ward 12 spring fair", "seed": "community-fair" },
+  { "id": "g2", "category": "Town Halls", "caption": "Listening at our first community town hall", "seed": "town-hall" },
+  { "id": "g3", "category": "Schools", "caption": "Reading morning at a local elementary school", "seed": "reading-morning" },
+  { "id": "g4", "category": "Volunteers", "caption": "Our volunteer team before a canvass", "seed": "volunteer-team" },
+  { "id": "g5", "category": "Community", "caption": "Neighbourhood safety walk with parents", "seed": "safety-walk" },
+  { "id": "g6", "category": "Schools", "caption": "Celebrating student achievement", "seed": "student-achievement" },
+  { "id": "g7", "category": "Town Halls", "caption": "Q&A with local parent councils", "seed": "parent-council" },
+  { "id": "g8", "category": "Volunteers", "caption": "Signs up across the ward", "seed": "lawn-signs" },
+  { "id": "g9", "category": "Community", "caption": "Cultural festival in the heart of Ward 12", "seed": "cultural-festival" }
+]

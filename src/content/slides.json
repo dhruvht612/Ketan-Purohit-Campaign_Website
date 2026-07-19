@@ -1,0 +1,92 @@
+[
+  {
+    "id": "intro",
+    "kicker": "Ketan Purohit",
+    "headline": "Integrity · Vision · Leadership",
+    "points": [
+      "A dedicated, full-time voice for Ward 12",
+      "Community first, students always",
+      "Ready to serve on day one"
+    ],
+    "image": "hero",
+    "tone": "blue"
+  },
+  {
+    "id": "diversity",
+    "kicker": "Diversity & Inclusion",
+    "headline": "Every student belongs here",
+    "points": [
+      "Celebrating diversity in our classrooms",
+      "Equal opportunities for every student",
+      "Inclusive schools where all belong",
+      "A fair voice for everyone"
+    ],
+    "image": "diversity",
+    "tone": "accent"
+  },
+  {
+    "id": "wellbeing",
+    "kicker": "Compassion & Well-being",
+    "headline": "Leading with compassion and empathy",
+    "points": [
+      "Prioritizing mental health services always",
+      "Safe, supportive spaces for kids",
+      "Caring for every single child",
+      "Support that reaches every family"
+    ],
+    "image": "wellbeing",
+    "tone": "blue"
+  },
+  {
+    "id": "employment",
+    "kicker": "Future Employment & Skills",
+    "headline": "Preparing grads for modern jobs",
+    "points": [
+      "Building critical skills for employment",
+      "Supporting strong career pathways ahead",
+      "Ready for tomorrow's work world",
+      "Partnerships with local employers"
+    ],
+    "image": "employment",
+    "tone": "accent"
+  },
+  {
+    "id": "commitment",
+    "kicker": "Future Commitment & Vision",
+    "headline": "Ready to serve our community",
+    "points": [
+      "Bringing fresh perspectives to the board",
+      "Your new voice for schools",
+      "Fighting for your child's future",
+      "Showing up, listening, delivering"
+    ],
+    "image": "commitment",
+    "tone": "blue"
+  },
+  {
+    "id": "advocacy",
+    "kicker": "Student & Parent Advocacy",
+    "headline": "Putting students first, every time",
+    "points": [
+      "Always listening to local parents",
+      "Demanding better classrooms for kids",
+      "Championing safer local schools",
+      "Turning concerns into action"
+    ],
+    "image": "advocacy",
+    "tone": "accent"
+  },
+  {
+    "id": "accountability",
+    "kicker": "Accountability & Change",
+    "headline": "Bringing true accountability back home",
+    "points": [
+      "Demanding transparent school-board spending",
+      "Ready to work for you",
+      "Your dedicated, full-time trustee",
+      "Results you can measure"
+    ],
+    "image": "accountability",
+    "tone": "blue"
+  }
+]

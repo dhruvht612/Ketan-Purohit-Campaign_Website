@@ -1,0 +1,23 @@
+{
+  "name": "ketan-purohit-campaign",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Ketan Purohit — TDSB Ward 12 Trustee campaign website (React)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "framer-motion": "^11.3.19",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.0"
+  }
+}

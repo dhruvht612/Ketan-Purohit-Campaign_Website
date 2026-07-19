@@ -1,0 +1,51 @@
+[
+  {
+    "id": "education",
+    "icon": "book",
+    "title": "Education",
+    "summary": "Strong core learning, smaller class sizes, and modern classrooms that give every student the foundation to thrive.",
+    "detail": "Ketan will push for evidence-based literacy and numeracy programs, up-to-date learning materials, and staffing levels that let teachers actually teach. Great schools start with great classrooms."
+  },
+  {
+    "id": "mental-health",
+    "icon": "heart",
+    "title": "Mental Health",
+    "summary": "More counsellors, faster support, and a school system that takes student and staff well-being seriously.",
+    "detail": "From earlier intervention to accessible counselling in every school, Ketan will prioritize the mental-health resources students need to learn, grow, and feel safe."
+  },
+  {
+    "id": "safe-schools",
+    "icon": "shield",
+    "title": "Safe Schools",
+    "summary": "Welcoming, secure environments where students, staff, and families feel protected and respected.",
+    "detail": "Clear, consistent safety standards, better facilities, and community partnerships that keep the walk to and from school safe for every child."
+  },
+  {
+    "id": "diversity",
+    "icon": "people",
+    "title": "Diversity",
+    "summary": "Inclusive classrooms that reflect and celebrate the many communities that make Ward 12 home.",
+    "detail": "Ketan will champion curriculum, hiring, and programming that ensure every student sees themselves represented and every family feels they belong."
+  },
+  {
+    "id": "parent-engagement",
+    "icon": "chat",
+    "title": "Parent Engagement",
+    "summary": "Parents treated as partners — with real information, real access, and a real say in decisions.",
+    "detail": "Regular town halls, plain-language updates, and open lines of communication so families are never the last to know about decisions that affect their kids."
+  },
+  {
+    "id": "future-employment",
+    "icon": "briefcase",
+    "title": "Future Employment",
+    "summary": "Skills, mentorship, and pathways that prepare graduates for the jobs of tomorrow.",
+    "detail": "Expanded co-op, trades, and career programs, plus partnerships with local employers so students leave school ready for real opportunities."
+  },
+  {
+    "id": "transparency",
+    "icon": "chart",
+    "title": "Transparency",
+    "summary": "Clear budgets, accountable spending, and decisions made in the open — not behind closed doors.",
+    "detail": "Ketan will fight for readable, published budgets and measurable goals so every dollar can be traced back to student outcomes."
+  }
+]

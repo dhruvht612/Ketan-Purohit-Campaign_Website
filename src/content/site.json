@@ -1,0 +1,29 @@
+{
+  "brand": {
+    "name": "Ketan Purohit",
+    "role": "TDSB Ward 12 Trustee",
+    "tagline": "Integrity · Vision · Leadership"
+  },
+  "contact": {
+    "email": "hello@ketanpurohit.ca",
+    "phone": "(416) 555-0142",
+    "office": {
+      "line1": "Ward 12 Campaign Office",
+      "line2": "1240 Bathurst Street, Toronto, ON M5R 3H4",
+      "hours": "Mon–Fri · 10am–6pm"
+    },
+    "mapQuery": "1240 Bathurst Street, Toronto, ON"
+  },
+  "social": [
+    { "label": "Facebook", "handle": "@KetanForWard12", "href": "https://facebook.com" },
+    { "label": "Instagram", "handle": "@ketanforward12", "href": "https://instagram.com" },
+    { "label": "X", "handle": "@KetanPurohit", "href": "https://x.com" },
+    { "label": "YouTube", "handle": "Ketan Purohit", "href": "https://youtube.com" }
+  ],
+  "legal": {
+    "donation": "I confirm that I am a resident of Ontario and that this contribution is made from my own personal funds, up to the legal maximum of $1,200 per candidate.",
+    "individualOnly": "Individual donations only. Corporate and union contributions are not accepted under Ontario elections law.",
+    "min": 5,
+    "max": 1200
+  }
+}

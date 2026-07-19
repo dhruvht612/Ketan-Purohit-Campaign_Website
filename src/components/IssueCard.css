@@ -1,0 +1,29 @@
+.issue-card {
+  padding: clamp(24px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.issue-card__icon {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  display: grid; place-items: center;
+  margin-bottom: 18px;
+  transition: background .25s var(--ease), color .25s var(--ease);
+}
+.issue-card:hover .issue-card__icon { background: var(--blue); color: #fff; }
+.issue-card__title { font-size: 1.32rem; color: var(--blue-900); margin-bottom: 10px; }
+.issue-card__summary { color: var(--muted); font-size: 1rem; flex: 1; }
+.issue-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  font-family: var(--display);
+  font-weight: 600;
+  color: var(--blue);
+  transition: gap .2s var(--ease);
+}
+.issue-card__more:hover { gap: 11px; }
