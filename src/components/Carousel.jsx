@@ -59,12 +59,14 @@ export default function Carousel({ slides }) {
             >
               <div className="carousel__media">
                 <Placeholder
+                  src={slide.src}
                   seed={slide.image}
                   monogram={slide.id === 'intro'}
                   label={slide.id === 'intro' ? null : slide.kicker}
                   alt={`${slide.kicker} — ${slide.headline}`}
                   ratio="16 / 11"
                   rounded="var(--radius-lg)"
+                  objectPosition="center top"
                   loading="eager"
                 />
               </div>

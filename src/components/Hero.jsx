@@ -60,11 +60,13 @@ export default function Hero() {
         >
           <div className="hero__portrait">
             <Placeholder
+              src={site.images.portrait}
               seed="ketan-portrait"
               monogram
               alt="Ketan Purohit, candidate for TDSB Ward 12 Trustee"
               ratio="4 / 5"
               rounded="var(--radius-lg)"
+              objectPosition="center top"
               loading="eager"
             />
           </div>

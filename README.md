@@ -96,9 +96,19 @@ payloads to these endpoints.
 
 ## Add real photos
 
-Every image renders through `src/components/Placeholder.jsx`, which currently
-draws on-brand gradient placeholders with a "KP" monogram. Pass a real `src`
-(from the CMS or `/public`) to swap in photography — no layout changes needed.
+Every image renders through `src/components/Placeholder.jsx`, which shows an
+on-brand gradient placeholder until a real photo is present — and **falls back
+to the gradient automatically if an image is missing or fails to load**, so the
+layout never breaks.
+
+Drop these two files into [`public/images/`](./public/images) (see its README):
+
+| File | Appears on |
+|---|---|
+| `ketan-portrait.jpg` | Hero, About section, carousel intro slide |
+| `campaign-flyer.jpg` | Pictures gallery (Campaign) |
+
+Paths are set in `src/content/site.json`, `slides.json`, and `gallery.json`.
 
 ## Deployment
 

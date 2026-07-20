@@ -1,4 +1,5 @@
 [
+  { "id": "flyer", "category": "Campaign", "caption": "Official campaign flyer — Election 2026", "seed": "campaign-flyer", "src": "/images/campaign-flyer.jpg" },
   { "id": "g1", "category": "Community", "caption": "Meeting families at the Ward 12 spring fair", "seed": "community-fair" },
   { "id": "g2", "category": "Town Halls", "caption": "Listening at our first community town hall", "seed": "town-hall" },
   { "id": "g3", "category": "Schools", "caption": "Reading morning at a local elementary school", "seed": "reading-morning" },

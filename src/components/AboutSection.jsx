@@ -1,10 +1,11 @@
 import Placeholder from './Placeholder.jsx'
 import Reveal from './Reveal.jsx'
-import { getAbout } from '../lib/cms.js'
+import { getAbout, getSite } from '../lib/cms.js'
 import './AboutSection.css'
 
 export default function AboutSection() {
   const about = getAbout()
+  const site = getSite()
 
   return (
     <section className="section about" id="about">
@@ -12,11 +13,13 @@ export default function AboutSection() {
         <Reveal className="about__media">
           <div className="about__photo">
             <Placeholder
+              src={site.images.portrait}
               seed="ketan-about"
               monogram
-              alt="Ketan Purohit meeting with community members"
+              alt="Ketan Purohit, TDSB Ward 12 Trustee candidate"
               ratio="4 / 5"
               rounded="var(--radius-lg)"
+              objectPosition="center top"
             />
           </div>
           <div className="about__stats">

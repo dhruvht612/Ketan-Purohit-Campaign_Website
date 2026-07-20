@@ -4,6 +4,10 @@
     "role": "TDSB Ward 12 Trustee",
     "tagline": "Integrity · Vision · Leadership"
   },
+  "images": {
+    "portrait": "/images/ketan-portrait.png",
+    "flyer": "/images/campaign-flyer.jpg"
+  },
   "contact": {
     "email": "hello@ketanpurohit.ca",
     "phone": "(416) 555-0142",

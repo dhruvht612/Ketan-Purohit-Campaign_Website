@@ -1,13 +1,16 @@
+import { useState } from 'react'
 import './Placeholder.css'
 
 /**
- * Styled image placeholder.
- * ------------------------
- * Every real photo slot renders through this component. When a real image URL
- * is provided (`src`), it shows the photo; otherwise it draws a tasteful,
- * deterministic gradient panel keyed off `seed`, with an optional label and the
- * "KP" monogram. To drop in real photography later, pass `src` from the CMS —
- * no layout changes needed.
+ * Image slot with graceful fallback.
+ * ---------------------------------
+ * Pass `src` to show a real photo. If `src` is missing OR fails to load, a
+ * tasteful on-brand gradient panel (keyed off `seed`, with an optional label
+ * and the "KP" monogram) is drawn instead — so the layout never breaks while
+ * photos are being added or wired from the CMS.
+ *
+ * `objectPosition` lets you nudge the focal point of a real photo (e.g. keep a
+ * face in frame on tall crops).
  */
 
 // Two soft palettes we rotate between, both on-brand.
@@ -32,17 +35,21 @@ export default function Placeholder({
   monogram = false,
   ratio = '4 / 3',
   rounded = 'var(--radius)',
+  objectPosition = 'center',
   className = '',
   loading = 'lazy',
 }) {
-  if (src) {
+  const [failed, setFailed] = useState(false)
+
+  if (src && !failed) {
     return (
       <img
         src={src}
         alt={alt}
         loading={loading}
+        onError={() => setFailed(true)}
         className={`ph-img ${className}`}
-        style={{ aspectRatio: ratio, borderRadius: rounded }}
+        style={{ aspectRatio: ratio, borderRadius: rounded, objectPosition }}
       />
     )
   }

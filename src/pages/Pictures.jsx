@@ -65,10 +65,11 @@ export default function Pictures() {
                 aria-label={`View: ${g.caption}`}
               >
                 <Placeholder
+                  src={g.src}
                   seed={g.seed}
                   label={g.category}
                   alt={g.caption}
-                  ratio={i % 3 === 0 ? '3 / 4' : i % 3 === 1 ? '4 / 3' : '1 / 1'}
+                  ratio={g.src ? undefined : (i % 3 === 0 ? '3 / 4' : i % 3 === 1 ? '4 / 3' : '1 / 1')}
                   rounded="0"
                 />
                 <span className="gallery__cap">{g.caption}</span>
@@ -87,7 +88,7 @@ export default function Pictures() {
             <Icon name="arrow" size={22} style={{ transform: 'rotate(180deg)' }} />
           </button>
           <div className="lightbox__inner" onClick={(e) => e.stopPropagation()}>
-            <Placeholder seed={shown[lightbox].seed} label={shown[lightbox].category} alt={shown[lightbox].caption} ratio="16 / 10" rounded="var(--radius)" loading="eager" />
+            <Placeholder src={shown[lightbox].src} seed={shown[lightbox].seed} label={shown[lightbox].category} alt={shown[lightbox].caption} ratio={shown[lightbox].src ? undefined : '16 / 10'} rounded="var(--radius)" loading="eager" />
             <p className="lightbox__cap">{shown[lightbox].caption}</p>
           </div>
           <button className="lightbox__nav lightbox__nav--next" onClick={(e) => { e.stopPropagation(); step(1) }} aria-label="Next">
