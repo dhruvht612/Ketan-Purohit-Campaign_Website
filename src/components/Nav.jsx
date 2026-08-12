@@ -19,8 +19,8 @@ const NAV = [
   {
     label: 'News',
     children: [
-      { label: 'Media', to: '/news' },
-      { label: 'Pictures', to: '/pictures' },
+      { label: 'Media', to: '/media' },
+      { label: 'Photos', to: '/pictures' },
     ],
   },
   { label: 'Groups', to: '/groups' },

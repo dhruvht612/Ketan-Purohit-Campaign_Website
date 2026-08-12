@@ -1,64 +1,105 @@
+/* Footer — the flyer's bottom third: a navy field, a red action band, and
+   the gold "Our Schools. Our Future." sign-off. */
 .footer {
-  background: var(--blue-900);
-  color: #b9c9e0;
+  background: var(--navy-800);
+  color: #b3c3dc;
   margin-top: auto;
 }
 
-/* CTA band */
+/* CTA band — the flyer's red "VOTE" stripe */
 .footer__cta {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 28px;
   flex-wrap: wrap;
-  padding: clamp(40px, 6vw, 64px) 22px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: clamp(36px, 5vw, 56px) 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 .footer__cta-title {
   color: #fff;
-  font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+  font-size: clamp(1.4rem, 3.2vw, 2.1rem);
   max-width: 22ch;
 }
-.footer__cta-sub { margin-top: 10px; color: #9fb3d1; max-width: 46ch; }
+.footer__cta-sub { margin-top: 10px; color: #9aadc9; max-width: 46ch; }
 .footer__cta-btns { display: flex; gap: 14px; flex-wrap: wrap; }
 
 /* Main grid */
 .footer__main {
   display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1.7fr 1fr 1fr 1fr 1.2fr;
   gap: 32px;
-  padding: clamp(44px, 6vw, 68px) 22px;
+  padding: clamp(40px, 5.5vw, 64px) 22px;
 }
-.footer__brand { max-width: 260px; }
+.footer__brand { max-width: 280px; }
+.footer__lockup { display: flex; align-items: center; gap: 12px; }
 .footer__mark {
-  width: 46px; height: 46px; border-radius: 13px;
-  background: rgba(255, 255, 255, 0.08);
-  display: grid; place-items: center; margin-bottom: 14px;
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.09);
+  display: grid; place-items: center;
+  flex: none;
 }
-.footer__name { font-family: var(--display); font-weight: 700; font-size: 1.25rem; color: #fff; }
-.footer__role { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: #9fb3d1; margin-top: 2px; }
-.footer__tag { margin-top: 14px; color: var(--accent); font-weight: 600; font-family: var(--display); letter-spacing: 0.02em; }
+.footer__name {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 88;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  color: #fff;
+  line-height: 1.1;
+}
+.footer__role {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  font-family: var(--display);
+  color: var(--gold);
+  margin-top: 2px;
+}
+.footer__tag {
+  margin-top: 16px;
+  color: #cbd8ec;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+.footer__script { margin-top: 8px; font-size: 1.5rem; }
 
-.footer__col { display: flex; flex-direction: column; gap: 12px; }
+.footer__col { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .footer__h {
   font-family: var(--display);
-  font-size: 0.8rem;
+  font-size: 0.74rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: #fff;
+  letter-spacing: 0.16em;
+  color: var(--gold);
   margin-bottom: 4px;
 }
-.footer__col a { color: #b9c9e0; font-size: 0.96rem; transition: color .18s var(--ease); width: fit-content; }
+.footer__col a {
+  color: #b3c3dc;
+  font-size: 0.94rem;
+  transition: color .18s var(--ease);
+  width: fit-content;
+  /* Comfortable tap targets in the stacked mobile footer. */
+  padding: 3px 0;
+}
 .footer__col a:hover { color: #fff; }
 
-.footer__social { display: flex; gap: 10px; }
+.footer__contact { display: inline-flex; align-items: center; gap: 8px; }
+.footer__pending { font-size: 0.88rem; color: #8496b5; font-style: italic; }
+
+.footer__social { display: flex; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
 .footer__social-link {
-  width: 42px; height: 42px; border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  display: grid; place-items: center; color: #cdd9ec;
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.09);
+  display: grid; place-items: center; color: #cbd8ec;
   transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
 }
-.footer__social-link:hover { background: var(--blue); color: #fff; transform: translateY(-2px); }
+.footer__social-link:hover { background: var(--red); color: #fff; transform: translateY(-2px); }
 
 /* Bottom bar */
 .footer__bar {
@@ -66,17 +107,22 @@
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  padding: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.82rem;
-  color: #8fa3c2;
+  padding: 20px 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.8rem;
+  color: #8496b5;
 }
 
-@media (max-width: 860px) {
-  .footer__main { grid-template-columns: 1fr 1fr; }
+@media (max-width: 980px) {
+  .footer__main { grid-template-columns: 1fr 1fr 1fr; }
   .footer__brand { grid-column: 1 / -1; max-width: none; }
 }
-@media (max-width: 520px) {
+@media (max-width: 620px) {
+  .footer__main { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 460px) {
   .footer__main { grid-template-columns: 1fr; }
   .footer__cta { flex-direction: column; align-items: flex-start; }
+  .footer__cta-btns { width: 100%; }
+  .footer__cta-btns .btn { flex: 1; }
 }

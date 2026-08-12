@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import PageHeader from '../components/PageHeader.jsx'
 import Field from '../components/Field.jsx'
+import RadioGroup from '../components/RadioGroup.jsx'
+import ConsentCheckbox from '../components/ConsentCheckbox.jsx'
+import DonateCTA from '../components/DonateCTA.jsx'
 import Button from '../components/Button.jsx'
 import Icon from '../components/Icon.jsx'
 import { useToast } from '../components/Toast.jsx'
-import { getWards } from '../lib/cms.js'
+import { getWardsMeta, getConsentText } from '../lib/cms.js'
 import { submitVolunteer } from '../lib/api.js'
 
 const SUPPORT_TYPES = ['Lawn Sign', 'Canvassing', 'Phone Calls', 'Election Day Help']
@@ -17,10 +20,12 @@ const empty = {
   phone: '',
   ward: '',
   support: [],
+  smsConsent: false,
 }
 
 export default function Volunteer() {
-  const wards = getWards()
+  const wards = getWardsMeta()
+  const consent = getConsentText()
   const toast = useToast()
   const [form, setForm] = useState(empty)
   const [errors, setErrors] = useState({})
@@ -29,6 +34,11 @@ export default function Volunteer() {
 
   const set = (key) => (e) => {
     setForm((f) => ({ ...f, [key]: e.target.value }))
+    setErrors((x) => ({ ...x, [key]: undefined }))
+  }
+
+  const setValue = (key) => (value) => {
+    setForm((f) => ({ ...f, [key]: value }))
     setErrors((x) => ({ ...x, [key]: undefined }))
   }
 
@@ -47,6 +57,14 @@ export default function Volunteer() {
     if (!form.lastName.trim()) e.lastName = 'Please enter your last name.'
     if (!form.email.trim()) e.email = 'Please enter your email address.'
     else if (!EMAIL_RE.test(form.email)) e.email = 'Please enter a valid email address.'
+
+    /* The consent box is the opt-in itself, so it never blocks a sign-up.
+       It only binds in the direction that matters: agreeing to be texted
+       requires a number to text. */
+    if (form.smsConsent && !form.phone.trim()) {
+      e.phone = 'Please add a phone number, or clear the text-message opt-in below.'
+      e.smsConsent = consent.requiredError
+    }
     return e
   }
 
@@ -75,7 +93,7 @@ export default function Volunteer() {
       <PageHeader
         eyebrow="Get Involved"
         title="Volunteer with the campaign"
-        lede="Ward 12 wins when neighbours pitch in. Tell us how you’d like to help — every hour makes a difference."
+        lede="Tell us how you'd like to help — every hour makes a difference."
       />
 
       <section className="section">
@@ -85,8 +103,8 @@ export default function Volunteer() {
               <span className="thanks__mark"><Icon name="check" size={34} strokeWidth={2.6} /></span>
               <h2>Welcome to the team, {form.firstName}!</h2>
               <p>
-                Thanks for signing up to volunteer. A member of our team will be in touch shortly
-                with next steps — check your inbox for a confirmation email.
+                Thanks for signing up to volunteer. A member of our team will be in touch
+                shortly with next steps.
               </p>
               <Button to="/" variant="primary">Back to home</Button>
             </div>
@@ -105,15 +123,23 @@ export default function Volunteer() {
                     <Field id="email" type="email" label="Email" required value={form.email}
                       onChange={set('email')} error={errors.email} autoComplete="email" />
                     <Field id="phone" type="tel" label="Phone" value={form.phone}
-                      onChange={set('phone')} hint="Optional" autoComplete="tel" />
+                      onChange={set('phone')} error={errors.phone}
+                      hint="Optional — needed only for text updates" autoComplete="tel" />
                   </div>
 
-                  <Field as="select" id="ward" label="Ward / Neighbourhood" value={form.ward} onChange={set('ward')}>
-                    <option value="">Select your area…</option>
-                    {wards.map((w) => <option key={w} value={w}>{w}</option>)}
-                  </Field>
+                  {/* Two city wards only — radios keep both visible and are
+                      quicker than a two-item dropdown, especially on mobile. */}
+                  <RadioGroup
+                    name="ward"
+                    legend={wards.legend}
+                    hint={wards.hint}
+                    options={wards.options}
+                    value={form.ward}
+                    onChange={setValue('ward')}
+                    error={errors.ward}
+                  />
 
-                  <fieldset style={{ border: 0, padding: 0 }}>
+                  <fieldset className="check-fieldset">
                     <legend className="form-legend">How would you like to help?</legend>
                     <div className="checks">
                       {SUPPORT_TYPES.map((t) => (
@@ -125,10 +151,16 @@ export default function Volunteer() {
                     </div>
                   </fieldset>
 
+                  <ConsentCheckbox
+                    checked={form.smsConsent}
+                    onChange={setValue('smsConsent')}
+                    error={errors.smsConsent}
+                  />
+
                   <Button variant="primary" size="lg" full className="form-submit" disabled={submitting}>
                     {submitting ? 'Sending…' : 'Sign me up'}
                   </Button>
-                  <p className="form-note">We’ll only use your details to coordinate volunteering. No spam, ever.</p>
+                  <p className="form-note">We'll only use your details to coordinate volunteering.</p>
                 </div>
               </form>
 
@@ -137,19 +169,13 @@ export default function Volunteer() {
                   <h3>Ways to make an impact</h3>
                   <p>Pick what fits your schedule — big or small, it all adds up.</p>
                   <ul className="aside-list">
-                    <li><span className="tick tick--accent" /> Display a lawn sign in your yard</li>
-                    <li><span className="tick tick--accent" /> Knock on doors with our friendly team</li>
-                    <li><span className="tick tick--accent" /> Make calls from home on your own time</li>
-                    <li><span className="tick tick--accent" /> Help get out the vote on election day</li>
+                    <li><span className="tick tick--gold" /> Display a lawn sign in your yard</li>
+                    <li><span className="tick tick--gold" /> Knock on doors with our team</li>
+                    <li><span className="tick tick--gold" /> Make calls from home on your own time</li>
+                    <li><span className="tick tick--gold" /> Help get out the vote on election day</li>
                   </ul>
                 </div>
-                <div className="card" style={{ padding: '24px' }}>
-                  <h3 style={{ color: 'var(--blue-900)', marginBottom: '8px' }}>Prefer to chip in?</h3>
-                  <p style={{ color: 'var(--muted)', marginBottom: '16px' }}>
-                    A donation of any size helps us reach more families across Ward 12.
-                  </p>
-                  <Button to="/donate" variant="accent">Donate instead</Button>
-                </div>
+                <DonateCTA variant="panel" />
               </aside>
             </div>
           )}

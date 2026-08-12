@@ -1,0 +1,199 @@
+[
+  {
+    "id": "di-1",
+    "category": "Diversity & Inclusion",
+    "categoryId": "diversity",
+    "quote": "Celebrating Diversity In Our Classrooms",
+    "tone": "navy",
+    "image": { "src": "", "alt": "[PHOTO — Diversity & Inclusion: celebrating diversity in our classrooms]" }
+  },
+  {
+    "id": "di-2",
+    "category": "Diversity & Inclusion",
+    "categoryId": "diversity",
+    "quote": "Equal Opportunities For Every Student",
+    "tone": "red",
+    "image": { "src": "", "alt": "[PHOTO — Diversity & Inclusion: equal opportunities for every student]" }
+  },
+  {
+    "id": "di-3",
+    "category": "Diversity & Inclusion",
+    "categoryId": "diversity",
+    "quote": "Inclusive Schools Where All Belong",
+    "tone": "gold",
+    "image": { "src": "", "alt": "[PHOTO — Diversity & Inclusion: inclusive schools where all belong]" }
+  },
+  {
+    "id": "di-4",
+    "category": "Diversity & Inclusion",
+    "categoryId": "diversity",
+    "quote": "A Fair Voice For Everyone",
+    "tone": "navy",
+    "image": { "src": "", "alt": "[PHOTO — Diversity & Inclusion: a fair voice for everyone]" }
+  },
+
+  {
+    "id": "cw-1",
+    "category": "Compassion & Well-being",
+    "categoryId": "wellbeing",
+    "quote": "Leading With Compassion And Empathy",
+    "tone": "red",
+    "image": { "src": "", "alt": "[PHOTO — Compassion & Well-being: leading with compassion and empathy]" }
+  },
+  {
+    "id": "cw-2",
+    "category": "Compassion & Well-being",
+    "categoryId": "wellbeing",
+    "quote": "Prioritizing Mental Health Services Always",
+    "tone": "gold",
+    "image": { "src": "", "alt": "[PHOTO — Compassion & Well-being: prioritizing mental health services]" }
+  },
+  {
+    "id": "cw-3",
+    "category": "Compassion & Well-being",
+    "categoryId": "wellbeing",
+    "quote": "Safe Supportive Spaces For Kids",
+    "tone": "navy",
+    "image": { "src": "", "alt": "[PHOTO — Compassion & Well-being: safe supportive spaces for kids]" }
+  },
+  {
+    "id": "cw-4",
+    "category": "Compassion & Well-being",
+    "categoryId": "wellbeing",
+    "quote": "Caring For Every Single Child",
+    "tone": "red",
+    "image": { "src": "", "alt": "[PHOTO — Compassion & Well-being: caring for every single child]" }
+  },
+
+  {
+    "id": "fe-1",
+    "category": "Future Employment & Skills",
+    "categoryId": "employment",
+    "quote": "Preparing Grads For Modern Jobs",
+    "tone": "gold",
+    "image": { "src": "", "alt": "[PHOTO — Future Employment & Skills: preparing grads for modern jobs]" }
+  },
+  {
+    "id": "fe-2",
+    "category": "Future Employment & Skills",
+    "categoryId": "employment",
+    "quote": "Building Critical Skills For Employment",
+    "tone": "navy",
+    "image": { "src": "", "alt": "[PHOTO — Future Employment & Skills: building critical skills for employment]" }
+  },
+  {
+    "id": "fe-3",
+    "category": "Future Employment & Skills",
+    "categoryId": "employment",
+    "quote": "Supporting Strong Career Pathways Ahead",
+    "tone": "red",
+    "image": { "src": "", "alt": "[PHOTO — Future Employment & Skills: supporting strong career pathways]" }
+  },
+  {
+    "id": "fe-4",
+    "category": "Future Employment & Skills",
+    "categoryId": "employment",
+    "quote": "Ready For Tomorrow’s Work World",
+    "tone": "gold",
+    "image": { "src": "", "alt": "[PHOTO — Future Employment & Skills: ready for tomorrow’s work world]" }
+  },
+
+  {
+    "id": "fc-1",
+    "category": "Future Commitment & Vision",
+    "categoryId": "commitment",
+    "quote": "Ready To Serve Our Community",
+    "tone": "navy",
+    "image": { "src": "", "alt": "[PHOTO — Future Commitment & Vision: ready to serve our community]" }
+  },
+  {
+    "id": "fc-2",
+    "category": "Future Commitment & Vision",
+    "categoryId": "commitment",
+    "quote": "Bringing Fresh Perspectives To Board",
+    "tone": "red",
+    "image": { "src": "", "alt": "[PHOTO — Future Commitment & Vision: bringing fresh perspectives to the board]" }
+  },
+  {
+    "id": "fc-3",
+    "category": "Future Commitment & Vision",
+    "categoryId": "commitment",
+    "quote": "Your New Voice For Schools",
+    "tone": "gold",
+    "image": { "src": "", "alt": "[PHOTO — Future Commitment & Vision: your new voice for schools]" }
+  },
+  {
+    "id": "fc-4",
+    "category": "Future Commitment & Vision",
+    "categoryId": "commitment",
+    "quote": "Fighting For Your Child’s Future",
+    "tone": "navy",
+    "image": { "src": "", "alt": "[PHOTO — Future Commitment & Vision: fighting for your child’s future]" }
+  },
+
+  {
+    "id": "sp-1",
+    "category": "Student & Parent Advocacy",
+    "categoryId": "advocacy",
+    "quote": "Putting Students First Every Time",
+    "tone": "red",
+    "image": { "src": "", "alt": "[PHOTO — Student & Parent Advocacy: putting students first every time]" }
+  },
+  {
+    "id": "sp-2",
+    "category": "Student & Parent Advocacy",
+    "categoryId": "advocacy",
+    "quote": "Always Listening To Local Parents",
+    "tone": "gold",
+    "image": { "src": "", "alt": "[PHOTO — Student & Parent Advocacy: always listening to local parents]" }
+  },
+  {
+    "id": "sp-3",
+    "category": "Student & Parent Advocacy",
+    "categoryId": "advocacy",
+    "quote": "Demanding Better Classrooms For Kids",
+    "tone": "navy",
+    "image": { "src": "", "alt": "[PHOTO — Student & Parent Advocacy: demanding better classrooms for kids]" }
+  },
+  {
+    "id": "sp-4",
+    "category": "Student & Parent Advocacy",
+    "categoryId": "advocacy",
+    "quote": "Championing Safer Local Schools",
+    "tone": "red",
+    "image": { "src": "", "alt": "[PHOTO — Student & Parent Advocacy: championing safer local schools]" }
+  },
+
+  {
+    "id": "ac-1",
+    "category": "Accountability & Change",
+    "categoryId": "accountability",
+    "quote": "Bringing True Accountability Back Home",
+    "tone": "gold",
+    "image": { "src": "", "alt": "[PHOTO — Accountability & Change: bringing true accountability back home]" }
+  },
+  {
+    "id": "ac-2",
+    "category": "Accountability & Change",
+    "categoryId": "accountability",
+    "quote": "Demanding Transparent School Board Spending",
+    "tone": "navy",
+    "image": { "src": "", "alt": "[PHOTO — Accountability & Change: demanding transparent school board spending]" }
+  },
+  {
+    "id": "ac-3",
+    "category": "Accountability & Change",
+    "categoryId": "accountability",
+    "quote": "Ready To Work For You",
+    "tone": "red",
+    "image": { "src": "", "alt": "[PHOTO — Accountability & Change: ready to work for you]" }
+  },
+  {
+    "id": "ac-4",
+    "category": "Accountability & Change",
+    "categoryId": "accountability",
+    "quote": "Your Dedicated Full Time Trustee",
+    "tone": "gold",
+    "image": { "src": "", "alt": "[PHOTO — Accountability & Change: your dedicated full time trustee]" }
+  }
+]

@@ -1,47 +1,85 @@
 /* =================================================================
-   Ketan Purohit — TDSB Ward 12 Campaign  ·  Design System
-   Direction: soft civic blue + white + warm optimism accent.
-   Display = Bricolage Grotesque, Body = Public Sans.
-   Signature motif: the rounded "ballot check" tick.
+   Ketan Purohit — TDSB Ward 12 Campaign  ·  Design System  (v2)
+   -----------------------------------------------------------------
+   Sampled directly from the campaign flyer so the site and the print
+   material read as one campaign:
+
+     · Deep navy  #16336b  — headline lockups, bands, primary actions
+     · Campaign red #b8202b — the "PUROHIT" / "VOTE" bands, key CTAs
+     · Gold        #f0a92b — "BETTER TOGETHER" emphasis, on-dark accents
+     · Cream       #f4f1ea — the flyer's paper stock / page background
+
+   Type: Archivo (heavy, slightly condensed uppercase display) over
+   Source Sans 3 (body), with Caveat for the flyer's script accent.
+   Geometry: blocky. Small radii, flat bands, hard rules — not pills.
+   Signature motifs: the VOTE ☑ checkbox, the ★ star rule, the red bar.
    ================================================================= */
 
 :root {
-  /* ---- Color ---- */
-  --blue:        #1e5fc4;   /* primary — trustworthy, confident */
-  --blue-600:    #1a52ac;
-  --blue-700:    #16407f;   /* deep headings on light */
-  --blue-900:    #0e2748;   /* near-navy ink for dark panels */
-  --blue-soft:   #eaf1fb;   /* tinted panel background */
-  --blue-mist:   #f4f8fd;   /* faintest wash */
-  --accent:      #f6a417;   /* warm optimism — sunrise/education */
-  --accent-600:  #db8f0a;
+  /* ---- Core palette (flyer-sampled) ---- */
+  --navy:        #16336b;
+  --navy-600:    #1d4183;
+  --navy-700:    #122b5a;
+  --navy-800:    #0e2148;
+  --navy-900:    #091734;
+  --navy-soft:   #e7edf8;   /* tinted panel */
+  --navy-mist:   #f2f5fb;   /* faintest wash */
+
+  --red:         #b8202b;
+  --red-600:     #9d1a23;
+  --red-700:     #82161d;
+  --red-soft:    #fbeaeb;
+
+  --gold:        #f0a92b;
+  --gold-600:    #d18f16;
+  --gold-soft:   #fdf2dd;
+
+  --cream:       #f4f1ea;   /* flyer paper stock */
+  --cream-deep:  #ebe6db;
   --white:       #ffffff;
-  --paper:       #f7fafd;   /* page background */
-  --ink:         #14243d;   /* body + display text */
-  --muted:       #566579;   /* secondary text */
-  --muted-2:     #7d8ba0;
-  --line:        #e2e9f3;   /* hairlines */
-  --line-soft:   #eef3f9;
-  --good:        #1f9d63;
-  --danger:      #c9313b;
+
+  --ink:         #16233c;   /* body text */
+  --muted:       #56617a;
+  --muted-2:     #7b8598;
+  --line:        #ddd8cc;   /* hairline on cream */
+  --line-cool:   #dbe3f0;   /* hairline on white/blue */
+  --line-soft:   #eee9de;
+  --good:        #1c7f4f;
+  --danger:      #b8202b;
+
+  /* ---- Legacy aliases -------------------------------------------
+     Older component CSS referenced --blue / --accent / --paper. They
+     now resolve to the flyer palette so every surface shifts together
+     and nothing is left on the old blue system.                     */
+  --blue:        var(--navy);
+  --blue-600:    var(--navy-600);
+  --blue-700:    var(--navy-700);
+  --blue-900:    var(--navy-900);
+  --blue-soft:   var(--navy-soft);
+  --blue-mist:   var(--navy-mist);
+  --accent:      var(--gold);
+  --accent-600:  var(--gold-600);
+  --paper:       var(--cream);
 
   /* ---- Type ---- */
-  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --display: "Archivo", "Arial Narrow", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --script: "Caveat", "Segoe Script", cursive;
 
-  /* ---- Geometry ---- */
+  /* ---- Geometry — blocky, like the flyer ---- */
   --maxw: 1180px;
   --maxw-narrow: 760px;
-  --radius: 20px;
-  --radius-lg: 28px;
-  --radius-sm: 12px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-sm: 6px;
+  --radius-btn: 6px;
   --radius-pill: 999px;
 
-  /* ---- Elevation (soft, blue-cast) ---- */
-  --shadow-sm: 0 2px 10px -4px rgba(20, 45, 90, 0.14);
-  --shadow: 0 18px 40px -22px rgba(20, 45, 90, 0.30);
-  --shadow-lg: 0 34px 70px -30px rgba(20, 45, 90, 0.38);
-  --ring: 0 0 0 4px rgba(30, 95, 196, 0.16);
+  /* ---- Elevation (tight, navy-cast — print-like, not floaty) ---- */
+  --shadow-sm: 0 2px 8px -3px rgba(9, 23, 52, 0.16);
+  --shadow: 0 14px 34px -20px rgba(9, 23, 52, 0.42);
+  --shadow-lg: 0 28px 60px -28px rgba(9, 23, 52, 0.5);
+  --ring: 0 0 0 4px rgba(22, 51, 107, 0.18);
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --nav-h: 74px;
@@ -55,16 +93,19 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--nav-h) + 16px);
   -webkit-text-size-adjust: 100%;
+  /* Belt-and-braces against any single element causing a sideways scroll. */
+  overflow-x: hidden;
 }
 
 body {
   font-family: var(--body);
   color: var(--ink);
-  background: var(--paper);
+  background: var(--cream);
   line-height: 1.62;
   font-size: 17px;                 /* generous base — friendly to older voters */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 img, svg, video { display: block; max-width: 100%; }
@@ -73,24 +114,31 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 input, select, textarea { font-family: inherit; font-size: 1rem; color: inherit; }
 ul { list-style: none; padding: 0; }
 
+/* Flyer headlines are heavy, tight and slightly condensed. */
 h1, h2, h3, h4 {
   font-family: var(--display);
-  color: var(--blue-900);
-  line-height: 1.08;
-  letter-spacing: -0.015em;
-  font-weight: 700;
+  font-variation-settings: "wdth" 92;
+  color: var(--navy-900);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  font-weight: 800;
 }
+h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 
 /* ---------- Accessibility ---------- */
 :focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--gold);
   outline-offset: 2px;
-  border-radius: 6px;
+  border-radius: 4px;
 }
+/* On gold/cream surfaces the gold ring would vanish — go navy instead. */
+.section--gold :focus-visible,
+.btn--gold:focus-visible { outline-color: var(--navy-900); }
+
 .skip-link {
   position: absolute; left: 14px; top: -70px;
-  background: var(--blue); color: #fff; padding: 12px 18px;
-  border-radius: 10px; z-index: 300; font-weight: 700;
+  background: var(--navy); color: #fff; padding: 12px 18px;
+  border-radius: var(--radius-btn); z-index: 300; font-weight: 700;
   transition: top .2s var(--ease);
 }
 .skip-link:focus { top: 12px; }
@@ -104,33 +152,40 @@ h1, h2, h3, h4 {
 /* ---------- Layout helpers ---------- */
 .container { width: min(100% - 44px, var(--maxw)); margin-inline: auto; }
 .container--narrow { width: min(100% - 44px, var(--maxw-narrow)); margin-inline: auto; }
-.section { padding: clamp(56px, 8vw, 108px) 0; }
-.section--tint { background: var(--blue-soft); }
-.section--mist { background: var(--blue-mist); }
-.section--dark { background: var(--blue-900); color: #dbe6f5; }
+.section { padding: clamp(56px, 8vw, 104px) 0; }
+.section--tint { background: var(--navy-soft); }
+.section--mist { background: var(--navy-mist); }
+.section--cream { background: var(--cream); }
+.section--paper { background: var(--white); }
+.section--dark { background: var(--navy-800); color: #d7e0f0; }
+.section--gold { background: var(--gold-soft); }
+
+@media (max-width: 560px) {
+  .container, .container--narrow { width: min(100% - 32px, var(--maxw)); }
+}
 
 /* ---------- The recurring section header ---------- */
 .eyebrow {
   display: inline-flex; align-items: center; gap: 9px;
   font-family: var(--display);
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-weight: 600;
-  font-size: 0.78rem;
-  color: var(--blue);
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  font-size: 0.76rem;
+  color: var(--red);
   margin-bottom: 16px;
 }
-.eyebrow--onDark { color: var(--accent); }
+.eyebrow--onDark { color: var(--gold); }
 .eyebrow--center { justify-content: center; }
 
 .section-head {
-  max-width: 640px;
+  max-width: 680px;
   margin: 0 auto clamp(38px, 5vw, 60px);
   text-align: center;
 }
 .section-title {
-  font-size: clamp(2rem, 4.4vw, 3.15rem);
-  color: var(--blue-900);
+  font-size: clamp(2rem, 4.4vw, 3.1rem);
+  color: var(--navy-900);
 }
 .section--dark .section-title { color: #fff; }
 .section-lede {
@@ -138,19 +193,31 @@ h1, h2, h3, h4 {
   margin-top: 16px;
   font-size: 1.1rem;
 }
-.section--dark .section-lede { color: #b9c9e0; }
+.section--dark .section-lede { color: #b6c5de; }
 
-/* ---------- Signature: the ballot tick ---------- */
+/* Script flourish — the flyer's "Experienced. Dedicated." line. */
+.script {
+  font-family: var(--script);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  color: var(--gold);
+  text-transform: none;
+}
+
+/* ---------- Signature: the VOTE checkbox ---------- */
 .tick {
   --tick-size: 22px;
   flex: none;
   width: var(--tick-size); height: var(--tick-size);
-  border-radius: 7px;
-  background: var(--blue);
+  border-radius: 4px;
+  background: var(--navy);
   position: relative;
   display: inline-block;
 }
-.tick--accent { background: var(--accent); }
+.tick--accent { background: var(--red); }
+.tick--gold { background: var(--gold); }
 .tick::after {
   content: "";
   position: absolute;
@@ -161,20 +228,55 @@ h1, h2, h3, h4 {
   transform: rotate(40deg);
   border-radius: 1px;
 }
+.tick--gold::after { border-color: var(--navy-900); }
+
+/* ---------- Signature: the star rule (★ ELECTION 2026 ★) ---------- */
+.star-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--red);
+}
+.star-rule::before,
+.star-rule::after {
+  content: "";
+  height: 3px;
+  flex: 1 1 auto;
+  max-width: 90px;
+  background: currentColor;
+}
+.star-rule__star { font-size: 0.8em; line-height: 1; }
+
+/* The flyer's red underscore beneath headline blocks. */
+.bar-accent { position: relative; padding-bottom: 18px; }
+.bar-accent::after {
+  content: "";
+  position: absolute; left: 0; bottom: 0;
+  width: 74px; height: 5px;
+  background: var(--red);
+  border-radius: 2px;
+}
+.bar-accent--center::after { left: 50%; transform: translateX(-50%); }
+.section--dark .bar-accent::after { background: var(--gold); }
 
 /* ---------- Cards ---------- */
 .card {
   background: var(--white);
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-cool);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
-  transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease),
+    border-color .25s var(--ease);
 }
 .card--hover:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow);
-  border-color: #d3e0f3;
+  border-color: #c3d0e6;
 }
+/* Flyer-style card: a solid navy rule across the top edge. */
+.card--ruled { border-top: 4px solid var(--navy); }
+.card--ruled.card--hover:hover { border-top-color: var(--red); }
 
 /* ---------- Shared grids & utilities ---------- */
 .grid-cards {
@@ -189,14 +291,62 @@ h1, h2, h3, h4 {
 .prose p { color: var(--muted); margin-bottom: 1rem; }
 .prose p:last-child { margin-bottom: 0; }
 .prose strong { color: var(--ink); }
+.prose ul { display: grid; gap: 8px; margin: 0 0 1rem; }
+.prose ul li { color: var(--muted); padding-left: 20px; position: relative; }
+.prose ul li::before {
+  content: ""; position: absolute; left: 0; top: 0.62em;
+  width: 8px; height: 8px; border-radius: 2px; background: var(--red);
+}
+
+/* ---------- Placeholder flag ------------------------------------
+   Every slot still waiting on final campaign copy or photography is
+   marked with this, so nothing unfinished can be mistaken for real
+   campaign information. Delete the flag when the content lands.    */
+.placeholder-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--display);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--red-700);
+  background: var(--red-soft);
+  border: 1px dashed rgba(184, 32, 43, 0.45);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+}
+.placeholder-tag--onDark {
+  color: var(--gold);
+  background: rgba(240, 169, 43, 0.12);
+  border-color: rgba(240, 169, 43, 0.5);
+}
+.placeholder-text { color: var(--muted-2); font-style: italic; }
+.placeholder-note {
+  border-left: 4px solid var(--gold);
+  background: var(--gold-soft);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 14px 18px;
+  font-size: 0.92rem;
+  color: #6b4c07;
+}
+.placeholder-note code {
+  font-size: 0.9em;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
 
 /* ---------- Reveal-on-scroll ---------- */
 .reveal {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity .7s var(--ease), transform .7s var(--ease);
-  will-change: opacity, transform;
 }
+/* Deliberately no `will-change` here. It would pin a compositor layer for
+   every revealed element for the life of the page — wasted memory, and it
+   makes large paints (print, full-page capture) drop those layers. */
 .reveal.is-in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {

@@ -3,49 +3,77 @@
     "id": "education",
     "icon": "book",
     "title": "Education",
-    "summary": "Strong core learning, smaller class sizes, and modern classrooms that give every student the foundation to thrive.",
-    "detail": "Ketan will push for evidence-based literacy and numeracy programs, up-to-date learning materials, and staffing levels that let teachers actually teach. Great schools start with great classrooms."
+    "image": { "src": "", "alt": "[IMAGE — Education]" },
+    "short": "[SHORT DESCRIPTION — one or two lines on Education, supplied by the campaign.]",
+    "long": [
+      "[FULL WRITE-UP — the campaign's position on Education. Add as many paragraphs as needed; nothing is drafted on the campaign's behalf.]"
+    ],
+    "cta": { "enabled": false, "label": "", "to": "" }
   },
   {
     "id": "mental-health",
     "icon": "heart",
     "title": "Mental Health",
-    "summary": "More counsellors, faster support, and a school system that takes student and staff well-being seriously.",
-    "detail": "From earlier intervention to accessible counselling in every school, Ketan will prioritize the mental-health resources students need to learn, grow, and feel safe."
+    "image": { "src": "", "alt": "[IMAGE — Mental Health]" },
+    "short": "[SHORT DESCRIPTION — one or two lines on Mental Health, supplied by the campaign.]",
+    "long": [
+      "[FULL WRITE-UP — the campaign's position on Mental Health.]"
+    ],
+    "cta": { "enabled": false, "label": "", "to": "" }
   },
   {
     "id": "safe-schools",
     "icon": "shield",
     "title": "Safe Schools",
-    "summary": "Welcoming, secure environments where students, staff, and families feel protected and respected.",
-    "detail": "Clear, consistent safety standards, better facilities, and community partnerships that keep the walk to and from school safe for every child."
+    "image": { "src": "", "alt": "[IMAGE — Safe Schools]" },
+    "short": "[SHORT DESCRIPTION — one or two lines on Safe Schools, supplied by the campaign.]",
+    "long": [
+      "[FULL WRITE-UP — the campaign's position on Safe Schools.]"
+    ],
+    "cta": { "enabled": false, "label": "", "to": "" }
   },
   {
     "id": "diversity",
     "icon": "people",
     "title": "Diversity",
-    "summary": "Inclusive classrooms that reflect and celebrate the many communities that make Ward 12 home.",
-    "detail": "Ketan will champion curriculum, hiring, and programming that ensure every student sees themselves represented and every family feels they belong."
+    "image": { "src": "", "alt": "[IMAGE — Diversity]" },
+    "short": "[SHORT DESCRIPTION — one or two lines on Diversity, supplied by the campaign.]",
+    "long": [
+      "[FULL WRITE-UP — the campaign's position on Diversity.]"
+    ],
+    "cta": { "enabled": false, "label": "", "to": "" }
   },
   {
     "id": "parent-engagement",
     "icon": "chat",
     "title": "Parent Engagement",
-    "summary": "Parents treated as partners — with real information, real access, and a real say in decisions.",
-    "detail": "Regular town halls, plain-language updates, and open lines of communication so families are never the last to know about decisions that affect their kids."
+    "image": { "src": "", "alt": "[IMAGE — Parent Engagement]" },
+    "short": "[SHORT DESCRIPTION — one or two lines on Parent Engagement, supplied by the campaign.]",
+    "long": [
+      "[FULL WRITE-UP — the campaign's position on Parent Engagement.]"
+    ],
+    "cta": { "enabled": false, "label": "", "to": "" }
   },
   {
     "id": "future-employment",
     "icon": "briefcase",
     "title": "Future Employment",
-    "summary": "Skills, mentorship, and pathways that prepare graduates for the jobs of tomorrow.",
-    "detail": "Expanded co-op, trades, and career programs, plus partnerships with local employers so students leave school ready for real opportunities."
+    "image": { "src": "", "alt": "[IMAGE — Future Employment]" },
+    "short": "[SHORT DESCRIPTION — one or two lines on Future Employment, supplied by the campaign.]",
+    "long": [
+      "[FULL WRITE-UP — the campaign's position on Future Employment.]"
+    ],
+    "cta": { "enabled": false, "label": "", "to": "" }
   },
   {
     "id": "transparency",
     "icon": "chart",
     "title": "Transparency",
-    "summary": "Clear budgets, accountable spending, and decisions made in the open — not behind closed doors.",
-    "detail": "Ketan will fight for readable, published budgets and measurable goals so every dollar can be traced back to student outcomes."
+    "image": { "src": "", "alt": "[IMAGE — Transparency]" },
+    "short": "[SHORT DESCRIPTION — one or two lines on Transparency, supplied by the campaign.]",
+    "long": [
+      "[FULL WRITE-UP — the campaign's position on Transparency.]"
+    ],
+    "cta": { "enabled": false, "label": "", "to": "" }
   }
 ]

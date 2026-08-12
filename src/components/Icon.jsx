@@ -42,6 +42,47 @@ const paths = {
     </>
   ),
   arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
+  mic: (
+    <>
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M5 11a7 7 0 0 0 14 0" />
+      <path d="M12 18v3M9 21h6" />
+    </>
+  ),
+  news: (
+    <>
+      <path d="M4 5h13v14H5.5A1.5 1.5 0 0 1 4 17.5z" />
+      <path d="M17 8h3v9a2 2 0 0 1-2 2h-1z" />
+      <path d="M7 9h7M7 12.5h7M7 16h4" />
+    </>
+  ),
+  star: <path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1.1 5.9-5.3-2.9-5.3 2.9 1.1-5.9L3.5 9.7l5.9-.8z" />,
+  quote: (
+    <>
+      <path d="M9.5 6C6.5 7.4 5 10 5 13.2V18h5.5v-5.5H8c0-2 .6-3.4 2.3-4.4z" fill="currentColor" stroke="none" />
+      <path d="M19 6c-3 1.4-4.5 4-4.5 7.2V18H20v-5.5h-2.5c0-2 .6-3.4 2.3-4.4z" fill="currentColor" stroke="none" />
+    </>
+  ),
+  cap: (
+    <>
+      <path d="M12 4 2.5 8.5 12 13l9.5-4.5z" />
+      <path d="M6.5 10.8v4.4c0 1.6 2.5 2.9 5.5 2.9s5.5-1.3 5.5-2.9v-4.4" />
+      <path d="M21.5 8.5v5" />
+    </>
+  ),
+  external: (
+    <>
+      <path d="M14 4h6v6" />
+      <path d="M20 4 10.5 13.5" />
+      <path d="M19 14v4.5A1.5 1.5 0 0 1 17.5 20h-11A1.5 1.5 0 0 1 5 18.5v-11A1.5 1.5 0 0 1 6.5 6H11" />
+    </>
+  ),
+  pause: (
+    <>
+      <rect x="7" y="5" width="3.4" height="14" rx="1" fill="currentColor" stroke="none" />
+      <rect x="13.6" y="5" width="3.4" height="14" rx="1" fill="currentColor" stroke="none" />
+    </>
+  ),
   check: <path d="M5 12.5 10 17.5 19.5 7" />,
   mail: (
     <>

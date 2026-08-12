@@ -1,34 +1,48 @@
+/* Interior page masthead — the flyer's header block: cream stock, a navy
+   uppercase title, and the red rule beneath it. */
 .page-header {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, var(--blue-soft), var(--paper));
-  padding: clamp(52px, 8vw, 96px) 0 clamp(40px, 6vw, 64px);
+  background: var(--cream);
+  border-bottom: 1px solid var(--line);
+  padding: clamp(44px, 7vw, 84px) 0 clamp(36px, 5vw, 56px);
   text-align: center;
 }
 .page-header__bg { position: absolute; inset: 0; pointer-events: none; }
-.page-header__blob {
+.page-header__wash {
   position: absolute;
-  top: -180px; left: 50%; transform: translateX(-50%);
-  width: 620px; height: 420px;
-  background: radial-gradient(circle, rgba(58, 134, 224, 0.35), transparent 70%);
-  filter: blur(50px);
+  top: -160px; left: 50%; transform: translateX(-50%);
+  width: 700px; max-width: 140%; height: 420px;
+  background: radial-gradient(circle, rgba(22, 51, 107, 0.14), transparent 68%);
 }
 .page-header__grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(30, 95, 196, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(30, 95, 196, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(22, 51, 107, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 51, 107, 0.05) 1px, transparent 1px);
   background-size: 46px 46px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000, transparent 72%);
 }
 .page-header__inner { position: relative; z-index: 1; }
+
 .page-header__title {
-  font-size: clamp(2.3rem, 5.5vw, 3.8rem);
-  color: var(--blue-900);
+  font-size: clamp(2.1rem, 5.4vw, 3.6rem);
+  font-variation-settings: "wdth" 88;
+  font-weight: 900;
+  color: var(--navy-900);
+}
+/* The flyer's red underscore. */
+.page-header__title::after {
+  content: "";
+  display: block;
+  width: 82px; height: 5px;
+  margin: 20px auto 0;
+  background: var(--red);
+  border-radius: 2px;
 }
 .page-header__lede {
-  max-width: 60ch;
+  max-width: 58ch;
   margin: 18px auto 0;
-  font-size: 1.14rem;
+  font-size: 1.1rem;
   color: var(--muted);
 }

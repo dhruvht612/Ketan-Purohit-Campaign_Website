@@ -1,56 +1,98 @@
+/* Flyer-matched buttons: blocky, heavy, uppercase — like the flyer's
+   red "VOTE" band and navy header lockups. Minimum 44px tall so every
+   variant clears the mobile tap-target guideline. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 9px;
+  min-height: 46px;
   font-family: var(--display);
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-variation-settings: "wdth" 94;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   text-align: center;
-  border-radius: var(--radius-pill);
-  border: 1.5px solid transparent;
-  transition: transform .18s var(--ease), box-shadow .25s var(--ease),
-    background-color .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+  border-radius: var(--radius-btn);
+  border: 2px solid transparent;
+  transition: transform .16s var(--ease), box-shadow .22s var(--ease),
+    background-color .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease);
   white-space: nowrap;
 }
 .btn:active { transform: translateY(1px); }
 .btn svg { flex: none; }
 
 /* sizes */
-.btn--sm { font-size: 0.9rem; padding: 9px 16px; }
-.btn--md { font-size: 1rem; padding: 13px 24px; }
-.btn--lg { font-size: 1.1rem; padding: 16px 32px; }
+.btn--sm { font-size: 0.84rem; padding: 10px 16px; min-height: 44px; }
+.btn--md { font-size: 0.92rem; padding: 13px 24px; }
+.btn--lg { font-size: 1rem; padding: 16px 32px; min-height: 54px; }
 .btn--full { width: 100%; }
 
-/* primary — confident blue */
+/* primary — flyer navy */
 .btn--primary {
-  background: var(--blue);
+  background: var(--navy);
   color: #fff;
-  box-shadow: 0 12px 26px -14px rgba(30, 95, 196, 0.75);
+  box-shadow: 0 10px 22px -14px rgba(22, 51, 107, 0.85);
 }
-.btn--primary:hover { background: var(--blue-600); transform: translateY(-2px); box-shadow: 0 18px 34px -14px rgba(30, 95, 196, 0.7); }
+.btn--primary:hover {
+  background: var(--navy-700);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -14px rgba(22, 51, 107, 0.8);
+}
 
-/* accent — warm CTA (donate) */
+/* accent — the flyer's campaign red, used for the hardest CTAs (Donate) */
 .btn--accent {
-  background: var(--accent);
-  color: #3a2600;
-  box-shadow: 0 12px 26px -14px rgba(246, 164, 23, 0.8);
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 10px 22px -14px rgba(184, 32, 43, 0.85);
 }
-.btn--accent:hover { background: var(--accent-600); transform: translateY(-2px); }
+.btn--accent:hover {
+  background: var(--red-600);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -14px rgba(184, 32, 43, 0.8);
+}
 
-/* secondary — outlined */
+/* gold — the flyer's "BETTER TOGETHER" highlight; best on navy */
+.btn--gold {
+  background: var(--gold);
+  color: var(--navy-900);
+  box-shadow: 0 10px 22px -14px rgba(240, 169, 43, 0.9);
+}
+.btn--gold:hover { background: var(--gold-600); transform: translateY(-2px); }
+
+/* secondary — outlined navy on light */
 .btn--secondary {
   background: #fff;
-  color: var(--blue-700);
-  border-color: var(--line);
+  color: var(--navy);
+  border-color: var(--navy);
 }
-.btn--secondary:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-
-/* ghost — for dark backgrounds */
-.btn--ghost {
-  background: rgba(255, 255, 255, 0.12);
+.btn--secondary:hover {
+  background: var(--navy);
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(4px);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
-.btn--ghost:hover { background: rgba(255, 255, 255, 0.2); border-color: #fff; transform: translateY(-2px); }
+
+/* ghost — for dark navy backgrounds */
+.btn--ghost {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+.btn--ghost:hover { background: #fff; color: var(--navy-900); border-color: #fff; transform: translateY(-2px); }
+
+/* link-style — inline "read more" affordances */
+.btn--link {
+  background: none;
+  color: var(--navy);
+  padding: 0;
+  min-height: 0;
+  border: 0;
+  letter-spacing: 0.04em;
+}
+.btn--link:hover { color: var(--red); }
+
+@media (max-width: 420px) {
+  /* Long CTA labels must wrap rather than push the page sideways. */
+  .btn { white-space: normal; }
+}

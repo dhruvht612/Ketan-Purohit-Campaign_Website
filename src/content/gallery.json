@@ -1,12 +1,22 @@
-[
-  { "id": "flyer", "category": "Campaign", "caption": "Official campaign flyer — Election 2026", "seed": "campaign-flyer", "src": "/images/campaign-flyer.jpg" },
-  { "id": "g1", "category": "Community", "caption": "Meeting families at the Ward 12 spring fair", "seed": "community-fair" },
-  { "id": "g2", "category": "Town Halls", "caption": "Listening at our first community town hall", "seed": "town-hall" },
-  { "id": "g3", "category": "Schools", "caption": "Reading morning at a local elementary school", "seed": "reading-morning" },
-  { "id": "g4", "category": "Volunteers", "caption": "Our volunteer team before a canvass", "seed": "volunteer-team" },
-  { "id": "g5", "category": "Community", "caption": "Neighbourhood safety walk with parents", "seed": "safety-walk" },
-  { "id": "g6", "category": "Schools", "caption": "Celebrating student achievement", "seed": "student-achievement" },
-  { "id": "g7", "category": "Town Halls", "caption": "Q&A with local parent councils", "seed": "parent-council" },
-  { "id": "g8", "category": "Volunteers", "caption": "Signs up across the ward", "seed": "lawn-signs" },
-  { "id": "g9", "category": "Community", "caption": "Cultural festival in the heart of Ward 12", "seed": "cultural-festival" }
-]
+{
+  "_editing": "The campaign photo gallery. Drop final photos into /public/images and point `src` at them (e.g. \"/images/town-hall-01.jpg\"), then write a real `caption` and `alt`. Slots with an empty `src` render a neutral, obviously-empty placeholder tile — deliberately not a stock photo, so nothing can be mistaken for a real campaign photograph. Add or remove items freely; the grid reflows and the category filter builds itself from the `category` values used.",
+
+  "items": [
+    {
+      "id": "flyer",
+      "category": "Campaign materials",
+      "src": "/images/campaign-flyer.jpg",
+      "caption": "Official campaign flyer — Election 2026",
+      "alt": "Ketan Purohit campaign flyer for TDSB Ward 12 Trustee, Election 2026",
+      "ratio": "3 / 4"
+    },
+    { "id": "p1", "category": "Community", "src": "", "caption": "[PHOTO CAPTION]", "alt": "[PHOTO — community event]", "ratio": "4 / 3" },
+    { "id": "p2", "category": "Community", "src": "", "caption": "[PHOTO CAPTION]", "alt": "[PHOTO — community event]", "ratio": "1 / 1" },
+    { "id": "p3", "category": "Schools", "src": "", "caption": "[PHOTO CAPTION]", "alt": "[PHOTO — school visit]", "ratio": "3 / 4" },
+    { "id": "p4", "category": "Schools", "src": "", "caption": "[PHOTO CAPTION]", "alt": "[PHOTO — school visit]", "ratio": "4 / 3" },
+    { "id": "p5", "category": "Events", "src": "", "caption": "[PHOTO CAPTION]", "alt": "[PHOTO — campaign event]", "ratio": "1 / 1" },
+    { "id": "p6", "category": "Events", "src": "", "caption": "[PHOTO CAPTION]", "alt": "[PHOTO — campaign event]", "ratio": "4 / 3" },
+    { "id": "p7", "category": "Volunteers", "src": "", "caption": "[PHOTO CAPTION]", "alt": "[PHOTO — volunteer team]", "ratio": "3 / 4" },
+    { "id": "p8", "category": "Volunteers", "src": "", "caption": "[PHOTO CAPTION]", "alt": "[PHOTO — volunteer team]", "ratio": "4 / 3" }
+  ]
+}

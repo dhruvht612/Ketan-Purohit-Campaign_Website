@@ -1,0 +1,116 @@
+{
+  "_editing": "Legal copy for the site. The SMS/marketing consent wording below is reproduced EXACTLY as supplied by the campaign — do not paraphrase it. {TERMS} and {PRIVACY} are link tokens the form swaps for real links; keep them in place. Privacy section bodies are empty until the supplied Privacy Policy document is pasted in: paste each section's paragraphs into its `body` array and the placeholder flag disappears by itself.",
+
+  "smsConsent": {
+    "entity": "Lakhan Kang",
+    "text": "By providing your phone number and checking the box, you agree to receive promotional and marketing messages, donation solicitations, notifications, and customer service communications from Lakhan Kang. Message and data rates may apply. Consent is not a condition of purchase. Message frequency varies. Text HELP for help. Text STOP to cancel. See {TERMS}, See {PRIVACY}",
+    "termsLabel": "Terms",
+    "privacyLabel": "Privacy Policy",
+    "optInLabel": "Yes — text me campaign updates",
+    "optInHint": "Optional. Tick this only if you want text messages; you can still volunteer without it.",
+    "requiredError": "Please agree to the messaging terms, or clear the text-message opt-in above."
+  },
+
+  "terms": {
+    "enabled": true,
+    "route": "/terms",
+    "title": "Terms",
+    "lede": "The terms that govern use of this website and the campaign's messaging programme.",
+    "sections": [
+      {
+        "id": "terms-document",
+        "heading": "Terms of use",
+        "body": [],
+        "placeholder": "[TERMS OF USE — paste the campaign's final Terms document here. Referenced by the SMS/marketing consent checkbox on the volunteer form.]"
+      },
+      {
+        "id": "terms-messaging",
+        "heading": "Text messaging programme",
+        "body": [],
+        "placeholder": "[MESSAGING TERMS — paste the campaign's SMS programme terms here: message frequency, carrier charges, HELP and STOP handling, and supported carriers.]"
+      }
+    ]
+  },
+
+  "privacy": {
+    "title": "Privacy Policy",
+    "lede": "How your personal information is collected, used, and protected.",
+    "contactEmail": "info@lakhankang.com",
+    "entity": "Lakhan Kang",
+    "effective": "[EFFECTIVE DATE]",
+    "sections": [
+      {
+        "id": "about-us",
+        "heading": "About Us",
+        "body": [],
+        "placeholder": "[ABOUT US — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "about-the-policy",
+        "heading": "About the Privacy Policy",
+        "body": [],
+        "placeholder": "[ABOUT THE PRIVACY POLICY — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "collection",
+        "heading": "Personal information collection",
+        "body": [],
+        "placeholder": "[PERSONAL INFORMATION COLLECTION — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "use",
+        "heading": "How personal information is used",
+        "body": [],
+        "placeholder": "[HOW PERSONAL INFORMATION IS USED — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "legal-basis",
+        "heading": "Legal basis for processing",
+        "body": [],
+        "placeholder": "[LEGAL BASIS FOR PROCESSING — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "sharing",
+        "heading": "Information sharing",
+        "body": [],
+        "placeholder": "[INFORMATION SHARING — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "marketing-choices",
+        "heading": "Marketing choices",
+        "body": [],
+        "placeholder": "[MARKETING CHOICES — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "retention",
+        "heading": "Data retention and deletion",
+        "body": [],
+        "placeholder": "[DATA RETENTION / DELETION — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "international",
+        "heading": "International transfers",
+        "body": [],
+        "placeholder": "[INTERNATIONAL TRANSFERS — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "rights",
+        "heading": "Data protection rights",
+        "body": [],
+        "placeholder": "[DATA PROTECTION RIGHTS — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "changes",
+        "heading": "Policy changes",
+        "body": [],
+        "placeholder": "[POLICY CHANGES — paste this section from the supplied Privacy Policy document.]"
+      },
+      {
+        "id": "contact",
+        "heading": "Contact information",
+        "body": [],
+        "placeholder": "[CONTACT INFORMATION — paste this section from the supplied Privacy Policy document. The contact email supplied with the policy is shown below.]"
+      }
+    ]
+  }
+}

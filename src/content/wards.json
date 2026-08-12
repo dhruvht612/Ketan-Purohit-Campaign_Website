@@ -1,10 +1,9 @@
-[
-  "Annex / Seaton Village",
-  "Casa Loma / South Hill",
-  "Wychwood / Hillcrest",
-  "Bathurst–St. Clair",
-  "Forest Hill South",
-  "Yonge–St. Clair / Deer Park",
-  "Christie Pits / Dovercourt",
-  "Not sure / Other"
-]
+{
+  "_editing": "The volunteer form offers exactly these two city wards as radio buttons. Replace the placeholder `label` values with the real ward names once the campaign supplies them — keep `value` stable so any submissions already collected still line up.",
+  "legend": "Which city ward do you live in?",
+  "hint": "Choose the ward you live in so we can connect you with the right local team.",
+  "options": [
+    { "value": "ward-1", "label": "[Ward 1]" },
+    { "value": "ward-2", "label": "[Ward 2]" }
+  ]
+}

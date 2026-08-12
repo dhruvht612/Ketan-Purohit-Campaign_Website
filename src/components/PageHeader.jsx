@@ -7,7 +7,7 @@ export default function PageHeader({ eyebrow, title, lede }) {
   return (
     <header className="page-header">
       <div className="page-header__bg" aria-hidden="true">
-        <span className="page-header__blob" />
+        <span className="page-header__wash" />
         <span className="page-header__grid" />
       </div>
       <div className="container page-header__inner">

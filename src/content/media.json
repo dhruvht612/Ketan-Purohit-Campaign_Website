@@ -1,0 +1,162 @@
+{
+  "_editing": "The Media page. Each group renders as its own labelled block; `layout` picks the card style (`article` = image + text card, `video` = 16:9 thumbnail with play affordance). To add an entry, copy an item and fill it in — set `url` to make the card clickable, and `image.src` to a file in /public/images. Delete the whole group if the campaign has nothing in that category. Every item below is a placeholder slot: nothing here is presented as real coverage.",
+
+  "groups": [
+    {
+      "id": "appearances",
+      "title": "Media appearances",
+      "icon": "mic",
+      "layout": "article",
+      "blurb": "Interviews, panels, radio and podcast appearances.",
+      "items": [
+        {
+          "id": "app-1",
+          "outlet": "[OUTLET / PROGRAMME]",
+          "date": "",
+          "title": "[APPEARANCE TITLE]",
+          "summary": "[SHORT SUMMARY — what the appearance covered.]",
+          "url": "",
+          "image": { "src": "", "alt": "[IMAGE — media appearance]" }
+        },
+        {
+          "id": "app-2",
+          "outlet": "[OUTLET / PROGRAMME]",
+          "date": "",
+          "title": "[APPEARANCE TITLE]",
+          "summary": "[SHORT SUMMARY — what the appearance covered.]",
+          "url": "",
+          "image": { "src": "", "alt": "[IMAGE — media appearance]" }
+        }
+      ]
+    },
+    {
+      "id": "coverage",
+      "title": "News coverage",
+      "icon": "news",
+      "layout": "article",
+      "blurb": "Reporting about the campaign from local and community press.",
+      "items": [
+        {
+          "id": "cov-1",
+          "outlet": "[PUBLICATION]",
+          "date": "",
+          "title": "[HEADLINE]",
+          "summary": "[SHORT SUMMARY OR PULL-QUOTE from the coverage.]",
+          "url": "",
+          "image": { "src": "", "alt": "[IMAGE — news coverage]" }
+        },
+        {
+          "id": "cov-2",
+          "outlet": "[PUBLICATION]",
+          "date": "",
+          "title": "[HEADLINE]",
+          "summary": "[SHORT SUMMARY OR PULL-QUOTE from the coverage.]",
+          "url": "",
+          "image": { "src": "", "alt": "[IMAGE — news coverage]" }
+        },
+        {
+          "id": "cov-3",
+          "outlet": "[PUBLICATION]",
+          "date": "",
+          "title": "[HEADLINE]",
+          "summary": "[SHORT SUMMARY OR PULL-QUOTE from the coverage.]",
+          "url": "",
+          "image": { "src": "", "alt": "[IMAGE — news coverage]" }
+        }
+      ]
+    },
+    {
+      "id": "articles",
+      "title": "Articles & statements",
+      "icon": "book",
+      "layout": "article",
+      "blurb": "Written pieces, op-eds and statements from the campaign.",
+      "items": [
+        {
+          "id": "art-1",
+          "outlet": "[SOURCE]",
+          "date": "",
+          "title": "[ARTICLE TITLE]",
+          "summary": "[SHORT SUMMARY — the first lines or the key point of the article.]",
+          "url": "",
+          "image": { "src": "", "alt": "[IMAGE — article]" }
+        },
+        {
+          "id": "art-2",
+          "outlet": "[SOURCE]",
+          "date": "",
+          "title": "[ARTICLE TITLE]",
+          "summary": "[SHORT SUMMARY — the first lines or the key point of the article.]",
+          "url": "",
+          "image": { "src": "", "alt": "[IMAGE — article]" }
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Videos",
+      "icon": "play",
+      "layout": "video",
+      "blurb": "Campaign video, event recordings and clips.",
+      "items": [
+        {
+          "id": "vid-1",
+          "outlet": "",
+          "date": "",
+          "title": "[VIDEO TITLE]",
+          "duration": "",
+          "summary": "",
+          "url": "",
+          "image": { "src": "", "alt": "[VIDEO THUMBNAIL]" }
+        },
+        {
+          "id": "vid-2",
+          "outlet": "",
+          "date": "",
+          "title": "[VIDEO TITLE]",
+          "duration": "",
+          "summary": "",
+          "url": "",
+          "image": { "src": "", "alt": "[VIDEO THUMBNAIL]" }
+        },
+        {
+          "id": "vid-3",
+          "outlet": "",
+          "date": "",
+          "title": "[VIDEO TITLE]",
+          "duration": "",
+          "summary": "",
+          "url": "",
+          "image": { "src": "", "alt": "[VIDEO THUMBNAIL]" }
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "title": "Other campaign media",
+      "icon": "star",
+      "layout": "article",
+      "blurb": "Flyers, newsletters, and anything else the campaign publishes.",
+      "items": [
+        {
+          "id": "oth-flyer",
+          "outlet": "Campaign material",
+          "date": "",
+          "title": "Official campaign flyer — Election 2026",
+          "summary": "The printed flyer this website's look and feel is built from.",
+          "url": "/images/campaign-flyer.jpg",
+          "image": { "src": "/images/campaign-flyer.jpg", "alt": "Ketan Purohit campaign flyer for TDSB Ward 12 Trustee, Election 2026" }
+        },
+        {
+          "id": "oth-1",
+          "outlet": "[TYPE]",
+          "date": "",
+          "title": "[ITEM TITLE]",
+          "summary": "[SHORT SUMMARY.]",
+          "url": "",
+          "image": { "src": "", "alt": "[IMAGE — campaign media]" }
+        }
+      ]
+    }
+  ]
+}

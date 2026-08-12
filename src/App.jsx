@@ -6,11 +6,12 @@ import About from './pages/About.jsx'
 import Issues from './pages/Issues.jsx'
 import Volunteer from './pages/Volunteer.jsx'
 import Donate from './pages/Donate.jsx'
-import News from './pages/News.jsx'
+import Media from './pages/Media.jsx'
 import Pictures from './pages/Pictures.jsx'
 import Groups from './pages/Groups.jsx'
 import Contact from './pages/Contact.jsx'
 import Privacy from './pages/Privacy.jsx'
+import Terms from './pages/Terms.jsx'
 import Accessibility from './pages/Accessibility.jsx'
 import NotFound from './pages/NotFound.jsx'
 
@@ -33,11 +34,15 @@ export default function App() {
           <Route path="/issues" element={<Issues />} />
           <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/donate" element={<Donate />} />
-          <Route path="/news" element={<News />} />
+          <Route path="/media" element={<Media />} />
+          {/* Kept so existing links to /news keep working. */}
+          <Route path="/news" element={<Media />} />
           <Route path="/pictures" element={<Pictures />} />
+          <Route path="/photos" element={<Pictures />} />
           <Route path="/groups" element={<Groups />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="/accessibility" element={<Accessibility />} />
           <Route path="*" element={<NotFound />} />
         </Route>

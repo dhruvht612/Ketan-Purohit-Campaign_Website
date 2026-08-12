@@ -4,7 +4,8 @@ import Field from '../components/Field.jsx'
 import Button from '../components/Button.jsx'
 import Icon from '../components/Icon.jsx'
 import { useToast } from '../components/Toast.jsx'
-import { getSite } from '../lib/cms.js'
+import { Text } from '../components/Editable.jsx'
+import { getSite, isPlaceholder } from '../lib/cms.js'
 import { submitContact } from '../lib/api.js'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -53,7 +54,15 @@ export default function Contact() {
   }
 
   const phoneHref = `tel:${site.contact.phone.replace(/[^\d+]/g, '')}`
-  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.contact.mapQuery)}&output=embed`
+  const emailReady = !isPlaceholder(site.contact.email)
+  const phoneReady = !isPlaceholder(site.contact.phone)
+  /* The map only renders once a real address is supplied — an embed built
+     from a placeholder would point at nowhere. */
+  const mapQuery = site.contact.mapQuery
+  const mapSrc = mapQuery
+    ? `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`
+    : null
+  const socials = site.social.filter((s) => s.href)
 
   return (
     <>
@@ -93,40 +102,58 @@ export default function Contact() {
               <div className="contact-info">
                 <div className="contact-item">
                   <span className="contact-item__icon"><Icon name="mail" size={22} /></span>
-                  <div><strong>Email</strong><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></div>
+                  <div>
+                    <strong>Email</strong>
+                    {emailReady
+                      ? <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+                      : <Text as="span" value={site.contact.email} />}
+                  </div>
                 </div>
                 <div className="contact-item">
                   <span className="contact-item__icon"><Icon name="phone" size={22} /></span>
-                  <div><strong>Phone</strong><a href={phoneHref}>{site.contact.phone}</a></div>
+                  <div>
+                    <strong>Phone</strong>
+                    {phoneReady
+                      ? <a href={phoneHref}>{site.contact.phone}</a>
+                      : <Text as="span" value={site.contact.phone} />}
+                  </div>
                 </div>
                 <div className="contact-item">
                   <span className="contact-item__icon"><Icon name="pin" size={22} /></span>
                   <div>
-                    <strong>{site.contact.office.line1}</strong>
-                    <span>{site.contact.office.line2}</span>
+                    <strong>Office</strong>
+                    <Text as="span" value={site.contact.office.line1} />
+                    <Text as="span" value={site.contact.office.line2} />
                   </div>
                 </div>
                 <div className="contact-item">
                   <span className="contact-item__icon"><Icon name="clock" size={22} /></span>
-                  <div><strong>Office hours</strong><span>{site.contact.office.hours}</span></div>
+                  <div>
+                    <strong>Office hours</strong>
+                    <Text as="span" value={site.contact.office.hours} />
+                  </div>
                 </div>
               </div>
 
-              <iframe
-                className="map-embed"
-                title="Campaign office location"
-                src={mapSrc}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+              {mapSrc && (
+                <iframe
+                  className="map-embed"
+                  title="Campaign office location"
+                  src={mapSrc}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              )}
 
-              <div className="contact-social">
-                {site.social.map((s) => (
-                  <a key={s.label} href={s.href} target="_blank" rel="noreferrer noopener" aria-label={s.label}>
-                    <Icon name={socialIcon[s.label] || 'arrow'} size={20} />
-                  </a>
-                ))}
-              </div>
+              {socials.length > 0 && (
+                <div className="contact-social">
+                  {socials.map((s) => (
+                    <a key={s.label} href={s.href} target="_blank" rel="noreferrer noopener" aria-label={s.label}>
+                      <Icon name={socialIcon[s.label] || 'arrow'} size={20} />
+                    </a>
+                  ))}
+                </div>
+              )}
             </aside>
           </div>
         </div>

@@ -1,28 +1,32 @@
 {
-  "eyebrow": "Meet Ketan",
-  "title": "A neighbour, a parent, a public servant",
-  "lede": "Ketan has spent his life close to the classroom — as a parent, a volunteer, and a community organizer who shows up when it matters.",
-  "cards": [
-    {
-      "id": "about-ketan",
-      "title": "About Ketan",
-      "body": [
-        "Ketan Purohit has called Ward 12 home for more than two decades. As a parent of two TDSB students and a longtime volunteer coach, he has seen first-hand what our schools do well — and where students and families are being let down.",
-        "By background a community organizer and small-business operator, Ketan brings a practical, listen-first approach to public service. He believes the school board works best when it treats parents as partners and puts the day-to-day experience of students at the centre of every decision."
-      ]
-    },
-    {
-      "id": "what-ketan-brings",
-      "title": "What Ketan Brings",
-      "body": [
-        "A full-time commitment to the role — attending every meeting, reading every report, and being reachable when you need answers, not just at election time.",
-        "A record of getting things done: organizing neighbourhood safety walks, launching after-school tutoring, and bringing families and educators to the same table. On the board, that means clearer budgets, safer schools, and a relentless focus on student outcomes."
-      ]
-    }
+  "_editing": "The About area. `photo.src` takes the final portrait (drop the file in /public/images and reference it, e.g. \"/images/ketan-about.jpg\"). `intro` is the short lead paragraph; `biography` is the long-form write-up — add as many paragraphs to the array as you need. Anything left in [SQUARE BRACKETS] renders with a visible placeholder flag, so no draft text is ever mistaken for the candidate's real biography.",
+
+  "eyebrow": "Meet the candidate",
+  "title": "About Ketan Purohit",
+
+  "photo": {
+    "src": "",
+    "alt": "[PHOTO — main About portrait of Ketan Purohit]",
+    "caption": "[PHOTO CAPTION]"
+  },
+
+  "intro": "[SHORT INTRODUCTION — one or two sentences introducing Ketan, to sit directly under the About heading. Supplied by the campaign.]",
+
+  "biography": [
+    "[BIOGRAPHY PARAGRAPH 1 — Ketan's full biography, in the campaign's own words. Nothing here is drafted on the campaign's behalf.]",
+    "[BIOGRAPHY PARAGRAPH 2 — background, community involvement, and why he is running.]",
+    "[BIOGRAPHY PARAGRAPH 3 — add or remove paragraphs freely; the layout adapts.]"
   ],
-  "stats": [
-    { "value": "20+", "label": "Years in Ward 12" },
-    { "value": "2", "label": "Kids in TDSB schools" },
-    { "value": "100%", "label": "Full-time commitment" }
-  ]
+
+  "highlights": [
+    { "id": "h1", "label": "[HIGHLIGHT 1]", "value": "[—]" },
+    { "id": "h2", "label": "[HIGHLIGHT 2]", "value": "[—]" },
+    { "id": "h3", "label": "[HIGHLIGHT 3]", "value": "[—]" }
+  ],
+
+  "cta": {
+    "enabled": true,
+    "label": "Join the campaign",
+    "to": "/volunteer"
+  }
 }

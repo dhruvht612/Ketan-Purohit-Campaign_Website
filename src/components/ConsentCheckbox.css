@@ -1,0 +1,49 @@
+.consent {
+  border: 1.5px solid var(--line-cool);
+  border-left: 5px solid var(--navy);
+  border-radius: var(--radius-sm);
+  background: var(--navy-mist);
+  padding: 18px 20px;
+}
+.consent.has-error { border-color: var(--danger); border-left-color: var(--danger); background: #fdf3f3; }
+
+.consent__row { display: flex; align-items: flex-start; gap: 12px; }
+.consent__row input {
+  width: 22px; height: 22px;
+  accent-color: var(--navy);
+  flex: none;
+  margin-top: 2px;
+  cursor: pointer;
+}
+.consent__optin {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--navy-900);
+  cursor: pointer;
+  /* Keeps the whole label a comfortable tap target next to the box. */
+  padding: 2px 0;
+}
+
+/* The compliance wording — deliberately small print, but never below the
+   readable minimum, and comfortably above 4.5:1 contrast. */
+.consent__text {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.consent__link {
+  color: var(--navy);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  border-radius: 3px;
+}
+.consent__link:hover { color: var(--red); }
+
+.consent__hint {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--muted-2);
+}

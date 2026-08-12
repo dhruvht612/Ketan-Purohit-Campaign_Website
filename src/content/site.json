@@ -1,29 +1,54 @@
 {
+  "_editing": "Site-wide identity, contact and CTA settings. Any value written in [SQUARE BRACKETS] is a placeholder: it renders with a visible 'placeholder' flag on the site and is never presented as fact. Replace the text (keep the key) and the flag disappears automatically.",
+
   "brand": {
     "name": "Ketan Purohit",
+    "firstName": "Ketan",
+    "lastName": "Purohit",
     "role": "TDSB Ward 12 Trustee",
-    "tagline": "Integrity · Vision · Leadership"
+    "election": "Election 2026",
+    "tagline": "Strong Schools. Brighter Futures. Better Together.",
+    "taglineHighlight": "Better Together.",
+    "script": "Experienced. Dedicated.",
+    "scriptLine2": "Committed to our children.",
+    "footerLine": "Our Schools. Our Future.",
+    "motto": "Integrity · Vision · Leadership",
+    "intro": "A dedicated, full-time voice for Ward 12 — putting students first, treating parents as partners, and bringing real accountability back to the board."
   },
+
   "images": {
     "portrait": "/images/ketan-portrait.png",
     "flyer": "/images/campaign-flyer.jpg"
   },
+
   "contact": {
-    "email": "hello@ketanpurohit.ca",
-    "phone": "(416) 555-0142",
+    "email": "[CAMPAIGN EMAIL]",
+    "phone": "(647) 968-3787",
     "office": {
-      "line1": "Ward 12 Campaign Office",
-      "line2": "1240 Bathurst Street, Toronto, ON M5R 3H4",
-      "hours": "Mon–Fri · 10am–6pm"
+      "line1": "[CAMPAIGN OFFICE NAME]",
+      "line2": "[CAMPAIGN OFFICE ADDRESS]",
+      "hours": "[OFFICE HOURS]"
     },
-    "mapQuery": "1240 Bathurst Street, Toronto, ON"
+    "mapQuery": ""
   },
+
   "social": [
-    { "label": "Facebook", "handle": "@KetanForWard12", "href": "https://facebook.com" },
-    { "label": "Instagram", "handle": "@ketanforward12", "href": "https://instagram.com" },
-    { "label": "X", "handle": "@KetanPurohit", "href": "https://x.com" },
-    { "label": "YouTube", "handle": "Ketan Purohit", "href": "https://youtube.com" }
+    { "label": "Facebook", "handle": "[FACEBOOK HANDLE]", "href": "" },
+    { "label": "Instagram", "handle": "[INSTAGRAM HANDLE]", "href": "" },
+    { "label": "X", "handle": "[X HANDLE]", "href": "" },
+    { "label": "YouTube", "handle": "[YOUTUBE CHANNEL]", "href": "" }
   ],
+
+  "donation": {
+    "_editing": "Paste the campaign's Zeffy / Square (or other) donation URL into `url` and the whole donation area — hero button, nav, footer and the Donate page — switches from placeholder to live. Nothing else needs changing.",
+    "url": "[DONATION LINK]",
+    "label": "Donate",
+    "provider": "[DONATION PLATFORM]",
+    "headline": "Support the campaign",
+    "blurb": "Contributions fund lawn signs, door-knocking, and reaching every family across the ward.",
+    "suggestedAmounts": [25, 50, 100, 250]
+  },
+
   "legal": {
     "donation": "I confirm that I am a resident of Ontario and that this contribution is made from my own personal funds, up to the legal maximum of $1,200 per candidate.",
     "individualOnly": "Individual donations only. Corporate and union contributions are not accepted under Ontario elections law.",

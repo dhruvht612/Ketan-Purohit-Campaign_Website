@@ -1,38 +1,45 @@
 import Hero from '../components/Hero.jsx'
-import Carousel from '../components/Carousel.jsx'
+import QuoteCarousel from '../components/QuoteCarousel.jsx'
 import AboutSection from '../components/AboutSection.jsx'
 import IssueCard from '../components/IssueCard.jsx'
+import DonateCTA from '../components/DonateCTA.jsx'
 import Reveal from '../components/Reveal.jsx'
 import Button from '../components/Button.jsx'
 import Icon from '../components/Icon.jsx'
-import { getSlides, getIssues } from '../lib/cms.js'
+import { getQuotes, getIssues } from '../lib/cms.js'
 
 export default function Home() {
-  const slides = getSlides()
+  const quotes = getQuotes()
   const issues = getIssues().slice(0, 6)
 
   return (
     <>
       <Hero />
-      <Carousel slides={slides} />
-      <AboutSection />
+
+      <QuoteCarousel
+        cards={quotes}
+        eyebrow="What this campaign stands for"
+        title="Where Ketan stands"
+        lede="Scroll through the campaign's statements across the issues that shape every student's day."
+      />
+
+      <AboutSection compact />
 
       {/* Issues preview */}
       <section className="section section--tint">
         <div className="container">
           <Reveal className="section-head">
-            <span className="eyebrow eyebrow--center"><span className="tick" /> Where Ketan stands</span>
-            <h2 className="section-title">The issues that matter to Ward 12</h2>
+            <span className="eyebrow eyebrow--center"><span className="tick tick--accent" /> The issues</span>
+            <h2 className="section-title bar-accent bar-accent--center">The issues that matter</h2>
             <p className="section-lede">
-              Practical priorities, built from listening to students, parents, and educators
-              across the ward.
+              The priorities this campaign is running on. Full write-ups are on the Issues page.
             </p>
           </Reveal>
 
           <div className="grid-cards">
             {issues.map((issue, i) => (
               <Reveal key={issue.id} delay={i * 70}>
-                <IssueCard issue={issue} />
+                <IssueCard issue={issue} variant="preview" />
               </Reveal>
             ))}
           </div>
@@ -41,6 +48,15 @@ export default function Home() {
             <Button to="/issues" variant="primary" size="lg">
               See all issues <Icon name="arrow" size={18} />
             </Button>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Donation CTA */}
+      <section className="section section--cream">
+        <div className="container">
+          <Reveal>
+            <DonateCTA variant="band" />
           </Reveal>
         </div>
       </section>
