@@ -9,8 +9,10 @@
 
 .about__media { position: sticky; top: calc(var(--nav-h) + 24px); }
 .about__figure { margin: 0; }
+/* White mat plus a heavy red foot, like a printed campaign photo card. The
+   bottom corners square off so the 10px rule meets a straight edge. */
 .about__photo {
-  border-radius: var(--radius);
+  border-radius: var(--radius) var(--radius) 0 0;
   overflow: hidden;
   box-shadow: var(--shadow);
   border: 6px solid #fff;
@@ -36,7 +38,7 @@
   background: #fff;
   border: 1px solid var(--line-cool);
   border-top: 3px solid var(--navy);
-  border-radius: var(--radius-sm);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   padding: 14px 10px;
   text-align: center;
 }
@@ -74,7 +76,9 @@
   color: var(--red);
   margin-bottom: 12px;
 }
-.about__bio .prose { border-left: 3px solid var(--line); padding-left: 20px; }
+/* A hairline, not a 3px slab: this marks the bio as an indented aside, and
+   at 3px it read as an accent bar the content never earned. */
+.about__bio .prose { border-left: 1px solid var(--line); padding-left: 20px; }
 
 .about__cta {
   display: flex;

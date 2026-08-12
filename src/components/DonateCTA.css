@@ -32,9 +32,11 @@
 .donate-cta--band {
   background: var(--navy);
   color: #cddaee;
-  border-radius: var(--radius);
-  padding: clamp(28px, 4vw, 48px);
+  /* The red spine reads as the flyer's banner edge, so the left corners
+     square off rather than curving through an 8px rule. */
   border-left: 8px solid var(--red);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: clamp(28px, 4vw, 48px);
 }
 .donate-cta--band .donate-cta__title { color: #fff; }
 .donate-cta--band .donate-cta__blurb { color: #a9bcda; }
@@ -47,7 +49,7 @@
   background: #fff;
   border: 1px solid var(--line-cool);
   border-top: 5px solid var(--red);
-  border-radius: var(--radius);
+  border-radius: 0 0 var(--radius) var(--radius);
   padding: clamp(24px, 3vw, 32px);
   box-shadow: var(--shadow-sm);
 }

@@ -100,7 +100,8 @@
   width: clamp(255px, 78vw, 330px);
   scroll-snap-align: start;
   background: #fff;
-  border-radius: var(--radius);
+  /* Squared foot under the 5px topic rule — the ruled-edge convention. */
+  border-radius: var(--radius) var(--radius) 0 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -200,7 +201,10 @@
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  transition: all .2s var(--ease);
+  /* Named properties, not `all`: on mobile the active dot changes width, and
+     `all` would animate that layout change on every state flip. */
+  transition: background-color .2s var(--ease), border-color .2s var(--ease),
+    color .2s var(--ease);
 }
 .qc__dot:hover { border-color: var(--gold); color: #fff; }
 .qc__dot.is-active {

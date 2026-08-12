@@ -152,9 +152,11 @@ export default function QuoteCarousel({
       <div className="container">
         <div className="qc__head">
           <div>
-            <span className="eyebrow eyebrow--onDark">
-              <span className="tick tick--gold" /> {eyebrow}
-            </span>
+            {eyebrow && (
+              <span className="eyebrow eyebrow--onDark">
+                <span className="tick tick--gold" /> {eyebrow}
+              </span>
+            )}
             <h2 id="qc-title" className="qc__title">{title}</h2>
             {lede && <p className="qc__lede">{lede}</p>}
           </div>

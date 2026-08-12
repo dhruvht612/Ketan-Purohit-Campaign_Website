@@ -23,13 +23,18 @@
   color: var(--navy);
   opacity: 0.09;
 }
+/* A halftone dot screen, not a blueprint grid: the flyer was printed, and
+   coarse dots are what that stock actually shows under magnification. Two
+   offset lattices give the 45° screen angle of real halftone. */
 .hero__grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(22, 51, 107, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(22, 51, 107, 0.05) 1px, transparent 1px);
-  background-size: 46px 46px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000, transparent 75%);
+    radial-gradient(rgba(22, 51, 107, 0.13) 1.1px, transparent 1.2px),
+    radial-gradient(rgba(22, 51, 107, 0.13) 1.1px, transparent 1.2px);
+  background-size: 14px 14px;
+  background-position: 0 0, 7px 7px;
+  mask-image: radial-gradient(ellipse 85% 70% at 50% 0%, #000, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 0%, #000, transparent 78%);
 }
 
 /* ---- Layout ---- */
@@ -125,8 +130,9 @@
   align-items: center;
   gap: 12px;
   background: #fff;
+  /* Red spine on a squared edge — see the ruled-edge convention in global.css. */
   border-left: 5px solid var(--red);
-  border-radius: var(--radius-sm);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   padding: 13px 18px;
   box-shadow: var(--shadow);
   max-width: calc(100% - 10px);

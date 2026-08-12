@@ -16,9 +16,11 @@ export default function Home() {
     <>
       <Hero />
 
+      {/* No eyebrow here: "What this campaign stands for" only restated the
+          heading below it. The heading carries itself. */}
       <QuoteCarousel
         cards={quotes}
-        eyebrow="What this campaign stands for"
+        eyebrow={null}
         title="Where Ketan stands"
         lede="Scroll through the campaign's statements across the issues that shape every student's day."
       />
@@ -29,7 +31,6 @@ export default function Home() {
       <section className="section section--tint">
         <div className="container">
           <Reveal className="section-head">
-            <span className="eyebrow eyebrow--center"><span className="tick tick--accent" /> The issues</span>
             <h2 className="section-title bar-accent bar-accent--center">The issues that matter</h2>
             <p className="section-lede">
               The priorities this campaign is running on. Full write-ups are on the Issues page.

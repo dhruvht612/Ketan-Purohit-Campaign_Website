@@ -40,7 +40,11 @@
 
   --ink:         #16233c;   /* body text */
   --muted:       #56617a;
-  --muted-2:     #7b8598;
+  /* Darkened from #7b8598, which measured 3.29:1 on cream and 3.72:1 on
+     white — under AA for the 0.74–0.85rem text that actually uses it
+     (form hints, card roles). Now 4.82 / 5.44 / 4.63 on cream / white /
+     navy-soft, and still a clear step lighter than --muted. */
+  --muted-2:     #5f6a80;
   --line:        #ddd8cc;   /* hairline on cream */
   --line-cool:   #dbe3f0;   /* hairline on white/blue */
   --line-soft:   #eee9de;
@@ -110,6 +114,31 @@ body {
 
 img, svg, video { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
+
+/* ---------- Browser surfaces ------------------------------------------
+   Selection, caret, and scrollbar ship with OS defaults that belong to no
+   campaign. Theming them from the flyer palette keeps the chrome we did
+   not draw inside the same design.                                      */
+::selection {
+  background: var(--gold);
+  color: var(--navy-900);
+}
+:root { accent-color: var(--navy); caret-color: var(--navy); }
+
+/* Firefox */
+* { scrollbar-color: var(--navy-600) var(--cream-deep); scrollbar-width: thin; }
+/* WebKit — squared, like the flyer's bands, not a floating pill. */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--cream-deep); }
+::-webkit-scrollbar-thumb {
+  background: var(--navy-600);
+  border: 3px solid var(--cream-deep);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--navy); }
+
+/* Numerals in any figure position must not jitter between values. */
+.about__stat-value, .qc__count, time, .tabular { font-variant-numeric: tabular-nums; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 input, select, textarea { font-family: inherit; font-size: 1rem; color: inherit; }
 ul { list-style: none; padding: 0; }
@@ -274,8 +303,19 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   box-shadow: var(--shadow);
   border-color: #c3d0e6;
 }
-/* Flyer-style card: a solid navy rule across the top edge. */
-.card--ruled { border-top: 4px solid var(--navy); }
+/* ---- System rule: heavy rules land on square edges -------------------
+   The flyer's geometry is "flat bands, hard rules — not pills". A thick
+   accent border across a rounded corner wedges into the arc and reads as
+   a mistake, so any edge carrying a rule heavier than 1px gives up its
+   radius. `.placeholder-note` already did this; it is now the convention
+   every ruled surface follows (cards, stat tiles, bands, the portrait).
+   -------------------------------------------------------------------- */
+
+/* Flyer-style card: a solid navy rule across a squared top edge. */
+.card--ruled {
+  border-top: 4px solid var(--navy);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
 .card--ruled.card--hover:hover { border-top-color: var(--red); }
 
 /* ---------- Shared grids & utilities ---------- */
@@ -291,6 +331,18 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .prose p { color: var(--muted); margin-bottom: 1rem; }
 .prose p:last-child { margin-bottom: 0; }
 .prose strong { color: var(--ink); }
+/* Inline links carry a gold underline set off the baseline rather than the
+   browser's default hairline crowding the descenders. */
+.prose a {
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 3px;
+  transition: color .18s var(--ease), text-decoration-color .18s var(--ease);
+}
+.prose a:hover { color: var(--red); text-decoration-color: var(--red); }
 .prose ul { display: grid; gap: 8px; margin: 0 0 1rem; }
 .prose ul li { color: var(--muted); padding-left: 20px; position: relative; }
 .prose ul li::before {
@@ -339,10 +391,13 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 }
 
 /* ---------- Reveal-on-scroll ---------- */
+/* Every section on the page uses this, so it has to read as settling into
+   place rather than as a staged entrance performed five times. Short throw,
+   exponential ease-out, and opacity that leads the movement. */
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity .7s var(--ease), transform .7s var(--ease);
+  transform: translateY(12px);
+  transition: opacity .42s linear, transform .62s cubic-bezier(0.16, 1, 0.3, 1);
 }
 /* Deliberately no `will-change` here. It would pin a compositor layer for
    every revealed element for the life of the page — wasted memory, and it
