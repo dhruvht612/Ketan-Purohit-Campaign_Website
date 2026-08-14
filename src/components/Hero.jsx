@@ -22,6 +22,30 @@ function Schoolhouse(props) {
   )
 }
 
+/**
+ * The flyer's painted plaque: a navy brush block with streaks trailing off its
+ * left edge and a red stroke sweeping the lower boundary. Stretched to the
+ * badge's box (preserveAspectRatio="none"), so the strokes stay organic at any
+ * size. The red sits below the text, never behind it — gold on red would drop
+ * under 4.5:1.
+ */
+function PaintBlock(props) {
+  return (
+    <svg viewBox="0 0 460 150" preserveAspectRatio="none" aria-hidden="true" {...props}>
+      <g className="hero__paint-navy">
+        <path d="M48 20C124 8 194 16 266 12c68-4 130 6 186-4 4 32 3 92-2 128-70 10-150-2-224 3-66 5-126-2-180 6-6-40-5-92 2-125z" />
+        <path d="M48 40c-18 1-36 4-48 7 14 3 32 4 48 5z" />
+        <path d="M48 76c-20 2-40 6-52 10 16 3 36 3 52 3z" />
+        <path d="M49 110c-14 2-27 6-37 9 12 3 26 3 37 3z" />
+      </g>
+      <path
+        className="hero__paint-red"
+        d="M0 112c80 12 170-4 256 4 74 7 140-4 204 2v14c-66-6-130 5-208-2-86-8-172 9-252-4z"
+      />
+    </svg>
+  )
+}
+
 export default function Hero() {
   const site = getSite()
   const { brand } = site
@@ -98,11 +122,9 @@ export default function Hero() {
               />
             </div>
             <div className="hero__badge">
-              <span className="tick tick--accent" aria-hidden="true" />
-              <div>
-                <strong>{brand.script}</strong>
-                <span>{brand.scriptLine2}</span>
-              </div>
+              <PaintBlock className="hero__badge-paint" />
+              <p className="script hero__badge-script">{brand.script}</p>
+              <p className="hero__badge-line">{brand.scriptLine2}</p>
             </div>
           </motion.div>
         </div>

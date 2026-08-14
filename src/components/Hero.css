@@ -17,6 +17,7 @@
     radial-gradient(80% 60% at 0% 100%, rgba(240, 169, 43, 0.13), transparent 65%);
 }
 .hero__school {
+  display: none; /* TEMP-PROBE */
   position: absolute;
   top: 2%; right: 2%;
   width: min(46%, 460px);
@@ -122,31 +123,46 @@
   border: 6px solid #fff;
   overflow: hidden;
 }
+/* The flyer's painted plaque, not a card: white script over a navy brush
+   block, gold caps beneath, red stroke sweeping the lower edge. Padding is
+   keyed to the brush shape — left clears the trailing streaks, bottom clears
+   the red sweep. */
 .hero__badge {
   position: absolute;
-  left: -14px;
+  left: -18px;
   bottom: 22px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #fff;
-  /* Red spine on a squared edge — see the ruled-edge convention in global.css. */
-  border-left: 5px solid var(--red);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  padding: 13px 18px;
-  box-shadow: var(--shadow);
-  max-width: calc(100% - 10px);
+  max-width: calc(100% + 18px);
+  padding: 18px 26px 26px 38px;
+  /* Follows the ragged silhouette, unlike a box-shadow. */
+  filter: drop-shadow(0 12px 22px rgba(9, 23, 52, 0.34));
 }
-.hero__badge strong {
-  display: block;
+.hero__badge-paint {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.hero__paint-navy { fill: var(--navy); }
+.hero__paint-red { fill: var(--red); }
+.hero__badge-script,
+.hero__badge-line { position: relative; margin: 0; }
+/* Outranks the gold default on .script — on the flyer this line is white. */
+.hero__badge .hero__badge-script {
+  color: #fff;
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  line-height: 1.05;
+}
+.hero__badge-line {
+  margin-top: 3px;
   font-family: var(--display);
+  font-variation-settings: "wdth" 92;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  font-size: 0.92rem;
-  color: var(--navy-900);
+  letter-spacing: 0.02em;
+  font-size: clamp(0.86rem, 1.7vw, 1.04rem);
+  line-height: 1.1;
+  color: var(--gold);
 }
-.hero__badge span { font-size: 0.82rem; color: var(--muted); }
 
 /* ---- The flyer's navy tagline band ---- */
 .hero__band {
@@ -179,7 +195,7 @@
 @media (max-width: 880px) {
   .hero__inner { grid-template-columns: 1fr; align-items: start; }
   .hero__media { max-width: 400px; margin-inline: auto; width: 100%; }
-  .hero__badge { left: 0; }
+  .hero__badge { left: 0; max-width: 100%; }
   .hero__school { width: 60%; opacity: 0.06; }
 }
 @media (max-width: 560px) {
