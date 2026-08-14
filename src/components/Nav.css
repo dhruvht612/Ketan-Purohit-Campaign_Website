@@ -31,15 +31,15 @@
 
 /* ---- Brand ---- */
 .brand { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
+/* Campaign mark: white open book in a solid navy disc. */
 .brand__mark {
   width: 42px; height: 42px;
-  border-radius: var(--radius-sm);
+  border-radius: 50%;
   background: var(--navy);
+  color: #fff;
   display: grid; place-items: center;
   flex: none;
 }
-.brand__mark .tick { --tick-size: 22px; background: #fff; }
-.brand__mark .tick::after { border-color: var(--navy); }
 .brand__text { display: flex; flex-direction: column; line-height: 1.05; min-width: 0; }
 .brand__name {
   font-family: var(--display);
@@ -50,6 +50,9 @@
   color: var(--navy-900);
   letter-spacing: -0.005em;
 }
+/* Flyer lockup: navy first name, red surname. */
+.brand__first { color: var(--navy); }
+.brand__last { color: var(--red); }
 .brand__sub {
   font-size: 0.68rem;
   color: var(--red);

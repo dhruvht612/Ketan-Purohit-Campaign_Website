@@ -75,10 +75,13 @@ export default function Nav() {
       <div className="container nav__inner">
         <Link to="/" className="brand" aria-label={`${site.brand.name}, home`}>
           <span className="brand__mark" aria-hidden="true">
-            <span className="tick" />
+            <Icon name="bookOpen" size={24} strokeWidth={2.1} />
           </span>
           <span className="brand__text">
-            <span className="brand__name">{site.brand.name}</span>
+            <span className="brand__name">
+              <span className="brand__first">{site.brand.firstName}</span>{' '}
+              <span className="brand__last">{site.brand.lastName}</span>
+            </span>
             <span className="brand__sub">{site.brand.role}</span>
           </span>
         </Link>
