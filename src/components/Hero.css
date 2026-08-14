@@ -17,7 +17,6 @@
     radial-gradient(80% 60% at 0% 100%, rgba(240, 169, 43, 0.13), transparent 65%);
 }
 .hero__school {
-  display: none; /* TEMP-PROBE */
   position: absolute;
   top: 2%; right: 2%;
   width: min(46%, 460px);
