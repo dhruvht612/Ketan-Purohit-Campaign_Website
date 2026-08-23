@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import Button from './Button.jsx'
 import Placeholder from './Placeholder.jsx'
 import Icon from './Icon.jsx'
+import JoinForm from './JoinForm.jsx'
 import { getSite } from '../lib/cms.js'
 import './Hero.css'
 
@@ -96,28 +96,29 @@ export default function Hero() {
               {brand.intro}
             </motion.p>
 
-            <motion.div className="hero__actions" {...rise(0.4)}>
-              <Button to="/donate" variant="accent" size="lg">Donate</Button>
-              <Button to="/volunteer" variant="secondary" size="lg">
-                Volunteer <Icon name="arrow" size={18} />
-              </Button>
+            <motion.div className="hero__join" {...rise(0.4)}>
+              <JoinForm />
             </motion.div>
           </div>
 
-          <motion.div
-            className="hero__media"
-            initial={{ opacity: 0, scale: reduce ? 1 : 0.97, y: reduce ? 0 : 16 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 0.61, 0.36, 1] }}
-          >
+          {/* Deliberately not a motion element. The portrait is composited into
+              the page with mix-blend-mode (see Hero.css), and any transform or
+              opacity on an ancestor would isolate the blend group and bring the
+              photo's flat backdrop back as a pale rectangle. */}
+          <div className="hero__media">
+            {/* The source frame carries 324px (24%) of empty backdrop above
+                the head. The ratio below crops most of it against the bottom
+                edge — object-fit: cover on .ph-img makes the cut — so the
+                candidate fills the column instead of floating in dead space,
+                and none of him is lost. */}
             <div className="hero__portrait">
               <Placeholder
                 src={site.images.portrait}
                 monogram
                 alt={`${brand.name}, candidate for ${brand.role}`}
-                ratio="4 / 5"
-                rounded="var(--radius)"
-                objectPosition="center top"
+                ratio="1152 / 1160"
+                rounded="0"
+                objectPosition="center bottom"
                 loading="eager"
               />
             </div>
@@ -126,7 +127,7 @@ export default function Hero() {
               <p className="script hero__badge-script">{brand.script}</p>
               <p className="hero__badge-line">{brand.scriptLine2}</p>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

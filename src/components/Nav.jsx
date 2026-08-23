@@ -5,16 +5,11 @@ import Button from './Button.jsx'
 import { getSite } from '../lib/cms.js'
 import './Nav.css'
 
+/* Six top-level items. Groups and Photos keep their routes and stay reachable
+   as children rather than becoming orphaned pages. */
 const NAV = [
   { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  {
-    label: 'Action',
-    children: [
-      { label: 'Volunteer', to: '/volunteer' },
-      { label: 'Donate', to: '/donate' },
-    ],
-  },
+  { label: 'Meet Ketan', to: '/about' },
   { label: 'Issues', to: '/issues' },
   {
     label: 'News',
@@ -23,7 +18,14 @@ const NAV = [
       { label: 'Photos', to: '/pictures' },
     ],
   },
-  { label: 'Groups', to: '/groups' },
+  {
+    label: 'Get Involved',
+    children: [
+      { label: 'Volunteer', to: '/volunteer' },
+      { label: 'Donate', to: '/donate' },
+      { label: 'Groups', to: '/groups' },
+    ],
+  },
   { label: 'Contact', to: '/contact' },
 ]
 

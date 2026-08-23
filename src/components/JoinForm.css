@@ -1,0 +1,65 @@
+/* Hero sign-up — the flyer's rule-and-caps heading over a compact three-field
+   form. Sized to sit under the lede without crowding the portrait. */
+.joinform { max-width: 470px; }
+
+/* "———— JOIN WITH KETAN ————" */
+.joinform__title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 16px;
+  font-family: var(--display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.82rem;
+  line-height: 1;
+  color: var(--navy);
+}
+.joinform__title::before,
+.joinform__title::after {
+  content: "";
+  height: 3px;
+  flex: 1;
+  max-width: 54px;
+  background: var(--red);
+}
+
+.joinform__form { display: grid; gap: 12px; }
+.joinform__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* The placeholders repeat the labels, so the labels are held for assistive
+   tech only — see the note in JoinForm.jsx. */
+.joinform .field__label {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.joinform .field { margin: 0; }
+.joinform .field__control {
+  width: 100%;
+  min-height: 50px;
+  background: #fff;
+  border: 1px solid var(--line-cool);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 1rem;
+  color: var(--ink);
+  transition: border-color .18s var(--ease), box-shadow .18s var(--ease);
+}
+.joinform .field__control::placeholder { color: var(--muted); opacity: 1; }
+.joinform .field__control:hover { border-color: var(--navy-600); }
+.joinform .field__control:focus-visible {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(22, 51, 107, 0.16);
+}
+.joinform .field__control.has-error { border-color: var(--red); }
+.joinform .field__error { margin-top: 5px; font-size: 0.82rem; }
+
+.joinform .btn { margin-top: 2px; min-height: 52px; letter-spacing: 0.08em; }
+
+@media (max-width: 520px) {
+  .joinform { max-width: none; }
+  .joinform__row { grid-template-columns: 1fr; }
+}

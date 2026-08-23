@@ -5,7 +5,14 @@
   position: relative;
   overflow: hidden;
   background: var(--cream);
-  padding: clamp(40px, 6vw, 76px) 0 0;
+  /* How far the portrait column is allowed to run past the container's right
+     edge, into the page gutter. It never exceeds the gutter itself, so the
+     candidate reaches toward the viewport edge — as on the flyer — without
+     ever causing a sideways scroll. Collapses to 0 below --maxw. */
+  --hero-bleed: clamp(0px, (100vw - var(--maxw)) / 2 - 20px, 110px);
+  /* Kept tight so the whole composition — name through sign-up, and the
+     candidate head to foot — lands inside the first viewport. */
+  padding: clamp(20px, 3vw, 44px) 0 0;
 }
 
 /* ---- Background: flyer paper + ghosted schoolhouse ---- */
@@ -16,12 +23,15 @@
     radial-gradient(120% 80% at 80% 0%, rgba(22, 51, 107, 0.09), transparent 62%),
     radial-gradient(80% 60% at 0% 100%, rgba(240, 169, 43, 0.13), transparent 65%);
 }
+/* Held fainter than it was: with the portrait no longer boxed in a white card,
+   this sits in open background directly behind the candidate and would
+   otherwise compete with him. */
 .hero__school {
   position: absolute;
-  top: 2%; right: 2%;
-  width: min(46%, 460px);
+  top: 3%; right: 1%;
+  width: min(40%, 400px);
   color: var(--navy);
-  opacity: 0.09;
+  opacity: 0.05;
 }
 /* A halftone dot screen, not a blueprint grid: the flyer was printed, and
    coarse dots are what that stock actually shows under magnification. Two
@@ -37,16 +47,20 @@
   -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 0%, #000, transparent 78%);
 }
 
-/* ---- Layout ---- */
+/* ---- Layout ----
+   No z-index here on purpose. `position: relative` alone keeps this above
+   .hero__bg (both are positioned, and this comes later in the DOM), but adding
+   a z-index would open a stacking context and isolate the portrait's blend
+   group from the hero background — see the portrait rules below. */
 .hero__inner {
   position: relative;
-  z-index: 1;
   display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
-  gap: clamp(28px, 5vw, 64px);
-  align-items: end;
-  padding-bottom: clamp(30px, 5vw, 56px);
+  grid-template-columns: minmax(0, 47fr) minmax(0, 53fr);
+  gap: clamp(24px, 4vw, 60px);
+  align-items: center;
+  min-height: clamp(580px, 70vh, 720px);
 }
+.hero__copy { padding-block: clamp(12px, 2vw, 28px); }
 
 .hero__eyebrow {
   display: inline-flex;
@@ -111,16 +125,43 @@
   color: var(--muted);
   max-width: 46ch;
 }
-.hero__actions { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
+.hero__join { margin-top: clamp(26px, 3vw, 36px); }
 
-/* ---- Portrait ---- */
-.hero__media { position: relative; align-self: end; }
-.hero__portrait {
+/* ---- Portrait ----
+   No card: the candidate stands directly in the hero, grounded on its bottom
+   edge, and the column runs out into the page gutter so he reads as part of
+   the composition rather than as a photo dropped into a box. */
+.hero__media {
   position: relative;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  border: 6px solid #fff;
-  overflow: hidden;
+  align-self: end;
+  justify-self: end;
+  /* Width-driven, not height-driven: the cropped frame is very close to
+     square, so the column's width sets the portrait's height and the image can
+     never be squashed by a max-width kicking in against a fixed height. */
+  width: calc(100% + var(--hero-bleed));
+  max-width: 760px;
+  margin-right: calc(-1 * var(--hero-bleed));
+}
+.hero__portrait { position: relative; display: block; }
+
+/* The photo is a rectangle on a flat #F7F7F7 studio backdrop — measured uniform
+   across every corner. `darken` keeps whichever of photo-or-page is darker per
+   channel, so that backdrop (lighter than the cream everywhere) is replaced by
+   the hero itself, while the candidate — darker than cream throughout — passes
+   through untouched. The result is a true cutout with no masking, no matting
+   halo, and no edit to the source file.
+   This only holds while nothing between here and .hero opens a stacking
+   context: no transform, opacity or filter on .hero__media or .hero__inner. */
+.hero__portrait .ph-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-inline: auto;
+  mix-blend-mode: darken;
+  /* The frame's erased headroom still overlaps the sign-up form once the
+     layout stacks, and an invisible photo must not swallow clicks meant for
+     the Submit button underneath it. */
+  pointer-events: none;
 }
 /* The flyer's painted plaque, not a card: white script over a navy brush
    block, gold caps beneath, red stroke sweeping the lower edge. Padding is
@@ -128,9 +169,14 @@
    the red sweep. */
 .hero__badge {
   position: absolute;
-  left: -18px;
-  bottom: 22px;
-  max-width: calc(100% + 18px);
+  z-index: 2;
+  /* Anchored just inside the photo's left edge rather than outside it: the
+     candidate's silhouette starts ~13% in, so a small offset keeps the ribbon
+     reading as laid over him instead of floating on bare background. Sits
+     across the folded arms — well clear of the face. */
+  left: 7%;
+  bottom: clamp(40px, 7vw, 82px);
+  width: clamp(300px, 72%, 480px);
   padding: 18px 26px 26px 38px;
   /* Follows the ragged silhouette, unlike a box-shadow. */
   filter: drop-shadow(0 12px 22px rgba(9, 23, 52, 0.34));
@@ -191,11 +237,59 @@
 .hero__band-text em { font-style: normal; color: var(--gold); }
 .hero__band-script { color: var(--gold); white-space: nowrap; }
 
-@media (max-width: 880px) {
-  .hero__inner { grid-template-columns: 1fr; align-items: start; }
-  .hero__media { max-width: 400px; margin-inline: auto; width: 100%; }
-  .hero__badge { left: 0; max-width: 100%; }
-  .hero__school { width: 60%; opacity: 0.06; }
+/* ---- Tablet: still two columns ----
+   The composition only works side by side, and at 760px+ it still does: the
+   name lockup, the role line and the two-up form row all fit the left column,
+   so the candidate stays beside the copy rather than being exiled below it.
+   What has to give is the vertical slack — the tall min-height was sized for a
+   desktop portrait and would leave the shorter tablet one stranded in space. */
+@media (min-width: 761px) and (max-width: 1023px) {
+  .hero__inner {
+    grid-template-columns: minmax(0, 44fr) minmax(0, 56fr);
+    gap: clamp(16px, 2.6vw, 28px);
+    min-height: 0;
+  }
+  .hero__lede { font-size: 1rem; max-width: 40ch; }
+  .hero__join { margin-top: 22px; }
+  .joinform .field__control { min-height: 46px; padding: 10px 13px; }
+  .hero__badge {
+    left: 2%;
+    bottom: clamp(24px, 4.5vw, 44px);
+    width: min(96%, 400px);
+    padding: 13px 18px 20px 27px;
+  }
+  .hero__school { width: 34%; opacity: 0.045; }
+}
+
+@media (max-width: 760px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    align-items: start;
+    min-height: 0;
+    gap: 0;
+  }
+  .hero__copy { padding-bottom: clamp(18px, 4vw, 30px); }
+  .hero__media {
+    width: 100%;
+    max-width: 460px;
+    justify-self: center;
+    margin-right: 0;
+    /* Closes the last of the gap the frame's remaining headroom leaves under
+       the form. Only a nudge — the bulk of that empty backdrop is already
+       cropped away at source. */
+    margin-top: clamp(-34px, -3vw, -8px);
+  }
+  .hero__badge {
+    left: 0;
+    bottom: clamp(22px, 6vw, 48px);
+    width: min(100%, 420px);
+    padding: 15px 20px 22px 30px;
+  }
+  /* Stacked, a schoolhouse pinned to the top-right sits beside the headline
+     with nothing to anchor it. Re-parked over the portrait, where it reads as
+     the backdrop the candidate stands against — the darken composite lets its
+     lines run behind him exactly as on the flyer. */
+  .hero__school { top: auto; bottom: 6%; right: -6%; width: 62%; opacity: 0.05; }
 }
 @media (max-width: 560px) {
   .hero__band-inner { justify-content: flex-start; }
