@@ -26,6 +26,12 @@ export default function Placeholder({
   objectPosition = 'center',
   className = '',
   loading = 'lazy',
+  /* 'high' for the one image above the fold on first paint — the hero
+     portrait. Everything else stays on the browser's own heuristic.
+     Rendered as the lowercase DOM attribute: react-dom 18 does not know the
+     camelCase `fetchPriority` prop and warns, but passes `fetchpriority`
+     through untouched. */
+  fetchPriority = 'auto',
   tone = 'cream',
 }) {
   const [failed, setFailed] = useState(false)
@@ -36,6 +42,7 @@ export default function Placeholder({
         src={src}
         alt={alt}
         loading={loading}
+        fetchpriority={fetchPriority}
         onError={() => setFailed(true)}
         className={`ph-img ${className}`}
         style={{ aspectRatio: ratio, borderRadius: rounded, objectPosition }}

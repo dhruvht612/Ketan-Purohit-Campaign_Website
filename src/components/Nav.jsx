@@ -5,32 +5,80 @@ import Button from './Button.jsx'
 import { getSite } from '../lib/cms.js'
 import './Nav.css'
 
-/* Six top-level items. Groups and Photos keep their routes and stay reachable
-   as children rather than becoming orphaned pages. */
+/* The header, as the campaign set it out: About, Connect, Contribute, News &
+   Updates, FAQ. Home leads, and the issues page hangs off About rather than
+   becoming an orphan.
+
+   Contribute is not in this list: it is the accent button at the end of the
+   header, which goes to the same /donate page. Listing it twice would give the
+   header two links to one destination and cost the CTA its emphasis.
+
+   A section left holding a single child collapses to a plain link — see
+   `collapse` below. Connect is one link today because Volunteer is the only
+   form; News becomes a menu again the moment a social URL is filled in.
+
+   A child with `href` instead of `to` is an outside link (the social channels)
+   and opens in a new tab. One with `href: ''` — a channel whose URL the
+   campaign has not supplied yet — is dropped rather than rendered dead. */
 const NAV = [
   { label: 'Home', to: '/' },
-  { label: 'Meet Ketan', to: '/about' },
-  { label: 'Issues', to: '/issues' },
   {
-    label: 'News',
+    label: 'About',
     children: [
-      { label: 'Media', to: '/media' },
-      { label: 'Photos', to: '/pictures' },
+      { label: 'Meet Ketan', to: '/about' },
+      { label: 'Why I’m Running', to: '/about#why' },
+      { label: 'My Priorities', to: '/about#priorities' },
+      { label: 'The Issues', to: '/issues' },
     ],
   },
   {
-    label: 'Get Involved',
+    label: 'Connect',
     children: [
       { label: 'Volunteer', to: '/volunteer' },
-      { label: 'Donate', to: '/donate' },
-      { label: 'Groups', to: '/groups' },
     ],
   },
-  { label: 'Contact', to: '/contact' },
+  {
+    label: 'News & Updates',
+    children: [
+      { label: 'Media', to: '/media' },
+      { label: 'Facebook', social: 'Facebook' },
+      { label: 'Instagram', social: 'Instagram' },
+    ],
+  },
+  { label: 'FAQ', to: '/faq' },
 ]
+
+/** Resolve the social placeholders in NAV against site.json, dropping any
+    channel whose URL has not been supplied. */
+function resolveChildren(children, social) {
+  return children
+    .map((c) => {
+      if (!c.social) return c
+      const found = social.find((x) => x.label === c.social)
+      return found?.href ? { label: c.label, href: found.href } : null
+    })
+    .filter(Boolean)
+}
+
+/** A section with one child left is that child, under the section's own name —
+    a dropdown holding a single item is a menu that wastes a click. */
+function collapse(item) {
+  if (!item.children) return item
+  if (item.children.length === 0) return null
+  if (item.children.length === 1) {
+    const [only] = item.children
+    return { label: item.label, to: only.to, href: only.href }
+  }
+  return item
+}
 
 export default function Nav() {
   const site = getSite()
+  const nav = NAV.map((item) =>
+    item.children
+      ? collapse({ ...item, children: resolveChildren(item.children, site.social || []) })
+      : item,
+  ).filter(Boolean)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openDrop, setOpenDrop] = useState(null) // desktop hover/focus dropdown
@@ -91,7 +139,7 @@ export default function Nav() {
         {/* Desktop nav */}
         <nav className="nav__desktop" aria-label="Primary">
           <ul className="nav__list">
-            {NAV.map((item) =>
+            {nav.map((item) =>
               item.children ? (
                 <li
                   key={item.label}
@@ -110,13 +158,27 @@ export default function Nav() {
                     <Icon name="arrow" size={15} className="nav__caret" />
                   </button>
                   <ul className={`nav__menu ${openDrop === item.label ? 'is-open' : ''}`}>
-                    {item.children.map((c) => (
-                      <li key={c.to}>
-                        <NavLink to={c.to} className="nav__menu-link">
-                          {c.label}
-                        </NavLink>
-                      </li>
-                    ))}
+                    {item.children.map((c) =>
+                      c.href ? (
+                        <li key={c.href}>
+                          <a
+                            href={c.href}
+                            className="nav__menu-link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {c.label}
+                            <Icon name="external" size={14} className="nav__menu-out" />
+                          </a>
+                        </li>
+                      ) : (
+                        <li key={c.to}>
+                          <NavLink to={c.to} className="nav__menu-link">
+                            {c.label}
+                          </NavLink>
+                        </li>
+                      ),
+                    )}
                   </ul>
                 </li>
               ) : (
@@ -133,7 +195,7 @@ export default function Nav() {
             )}
           </ul>
           <Button to="/donate" variant="accent" size="sm" className="nav__cta">
-            Donate
+            Contribute
           </Button>
         </nav>
 
@@ -153,7 +215,7 @@ export default function Nav() {
       <div id="mobile-menu" className={`nav__mobile ${mobileOpen ? 'is-open' : ''}`}>
         <nav aria-label="Mobile" className="nav__mobile-inner">
           <ul>
-            {NAV.map((item) =>
+            {nav.map((item) =>
               item.children ? (
                 <li key={item.label} className="nav__m-group">
                   <button
@@ -171,13 +233,27 @@ export default function Nav() {
                     />
                   </button>
                   <ul className={`nav__m-sub ${mobileExpanded === item.label ? 'is-open' : ''}`}>
-                    {item.children.map((c) => (
-                      <li key={c.to}>
-                        <NavLink to={c.to} className="nav__m-sublink">
-                          {c.label}
-                        </NavLink>
-                      </li>
-                    ))}
+                    {item.children.map((c) =>
+                      c.href ? (
+                        <li key={c.href}>
+                          <a
+                            href={c.href}
+                            className="nav__m-sublink"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {c.label}
+                            <Icon name="external" size={15} className="nav__menu-out" />
+                          </a>
+                        </li>
+                      ) : (
+                        <li key={c.to}>
+                          <NavLink to={c.to} className="nav__m-sublink">
+                            {c.label}
+                          </NavLink>
+                        </li>
+                      ),
+                    )}
                   </ul>
                 </li>
               ) : (
@@ -194,7 +270,7 @@ export default function Nav() {
             )}
           </ul>
           <Button to="/donate" variant="accent" size="lg" full className="nav__m-cta">
-            Donate
+            Contribute
           </Button>
         </nav>
       </div>

@@ -1,184 +1,142 @@
-import { useState } from 'react'
 import PageHeader from '../components/PageHeader.jsx'
-import Field from '../components/Field.jsx'
-import RadioGroup from '../components/RadioGroup.jsx'
-import ConsentCheckbox from '../components/ConsentCheckbox.jsx'
 import DonateCTA from '../components/DonateCTA.jsx'
-import Button from '../components/Button.jsx'
+import Reveal from '../components/Reveal.jsx'
 import Icon from '../components/Icon.jsx'
-import { useToast } from '../components/Toast.jsx'
-import { getWardsMeta, getConsentText } from '../lib/cms.js'
-import { submitVolunteer } from '../lib/api.js'
+import { getBrand } from '../lib/cms.js'
+import './Volunteer.css'
 
-const SUPPORT_TYPES = ['Lawn Sign', 'Canvassing', 'Phone Calls', 'Election Day Help']
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+/**
+ * The campaign's own Google Form, embedded live — not a rebuilt copy. Responses
+ * land in the campaign's existing Google Sheet, and whoever edits the form owns
+ * the questions without touching this repo.
+ *
+ * NOTE ON `?embedded=true`
+ * -----------------------
+ * The embed URL Google hands out carries `?embedded=true`, and that variant of
+ * THIS form answers 401 "You must sign in to access this content" — verified in
+ * a real browser, at the top level as well as in a frame, with third-party
+ * cookies fully enabled, so it is not a cookie-blocking artefact. The same form
+ * without that parameter serves all 34 fields anonymously.
+ *
+ * That points at a response setting on the form itself (most likely "Collect
+ * email addresses: Verified", which forces a Google sign-in in the embedded
+ * view). Until that is changed in the form's settings, `embedded=true` would
+ * show a sign-in wall to every logged-out visitor — which is most voters — so
+ * the plain URL is used here. The cost is Google's own heading and footer
+ * inside the frame; the benefit is a form that anyone can actually fill in.
+ */
+const FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSfJL_r0wQYFvWvV_3C7qRHyh-GEXqJ_yyw4geYuM79NRExx7A/viewform'
+const FORM_SRC = FORM_URL
 
-const empty = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  ward: '',
-  support: [],
-  smsConsent: false,
-}
+/** What the campaign actually needs hands for. */
+const ROLES = [
+  { icon: 'pin', label: 'Door-to-door canvassing', note: 'Meet neighbours on their doorstep' },
+  { icon: 'people', label: 'Community outreach', note: 'Faith groups, associations, local events' },
+  { icon: 'star', label: 'Events & campaign support', note: 'Set-up, greeting, logistics' },
+  { icon: 'chat', label: 'Digital & social media', note: 'Content, sharing, replies' },
+]
 
 export default function Volunteer() {
-  const wards = getWardsMeta()
-  const consent = getConsentText()
-  const toast = useToast()
-  const [form, setForm] = useState(empty)
-  const [errors, setErrors] = useState({})
-  const [submitting, setSubmitting] = useState(false)
-  const [done, setDone] = useState(false)
-
-  const set = (key) => (e) => {
-    setForm((f) => ({ ...f, [key]: e.target.value }))
-    setErrors((x) => ({ ...x, [key]: undefined }))
-  }
-
-  const setValue = (key) => (value) => {
-    setForm((f) => ({ ...f, [key]: value }))
-    setErrors((x) => ({ ...x, [key]: undefined }))
-  }
-
-  const toggleSupport = (value) => {
-    setForm((f) => ({
-      ...f,
-      support: f.support.includes(value)
-        ? f.support.filter((v) => v !== value)
-        : [...f.support, value],
-    }))
-  }
-
-  const validate = () => {
-    const e = {}
-    if (!form.firstName.trim()) e.firstName = 'Please enter your first name.'
-    if (!form.lastName.trim()) e.lastName = 'Please enter your last name.'
-    if (!form.email.trim()) e.email = 'Please enter your email address.'
-    else if (!EMAIL_RE.test(form.email)) e.email = 'Please enter a valid email address.'
-
-    /* The consent box is the opt-in itself, so it never blocks a sign-up.
-       It only binds in the direction that matters: agreeing to be texted
-       requires a number to text. */
-    if (form.smsConsent && !form.phone.trim()) {
-      e.phone = 'Please add a phone number, or clear the text-message opt-in below.'
-      e.smsConsent = consent.requiredError
-    }
-    return e
-  }
-
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    const eObj = validate()
-    setErrors(eObj)
-    if (Object.keys(eObj).length) {
-      toast('Please fix the highlighted fields.', { type: 'error' })
-      return
-    }
-    setSubmitting(true)
-    try {
-      await submitVolunteer(form)
-    } catch {
-      // Scaffold: no server during local dev — proceed optimistically.
-    }
-    setSubmitting(false)
-    setDone(true)
-    toast('Thanks! Your volunteer sign-up is in.', { type: 'success' })
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+  const brand = getBrand()
 
   return (
     <>
       <PageHeader
-        eyebrow="Get Involved"
+        eyebrow="Get involved"
         title="Volunteer with the campaign"
         lede="Tell us how you'd like to help — every hour makes a difference."
       />
 
-      <section className="section">
-        <div className="container">
-          {done ? (
-            <div className="form-card thanks" role="status">
-              <span className="thanks__mark"><Icon name="check" size={34} strokeWidth={2.6} /></span>
-              <h2>Welcome to the team, {form.firstName}!</h2>
-              <p>
-                Thanks for signing up to volunteer. A member of our team will be in touch
-                shortly with next steps.
+      <section className="vol">
+        {/* Two flat navy/red shapes and the halftone screen the rest of the
+            site uses. No photograph: this section is a form, and the form is
+            what has to be legible. */}
+        <div className="vol__bg" aria-hidden="true">
+          <span className="vol__wash" />
+          <span className="vol__grid" />
+        </div>
+
+        <div className="container vol__inner">
+          {/* ---- Left: why ---- */}
+          <div className="vol__pitch">
+            <Reveal>
+              <span className="eyebrow">
+                <span className="tick tick--accent" /> Get involved
+              </span>
+              <h2 className="vol__title">
+                <span>Your community.</span>
+                <span>Your voice.</span>
+                <span className="vol__title-accent">Your impact.</span>
+              </h2>
+              <p className="vol__lede">
+                Join {brand.name}&rsquo;s campaign and help build stronger schools, stronger
+                communities, and a more accountable school board.
               </p>
-              <Button to="/" variant="primary">Back to home</Button>
-            </div>
-          ) : (
-            <div className="form-layout">
-              <form className="form-card" onSubmit={onSubmit} noValidate>
-                <div className="form-stack">
-                  <div className="form-row">
-                    <Field id="firstName" label="First name" required value={form.firstName}
-                      onChange={set('firstName')} error={errors.firstName} autoComplete="given-name" />
-                    <Field id="lastName" label="Last name" required value={form.lastName}
-                      onChange={set('lastName')} error={errors.lastName} autoComplete="family-name" />
-                  </div>
+            </Reveal>
 
-                  <div className="form-row">
-                    <Field id="email" type="email" label="Email" required value={form.email}
-                      onChange={set('email')} error={errors.email} autoComplete="email" />
-                    <Field id="phone" type="tel" label="Phone" value={form.phone}
-                      onChange={set('phone')} error={errors.phone}
-                      hint="Optional — needed only for text updates" autoComplete="tel" />
-                  </div>
+            <Reveal delay={90}>
+              <ul className="vol__roles">
+                {ROLES.map((r) => (
+                  <li key={r.label} className="vol__role">
+                    <span className="vol__role-icon" aria-hidden="true">
+                      <Icon name={r.icon} size={19} strokeWidth={2.1} />
+                    </span>
+                    <span className="vol__role-text">
+                      <strong>{r.label}</strong>
+                      <span>{r.note}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
 
-                  {/* Two city wards only — radios keep both visible and are
-                      quicker than a two-item dropdown, especially on mobile. */}
-                  <RadioGroup
-                    name="ward"
-                    legend={wards.legend}
-                    hint={wards.hint}
-                    options={wards.options}
-                    value={form.ward}
-                    onChange={setValue('ward')}
-                    error={errors.ward}
-                  />
+            <Reveal delay={150}>
+              <p className="vol__note">
+                <span className="tick tick--gold" aria-hidden="true" />
+                Every contribution of time makes a difference.
+              </p>
+            </Reveal>
+          </div>
 
-                  <fieldset className="check-fieldset">
-                    <legend className="form-legend">How would you like to help?</legend>
-                    <div className="checks">
-                      {SUPPORT_TYPES.map((t) => (
-                        <label key={t} className="check">
-                          <input type="checkbox" checked={form.support.includes(t)} onChange={() => toggleSupport(t)} />
-                          {t}
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
+          {/* ---- Right: the form itself ---- */}
+          <div className="vol__side">
+            <Reveal className="vol__card">
+              <div className="vol__card-head">
+                <h3 className="vol__card-title">Volunteer with Ketan</h3>
+                <p className="vol__card-sub">Tell us how you&rsquo;d like to help.</p>
+              </div>
 
-                  <ConsentCheckbox
-                    checked={form.smsConsent}
-                    onChange={setValue('smsConsent')}
-                    error={errors.smsConsent}
-                  />
+              <div className="vol__embed">
+                <iframe
+                  src={FORM_SRC}
+                  title="Volunteer sign-up form"
+                  className="vol__iframe"
+                  loading="lazy"
+                  /* Google renders its own submit button and confirmation
+                     inside the frame — nothing here intercepts, replays or
+                     re-styles the submission. */
+                >
+                  Loading the volunteer form&hellip;
+                </iframe>
+              </div>
 
-                  <Button variant="primary" size="lg" full className="form-submit" disabled={submitting}>
-                    {submitting ? 'Sending…' : 'Sign me up'}
-                  </Button>
-                  <p className="form-note">We'll only use your details to coordinate volunteering.</p>
-                </div>
-              </form>
+              {/* The frame can be blocked by tracking-protection settings or
+                  fail on a locked-down network, and an empty white box gives
+                  no way out. This is always present underneath it. */}
+              <p className="vol__fallback">
+                Form not loading?{' '}
+                <a href={FORM_URL} target="_blank" rel="noreferrer">
+                  Open it in a new tab
+                  <Icon name="external" size={14} />
+                </a>
+              </p>
+            </Reveal>
 
-              <aside className="form-aside">
-                <div className="aside-card">
-                  <h3>Ways to make an impact</h3>
-                  <p>Pick what fits your schedule — big or small, it all adds up.</p>
-                  <ul className="aside-list">
-                    <li><span className="tick tick--gold" /> Display a lawn sign in your yard</li>
-                    <li><span className="tick tick--gold" /> Knock on doors with our team</li>
-                    <li><span className="tick tick--gold" /> Make calls from home on your own time</li>
-                    <li><span className="tick tick--gold" /> Help get out the vote on election day</li>
-                  </ul>
-                </div>
-                <DonateCTA variant="panel" />
-              </aside>
-            </div>
-          )}
+            <Reveal delay={90}>
+              <DonateCTA variant="panel" />
+            </Reveal>
+          </div>
         </div>
       </section>
     </>

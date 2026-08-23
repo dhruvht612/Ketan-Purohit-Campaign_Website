@@ -1,0 +1,59 @@
+{
+  "_editing": "The FAQ page. Each entry is one question; `answer` holds paragraphs, `items` an optional bullet list, and `links` the 'find it here' links that follow. A link with `to` points inside this site; one with `href` points out to an external site and opens in a new tab. The three City of Toronto links below point at the City's elections hub — if the campaign has the exact deep links for the voters' list, registration and candidate list, paste them into `href` and nothing else needs changing.",
+
+  "eyebrow": "Questions",
+  "title": "Frequently asked questions",
+  "lede": "Voting dates, registering on the voters' list, and where to read more.",
+
+  "items": [
+    {
+      "id": "when",
+      "question": "When is the election?",
+      "items": [
+        "Advance voting — October 6 to October 11, 10 AM to 7 PM",
+        "Election day — October 26, 10 AM to 8 PM"
+      ]
+    },
+    {
+      "id": "eligibility",
+      "question": "How do I make sure I can vote in the next municipal election?",
+      "answer": ["Check that you are on the voters' list, and that your information is current."],
+      "links": [
+        {
+          "label": "Voters' list information",
+          "href": "https://www.toronto.ca/city-government/elections/"
+        }
+      ]
+    },
+    {
+      "id": "register",
+      "question": "How do I register on the voters' list?",
+      "answer": ["You can register as an eligible voter for the October 2026 election with the City of Toronto."],
+      "links": [
+        {
+          "label": "Register to vote",
+          "href": "https://www.toronto.ca/city-government/elections/"
+        }
+      ]
+    },
+    {
+      "id": "about-ketan",
+      "question": "Where can I learn more about Ketan?",
+      "answer": ["His background, why he is running, and his priorities as trustee."],
+      "links": [
+        { "label": "More about Ketan", "to": "/about" }
+      ]
+    },
+    {
+      "id": "other-candidates",
+      "question": "Where can I learn more about the other candidates?",
+      "answer": ["The names of the candidates running in this year's TDSB Trustee election in Ward 12 are published by the City of Toronto."],
+      "links": [
+        {
+          "label": "Ward 12 candidates",
+          "href": "https://www.toronto.ca/city-government/elections/"
+        }
+      ]
+    }
+  ]
+}

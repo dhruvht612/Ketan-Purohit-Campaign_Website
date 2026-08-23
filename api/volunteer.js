@@ -1,40 +1,46 @@
-import { readJson, methodGuard, isEmail, saveRecord, sendConfirmationEmail } from './_lib/util.js'
+import {
+  readJson, methodGuard, baseRecord, appendToSheet, sendConfirmationEmail,
+} from './_lib/util.js'
+
+const SERVICES = ['door', 'office', 'other']
 
 /**
  * POST /api/volunteer
- * Stores a volunteer sign-up and sends a confirmation email.
- * Currently scaffolded — saveRecord + sendConfirmationEmail are stubs until
- * you wire a datastore and email provider (see api/_lib/util.js).
+ * Appends a volunteer sign-up to the mailing-list sheet and sends the
+ * submitter their confirmation (sample 1).
  */
 export default async function handler(req, res) {
   if (!methodGuard(req, res)) return
 
   try {
     const data = await readJson(req)
-    const { firstName, lastName, email, phone = '', ward = '', support = [] } = data
+    const { record, error, drop } = baseRecord(data, 'volunteer-form')
 
-    if (!firstName?.trim() || !lastName?.trim()) {
-      return res.status(400).json({ ok: false, error: 'First and last name are required.' })
-    }
-    if (!isEmail(email)) {
-      return res.status(400).json({ ok: false, error: 'A valid email address is required.' })
-    }
+    /* The honeypot was filled: answer as though it worked, store nothing. */
+    if (drop) return res.status(200).json({ ok: true })
+    if (error) return res.status(400).json({ ok: false, error })
 
-    const record = {
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      email: email.trim().toLowerCase(),
-      phone: String(phone).trim(),
-      ward,
-      support: Array.isArray(support) ? support : [],
-      submittedAt: new Date().toISOString(),
-      source: 'volunteer-form',
+    /* Only the three services the form actually offers — an unrecognised
+       value came from something other than the form. */
+    const services = Array.isArray(data.services)
+      ? data.services.filter((s) => SERVICES.includes(s))
+      : []
+    if (!services.length) {
+      return res.status(400).json({ ok: false, error: 'Please choose at least one way you can help.' })
     }
 
-    const saved = await saveRecord('volunteers', record)
-    await sendConfirmationEmail('volunteer', record.email, record)
+    const full = {
+      ...record,
+      services,
+      otherServices: services.includes('other')
+        ? String(data.otherServices || '').trim()
+        : '',
+    }
 
-    return res.status(200).json({ ok: true, id: saved.id })
+    await appendToSheet('volunteers', full)
+    await sendConfirmationEmail('volunteer', full.email, full)
+
+    return res.status(200).json({ ok: true })
   } catch (err) {
     console.error('volunteer error', err)
     return res.status(500).json({ ok: false, error: 'Something went wrong. Please try again.' })

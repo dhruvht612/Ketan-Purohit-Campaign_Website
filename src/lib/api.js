@@ -22,6 +22,15 @@ async function post(path, payload) {
   return res.json()
 }
 
+/**
+ * Submit one of the Connect forms. `endpoint` is the bare name — 'volunteer',
+ * currently only 'volunteer' — so a page names what it is doing rather than
+ * repeating a path.
+ */
+export function submitForm(endpoint, data) {
+  return post(`/api/${endpoint}`, data)
+}
+
 /** Submit a volunteer sign-up. */
 export function submitVolunteer(data) {
   return post('/api/volunteer', data)

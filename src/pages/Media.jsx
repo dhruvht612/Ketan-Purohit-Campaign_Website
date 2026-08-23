@@ -2,7 +2,6 @@ import PageHeader from '../components/PageHeader.jsx'
 import MediaCard from '../components/MediaCard.jsx'
 import Reveal from '../components/Reveal.jsx'
 import Icon from '../components/Icon.jsx'
-import Button from '../components/Button.jsx'
 import { PlaceholderTag } from '../components/Editable.jsx'
 import { getMedia } from '../lib/cms.js'
 
@@ -54,12 +53,6 @@ export default function Media() {
               </div>
             </section>
           ))}
-
-          <Reveal className="center-cta">
-            <Button to="/pictures" variant="secondary" size="lg">
-              See campaign photos <Icon name="arrow" size={18} />
-            </Button>
-          </Reveal>
         </div>
       </section>
     </>

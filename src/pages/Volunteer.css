@@ -1,0 +1,211 @@
+/* =================================================================
+   Volunteer — campaign pitch on the left, the campaign's live Google
+   Form on the right.
+
+   The whole section is built around one constraint: the form is an
+   iframe on a Google origin, so nothing in here can style a single
+   pixel inside it. Everything this file does is therefore about the
+   frame around the frame — giving Google's plain white questionnaire
+   a card that belongs to the campaign, and keeping the page's own
+   colour and pattern well clear of it so the two never look like they
+   are fighting for the same space.
+   ================================================================= */
+.vol {
+  position: relative;
+  overflow: hidden;
+  background: var(--cream);
+  padding: clamp(48px, 6vw, 84px) 0 clamp(56px, 7vw, 96px);
+}
+
+/* ---- Background ----
+   Two soft washes and the halftone screen the rest of the site uses. Kept to
+   the left and the very top: the form card sits on the right, and a pattern
+   running under a white card only shows up as noise at its edges. */
+.vol__bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.vol__wash {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(58% 46% at 0% 0%, rgba(22, 51, 107, 0.09), transparent 64%),
+    radial-gradient(46% 40% at 6% 100%, rgba(240, 169, 43, 0.14), transparent 68%),
+    linear-gradient(104deg, #f7f4ed 0%, var(--cream) 52%, #efe9dc 100%);
+}
+.vol__grid {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(rgba(22, 51, 107, 0.12) 1.1px, transparent 1.2px),
+    radial-gradient(rgba(22, 51, 107, 0.12) 1.1px, transparent 1.2px);
+  background-size: 14px 14px;
+  background-position: 0 0, 7px 7px;
+  mask-image: radial-gradient(ellipse 60% 60% at 0% 12%, #000, transparent 74%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 60% at 0% 12%, #000, transparent 74%);
+}
+
+/* ---- Layout ----
+   40 / 60. The form is the reason for the page, so it takes the larger
+   column; Google's questions have their own internal measure and get cramped
+   below about 560px of card. */
+.vol__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 40fr) minmax(0, 60fr);
+  gap: clamp(28px, 4vw, 60px);
+  align-items: start;
+}
+
+/* ---- Left: the pitch ---- */
+.vol__pitch { position: relative; padding-top: 4px; }
+
+.vol__title {
+  margin-top: 14px;
+  font-size: clamp(2rem, 4vw, 3.05rem);
+  line-height: 1.02;
+  color: var(--navy);
+  text-transform: uppercase;
+}
+.vol__title span { display: block; }
+.vol__title-accent { color: var(--red); }
+
+.vol__lede {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 1.06rem;
+  max-width: 44ch;
+}
+
+/* Four roles. A rule down the left edge ties them into one list rather than
+   four floating rows — the flyer's bar motif at list scale. */
+.vol__roles {
+  display: grid;
+  gap: 2px;
+  margin-top: clamp(26px, 3vw, 36px);
+  border-left: 3px solid var(--red);
+  padding-left: clamp(16px, 2vw, 22px);
+}
+.vol__role {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 11px 12px 11px 0;
+  border-radius: var(--radius-sm);
+  transition: background-color .2s var(--ease), transform .2s var(--ease);
+}
+.vol__role:hover { background: rgba(22, 51, 107, 0.055); transform: translateX(3px); }
+.vol__role-icon {
+  flex: none;
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--navy-soft);
+  color: var(--navy);
+  transition: background-color .2s var(--ease), color .2s var(--ease);
+}
+.vol__role:hover .vol__role-icon { background: var(--navy); color: #fff; }
+.vol__role-text { display: grid; gap: 1px; min-width: 0; }
+.vol__role-text strong {
+  font-family: var(--display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.86rem;
+  color: var(--navy-900);
+}
+.vol__role-text span { font-size: 0.9rem; color: var(--muted-2); }
+
+.vol__note {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: clamp(24px, 3vw, 34px);
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-family: var(--display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.82rem;
+  color: var(--navy);
+}
+.vol__note .tick { flex: none; }
+
+/* ---- Right column ---- */
+.vol__side { display: grid; gap: clamp(18px, 2.4vw, 26px); }
+
+/* ---- The form card ----
+   Radius is on the card, and the card clips — that is what keeps Google's
+   square-cornered white page from poking out past the rounded corners. */
+.vol__card {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--line-cool);
+  /* The ruled top edge stays square, per the system rule in global.css:
+     heavy rules land on square edges. */
+  border-top: 5px solid var(--navy);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.vol__card-head {
+  padding: clamp(20px, 2.6vw, 28px) clamp(20px, 2.6vw, 30px) 0;
+}
+.vol__card-title {
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  color: var(--navy-900);
+  text-transform: uppercase;
+}
+.vol__card-sub { margin-top: 7px; color: var(--muted); font-size: 0.98rem; }
+
+/* ---- The embed ----
+   Google ships its own generous page padding inside the frame, so the card
+   adds only a little of its own — doubling them up leaves the questions
+   stranded in the middle of a very wide white box. */
+.vol__embed {
+  padding: 4px clamp(4px, 1vw, 12px) 0;
+}
+.vol__iframe {
+  display: block;
+  width: 100%;
+  height: 1100px;
+  border: 0;
+  /* The frame scrolls itself; this stops a stray horizontal bar on narrow
+     phones where Google's own min-width kicks in. */
+  max-width: 100%;
+}
+
+.vol__fallback {
+  padding: 4px clamp(20px, 2.6vw, 30px) clamp(18px, 2.2vw, 24px);
+  font-size: 0.88rem;
+  color: var(--muted-2);
+  border-top: 1px solid var(--line-soft);
+  margin-top: 6px;
+  padding-top: 16px;
+}
+.vol__fallback a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 3px;
+  transition: color .18s var(--ease), text-decoration-color .18s var(--ease);
+}
+.vol__fallback a:hover { color: var(--red); text-decoration-color: var(--red); }
+
+/* ---- Responsive ---- */
+@media (max-width: 1023px) {
+  .vol__inner { grid-template-columns: 1fr; gap: clamp(30px, 5vw, 44px); }
+  .vol__lede { max-width: 60ch; }
+  /* Two-up once the pitch has the full width to itself. */
+  .vol__roles { grid-template-columns: 1fr 1fr; gap: 2px 18px; }
+}
+@media (max-width: 620px) {
+  .vol__roles { grid-template-columns: 1fr; }
+  /* Google's form is taller once its fields stack, and a fixed 1100px would
+     leave the frame scrolling inside a page that is already scrolling. */
+  .vol__iframe { height: 1360px; }
+}
+@media (max-width: 420px) {
+  .vol__iframe { height: 1480px; }
+}

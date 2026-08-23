@@ -19,10 +19,9 @@ import quotes from '../content/quotes.json'
 import about from '../content/about.json'
 import issues from '../content/issues.json'
 import media from '../content/media.json'
-import gallery from '../content/gallery.json'
-import groups from '../content/groups.json'
 import wards from '../content/wards.json'
 import legal from '../content/legal.json'
+import faq from '../content/faq.json'
 
 /** True when a value is still an unfilled `[PLACEHOLDER]` slot. */
 export const isPlaceholder = (value) =>
@@ -43,11 +42,15 @@ export const isDonationLive = () => {
   return Boolean(url) && !isPlaceholder(url) && /^https?:\/\//i.test(url)
 }
 
-export const getQuotes = () => quotes
+/** The designed campaign boards on the homepage carousel, in running order. */
+export const getQuotes = () => quotes.items
 export const getQuoteCategories = () =>
-  Array.from(new Set(quotes.map((q) => q.category)))
+  Array.from(new Set(quotes.items.map((q) => q.category)))
 
 export const getAbout = () => about
+
+/** The FAQ page: voting dates, registration, and where to read more. */
+export const getFaq = () => faq
 export const getIssues = () => issues
 export const getIssue = (id) => issues.find((i) => i.id === id) || null
 
@@ -55,14 +58,6 @@ export const getMedia = () => media
 /** Back-compat alias — the Media page was originally called "News". */
 export const getNews = () => media
 
-export const getGallery = () => gallery.items
-export const getGalleryMeta = () => gallery
-export const getGalleryCategories = () => [
-  'All',
-  ...Array.from(new Set(gallery.items.map((g) => g.category))),
-]
-
-export const getGroups = () => groups
 export const getWards = () => wards.options
 export const getWardsMeta = () => wards
 

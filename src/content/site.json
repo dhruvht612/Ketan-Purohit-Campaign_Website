@@ -12,7 +12,7 @@
     "script": "Experienced. Dedicated.",
     "scriptLine2": "Committed to our children.",
     "footerLine": "Our Schools. Our Future.",
-    "motto": "Integrity · Vision · Leadership",
+    "motto": "Integrity • Vision • Service",
     "intro": "A dedicated, full-time voice for Ward 12 — putting students first, treating parents as partners, and bringing real accountability back to the board."
   },
 
@@ -22,7 +22,7 @@
   },
 
   "contact": {
-    "email": "[CAMPAIGN EMAIL]",
+    "email": "trusteeketan@gmail.com",
     "phone": "(647) 968-3787",
     "office": {
       "line1": "[CAMPAIGN OFFICE NAME]",
@@ -32,18 +32,17 @@
     "mapQuery": ""
   },
 
+  "_social": "Paste each channel's full URL into `href` and the icon goes live everywhere it appears — nav, footer, contact and the News & Updates page. An entry with an empty `href` renders as a flagged placeholder rather than a dead link. Add X or YouTube back as further entries if the campaign opens them.",
   "social": [
     { "label": "Facebook", "handle": "[FACEBOOK HANDLE]", "href": "" },
-    { "label": "Instagram", "handle": "[INSTAGRAM HANDLE]", "href": "" },
-    { "label": "X", "handle": "[X HANDLE]", "href": "" },
-    { "label": "YouTube", "handle": "[YOUTUBE CHANNEL]", "href": "" }
+    { "label": "Instagram", "handle": "[INSTAGRAM HANDLE]", "href": "" }
   ],
 
   "donation": {
-    "_editing": "Paste the campaign's Zeffy / Square (or other) donation URL into `url` and the whole donation area — hero button, nav, footer and the Donate page — switches from placeholder to live. Nothing else needs changing.",
-    "url": "[DONATION LINK]",
+    "_editing": "`url` is the campaign's live Zeffy donation form. It is the single place the destination is set: the hero button, the nav, the footer and the Donate page all read it. Replacing it with a different platform's URL (and `provider` with its name) moves every donate button at once; blanking it puts them all back to a flagged, disabled state rather than a dead link.",
+    "url": "https://www.zeffy.com/en-CA/donation-form/support-the-campaign-invest-in-childrens-future",
     "label": "Donate",
-    "provider": "[DONATION PLATFORM]",
+    "provider": "Zeffy",
     "headline": "Support the campaign",
     "blurb": "Contributions fund lawn signs, door-knocking, and reaching every family across the ward.",
     "suggestedAmounts": [25, 50, 100, 250]

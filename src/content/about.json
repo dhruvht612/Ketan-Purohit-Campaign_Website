@@ -1,27 +1,74 @@
 {
-  "_editing": "The About area. `photo.src` takes the final portrait (drop the file in /public/images and reference it, e.g. \"/images/ketan-about.jpg\"). `intro` is the short lead paragraph; `biography` is the long-form write-up — add as many paragraphs to the array as you need. Anything left in [SQUARE BRACKETS] renders with a visible placeholder flag, so no draft text is ever mistaken for the candidate's real biography.",
+  "_editing": "The About area, used by the homepage summary and in full on /about. `photo.src` takes the final portrait (drop the file in /public/images and reference it, e.g. \"/images/ketan-about.jpg\"); left empty it falls back to the site portrait. `intro` and `motto` are the lead statement that sits beside the photo. `bring`, `whyRunning` and `priorities` are the three blocks of the candidate's own copy, in the order they appear on the page — every word in them is the campaign's, not drafted here. Anything left in [SQUARE BRACKETS] renders with a visible placeholder flag.",
 
   "eyebrow": "Meet the candidate",
-  "title": "About Ketan Purohit",
+  "title": "Ketan Purohit",
 
   "photo": {
     "src": "",
-    "alt": "[PHOTO — main About portrait of Ketan Purohit]",
-    "caption": "[PHOTO CAPTION]"
+    "alt": "Ketan Purohit, candidate for TDSB Ward 12 Trustee",
+    "caption": ""
   },
 
-  "intro": "[SHORT INTRODUCTION — one or two sentences introducing Ketan, to sit directly under the About heading. Supplied by the campaign.]",
+  "intro": "Elect trustee Ketan Purohit for TDSB Ward 12",
+  "motto": "Integrity • Vision • Service",
 
-  "biography": [
-    "[BIOGRAPHY PARAGRAPH 1 — Ketan's full biography, in the campaign's own words. Nothing here is drafted on the campaign's behalf.]",
-    "[BIOGRAPHY PARAGRAPH 2 — background, community involvement, and why he is running.]",
-    "[BIOGRAPHY PARAGRAPH 3 — add or remove paragraphs freely; the layout adapts.]"
-  ],
+  "bring": {
+    "title": "What do I bring?",
+    "paragraphs": [
+      "Hi, I am Ketan Purohit, and I bring over 30 years of experience working with municipalities and public institutions, giving me a strong understanding of governance, accountability, and community needs. As a Mechanical Engineering graduate, a devoted husband of 34 years, and the proud father of two successful children, I understand the importance of quality education and strong family values.",
+      "For more than 25 years, I have been actively involved in youth programs and volunteer work with non-profit organizations, helping young people reach their full potential. Having lived and traveled in diverse communities around the world, I value inclusion, respect, and opportunity for all. As your School Trustee, I am committed to supporting student success, strengthening partnerships with families, and ensuring responsible stewardship of education resources."
+    ]
+  },
+
+  "whyRunning": {
+    "title": "Why I am running",
+    "lead": "I believe every child deserves:",
+    "items": [
+      "A safe and respectful learning environment as a fundamental human right.",
+      "Equal opportunities for success as per their own qualities and strengths.",
+      "Strong moral and character development to become a better citizen.",
+      "Support for mental well-being for reducing crime and increasing family values.",
+      "Schools that work together with families and communities for inclusion and representation."
+    ]
+  },
+
+  "priorities": {
+    "eyebrow": "A trustee who will listen, lead & serve",
+    "title": "My priorities",
+    "items": [
+      {
+        "id": "student-success",
+        "label": "Student Success",
+        "text": "Supporting academic excellence, life skills, and student confidence."
+      },
+      {
+        "id": "parent-voice",
+        "label": "Parent & Community Voice",
+        "text": "Ensuring parents and communities are heard in school board decisions."
+      },
+      {
+        "id": "safe-inclusive",
+        "label": "Safe & Inclusive Schools",
+        "text": "Promoting respect, discipline, anti-bullying, and student well-being."
+      },
+      {
+        "id": "accountability",
+        "label": "Accountability & Transparency",
+        "text": "Responsible decision-making with students' best interests first."
+      },
+      {
+        "id": "cultural-respect",
+        "label": "Cultural Respect & Values",
+        "text": "Encouraging diversity, heritage, and mutual respect within education."
+      }
+    ]
+  },
 
   "highlights": [
-    { "id": "h1", "label": "[HIGHLIGHT 1]", "value": "[—]" },
-    { "id": "h2", "label": "[HIGHLIGHT 2]", "value": "[—]" },
-    { "id": "h3", "label": "[HIGHLIGHT 3]", "value": "[—]" }
+    { "id": "h1", "value": "30+", "label": "Years with municipalities and public institutions" },
+    { "id": "h2", "value": "25+", "label": "Years in youth programs and volunteer work" },
+    { "id": "h3", "value": "34", "label": "Years married, and father of two" }
   ],
 
   "cta": {

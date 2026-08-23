@@ -1,23 +1,50 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import Placeholder from './Placeholder.jsx'
 import Icon from './Icon.jsx'
-import JoinForm from './JoinForm.jsx'
-import { getSite } from '../lib/cms.js'
+import Button from './Button.jsx'
+import { getSite, getDonation, isDonationLive } from '../lib/cms.js'
 import './Hero.css'
 
-/** The ghosted schoolhouse that sits behind the flyer's portrait. */
+/**
+ * The ghosted schoolhouse the candidate stands in front of.
+ *
+ * Line art, not a watermark: an even stroke weight throughout, a wider eave
+ * than the wall it caps so the roof reads as a roof, a belfry over the ridge,
+ * and a low fence running off both sides to give the building a ground line
+ * instead of leaving it floating. Drawn on a 240x190 field with the fence at
+ * the very bottom edge, so it can be anchored to the base of the hero and sit
+ * behind the portrait rather than hovering in a corner.
+ */
 function Schoolhouse(props) {
   return (
-    <svg viewBox="0 0 200 180" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true" {...props}>
-      <path d="M100 14v22" />
-      <path d="M100 16h24l-8 7 8 7h-24" fill="currentColor" stroke="none" />
-      <path d="M40 74 100 36l60 38" strokeLinejoin="round" />
-      <rect x="52" y="74" width="96" height="92" />
-      <rect x="86" y="118" width="28" height="48" />
-      <circle cx="100" cy="94" r="13" />
-      <path d="M100 87v7l5 4" />
-      <rect x="62" y="118" width="16" height="18" />
-      <rect x="122" y="118" width="16" height="18" />
+    <svg
+      viewBox="0 0 240 190"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      {/* flagpole and pennant over the belfry */}
+      <path d="M120 6v20" />
+      <path d="M120 8h20l-6 5.5 6 5.5h-20" fill="currentColor" stroke="none" />
+      {/* belfry */}
+      <path d="M108 44v-9a12 12 0 0 1 24 0v9" />
+      {/* roof: eaves overhang the wall on both sides */}
+      <path d="M52 88 120 44l68 44" />
+      <path d="M46 88h148" />
+      {/* wall, clock, door and windows */}
+      <path d="M60 88v82h120V88" />
+      <circle cx="120" cy="112" r="12" />
+      <path d="M120 105v7l5 4" />
+      <path d="M104 170v-32a16 16 0 0 1 32 0v32" />
+      <rect x="74" y="128" width="18" height="20" rx="1.5" />
+      <rect x="148" y="128" width="18" height="20" rx="1.5" />
+      {/* ground line and fence */}
+      <path d="M4 170h56M180 170h56" />
+      <path d="M18 162v14M34 162v14M206 162v14M222 162v14" />
     </svg>
   )
 }
@@ -49,6 +76,8 @@ function PaintBlock(props) {
 export default function Hero() {
   const site = getSite()
   const { brand } = site
+  const donation = getDonation()
+  const donationLive = isDonationLive()
   const reduce = useReducedMotion()
 
   const rise = (delay) => ({
@@ -57,89 +86,103 @@ export default function Hero() {
     transition: { duration: 0.65, delay, ease: [0.22, 0.61, 0.36, 1] },
   })
 
-  /* The flyer sets the last word of the tagline in gold. */
-  const tagline = brand.tagline || ''
-  const highlight = brand.taglineHighlight || ''
-  const taglineHead = highlight ? tagline.replace(highlight, '').trim() : tagline
-
   return (
-    <>
-      <section className="hero" aria-label="Introduction">
-        <div className="hero__bg" aria-hidden="true">
-          <span className="hero__wash" />
-          <Schoolhouse className="hero__school" />
-          <span className="hero__grid" />
+    <section className="hero" aria-label="Introduction">
+      {/* Background, back to front: the warm cream wash and its left-to-right
+          shift, the halftone dot screen, the schoolhouse line art, then a
+          soft pool of shade the candidate stands in. Every layer is CSS or
+          inline SVG — no background photograph to download, and nothing that
+          can out-weigh the portrait or the name lockup. */}
+      <div className="hero__bg" aria-hidden="true">
+        <span className="hero__wash" />
+        <span className="hero__grid" />
+        <Schoolhouse className="hero__school" />
+        <span className="hero__glow" />
+      </div>
+
+      <div className="container hero__inner">
+        <div className="hero__copy">
+          <motion.span className="hero__eyebrow" {...rise(0.05)}>
+            <span className="hero__star" aria-hidden="true">★</span>
+            {brand.election}
+            <span className="hero__star" aria-hidden="true">★</span>
+          </motion.span>
+
+          <motion.h1 className="hero__title" {...rise(0.12)}>
+            <span className="hero__title-first">{brand.firstName}</span>
+            <span className="hero__title-last">{brand.lastName}</span>
+          </motion.h1>
+
+          <motion.p className="hero__for" {...rise(0.2)}>
+            <Icon name="cap" size={20} strokeWidth={2} />
+            For
+          </motion.p>
+          <motion.p className="hero__role" {...rise(0.24)}>
+            {brand.role}
+          </motion.p>
+
+          <motion.p className="hero__lede" {...rise(0.32)}>
+            {brand.intro}
+          </motion.p>
+
+          {/* The two things the hero is actually asking for. Donate leads —
+              it is the one action with a deadline on it — and goes straight
+              out to the campaign's donation platform; Volunteer stays on the
+              site. Both read their destination from the CMS, so neither can
+              drift from the rest of the site. */}
+          <motion.div className="hero__actions" {...rise(0.4)}>
+            {donationLive ? (
+              <Button
+                href={donation.url}
+                variant="accent"
+                size="lg"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                {donation.label} <Icon name="arrow" size={18} />
+              </Button>
+            ) : (
+              /* No donation URL set: a disabled button rather than a dead
+                 link, matching how DonateCTA behaves everywhere else. */
+              <Button variant="accent" size="lg" disabled title="Donation link not connected yet">
+                {donation.label} <Icon name="arrow" size={18} />
+              </Button>
+            )}
+            <Button to="/volunteer" variant="secondary" size="lg">
+              Volunteer <Icon name="arrow" size={18} />
+            </Button>
+          </motion.div>
         </div>
 
-        <div className="container hero__inner">
-          <div className="hero__copy">
-            <motion.span className="hero__eyebrow" {...rise(0.05)}>
-              <span className="hero__star" aria-hidden="true">★</span>
-              {brand.election}
-              <span className="hero__star" aria-hidden="true">★</span>
-            </motion.span>
-
-            <motion.h1 className="hero__title" {...rise(0.12)}>
-              <span className="hero__title-first">{brand.firstName}</span>
-              <span className="hero__title-last">{brand.lastName}</span>
-            </motion.h1>
-
-            <motion.p className="hero__for" {...rise(0.2)}>
-              <Icon name="cap" size={20} strokeWidth={2} />
-              For
-            </motion.p>
-            <motion.p className="hero__role" {...rise(0.24)}>
-              {brand.role}
-            </motion.p>
-
-            <motion.p className="hero__lede" {...rise(0.32)}>
-              {brand.intro}
-            </motion.p>
-
-            <motion.div className="hero__join" {...rise(0.4)}>
-              <JoinForm />
-            </motion.div>
+        {/* Deliberately not a motion element. The portrait is composited into
+            the page with mix-blend-mode (see Hero.css), and any transform or
+            opacity on an ancestor would isolate the blend group and bring the
+            photo's flat backdrop back as a pale rectangle. */}
+        <div className="hero__media">
+          {/* The source frame carries 324px (24%) of empty backdrop above
+              the head. The ratio below crops most of it against the bottom
+              edge — object-fit: cover on .ph-img makes the cut — so the
+              candidate fills the column instead of floating in dead space,
+              and none of him is lost. */}
+          <div className="hero__portrait">
+            <Placeholder
+              src={site.images.portrait}
+              monogram
+              alt={`${brand.name}, candidate for ${brand.role}`}
+              ratio="1152 / 1160"
+              rounded="0"
+              objectPosition="center bottom"
+              loading="eager"
+              fetchPriority="high"
+            />
           </div>
-
-          {/* Deliberately not a motion element. The portrait is composited into
-              the page with mix-blend-mode (see Hero.css), and any transform or
-              opacity on an ancestor would isolate the blend group and bring the
-              photo's flat backdrop back as a pale rectangle. */}
-          <div className="hero__media">
-            {/* The source frame carries 324px (24%) of empty backdrop above
-                the head. The ratio below crops most of it against the bottom
-                edge — object-fit: cover on .ph-img makes the cut — so the
-                candidate fills the column instead of floating in dead space,
-                and none of him is lost. */}
-            <div className="hero__portrait">
-              <Placeholder
-                src={site.images.portrait}
-                monogram
-                alt={`${brand.name}, candidate for ${brand.role}`}
-                ratio="1152 / 1160"
-                rounded="0"
-                objectPosition="center bottom"
-                loading="eager"
-              />
-            </div>
-            <div className="hero__badge">
-              <PaintBlock className="hero__badge-paint" />
-              <p className="script hero__badge-script">{brand.script}</p>
-              <p className="hero__badge-line">{brand.scriptLine2}</p>
-            </div>
+          <div className="hero__badge">
+            <PaintBlock className="hero__badge-paint" />
+            <p className="script hero__badge-script">{brand.script}</p>
+            <p className="hero__badge-line">{brand.scriptLine2}</p>
           </div>
-        </div>
-      </section>
-
-      {/* The flyer's navy tagline band */}
-      <div className="hero__band">
-        <div className="container hero__band-inner">
-          <p className="hero__band-text">
-            {taglineHead} {highlight && <em>{highlight}</em>}
-          </p>
-          <p className="script hero__band-script">{brand.footerLine}</p>
         </div>
       </div>
-    </>
+    </section>
   )
 }

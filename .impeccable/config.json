@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/components/CampaignCarousel.css"
+        ],
+        "createdAt": "2026-08-23T17:59:06.360Z",
+        "reason": "user confirmed: brief sections 17-18 specify this exact element - 'Under the carousel, use a very thin campaign accent line... red + gold. Keep it approximately 3-5px. This should act as a visual separator.' .cc is a full-bleed campaign band, not a card, and ruled edges are an existing convention in this design system (global.css .card--ruled, .bar-accent, the nav masthead rule)."
+      }
+    ]
+  }
+}

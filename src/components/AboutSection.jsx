@@ -7,20 +7,28 @@ import { getAbout, getSite } from '../lib/cms.js'
 import './AboutSection.css'
 
 /**
- * The About block — used on the homepage and on /about.
+ * The About block — used on the homepage and in full on /about.
  *
- * Everything it shows comes from src/content/about.json: the large photo, the
- * heading, the short intro, the long-form biography, optional highlights and
- * an optional CTA. Slots still in [BRACKETS] render flagged as placeholders.
+ * Everything it shows comes from src/content/about.json, and it follows the
+ * campaign's own running order: the portrait and the lead statement, then
+ * "What do I bring?", then why he is running, then the priorities. Slots still
+ * in [BRACKETS] render flagged as placeholders.
  *
- * `compact` trims the long biography down to the intro for the homepage, so
- * the full write-up lives on /about without duplicating it.
+ * `compact` is the homepage cut: portrait, lead statement, and the opening
+ * paragraph of the bio. Everything else — the rest of the bio, why he is
+ * running, the priorities — lives on /about, so nothing is said twice and the
+ * priorities do not land directly above the homepage's issues preview.
+ *
+ * The two long blocks carry `id`s because the About menu in the header links
+ * straight to them.
  */
 export default function AboutSection({ compact = false }) {
   const about = getAbout()
   const site = getSite()
   const highlights = (about.highlights || []).filter(Boolean)
-  const showHighlights = highlights.length > 0
+  const why = about.whyRunning
+  const priorities = about.priorities
+  const bring = about.bring
 
   return (
     <section className="section about" id="about">
@@ -45,7 +53,7 @@ export default function AboutSection({ compact = false }) {
             )}
           </figure>
 
-          {showHighlights && (
+          {highlights.length > 0 && (
             <ul className="about__stats">
               {highlights.map((h) => (
                 <li key={h.id} className="about__stat">
@@ -63,22 +71,65 @@ export default function AboutSection({ compact = false }) {
               <span className="tick tick--accent" /> {about.eyebrow}
             </span>
             <h2 className="section-title about__title bar-accent">{about.title}</h2>
+            {/* The flyer's lead statement: the ask, then the three words the
+                campaign runs on. */}
             <Text as="p" value={about.intro} className="about__lede" />
+            {about.motto && <p className="about__motto">{about.motto}</p>}
+            {/* On the homepage the lead statement is a single line, so the
+                opening paragraph of the bio comes with it — otherwise the
+                block is a photo and a slogan. The rest is on /about. */}
+            {compact && bring?.paragraphs?.[0] && (
+              <p className="about__compact-bio">{bring.paragraphs[0]}</p>
+            )}
           </Reveal>
 
-          {!compact && (
-            <Reveal delay={90} className="about__bio">
-              <h3 className="about__bio-title">Biography</h3>
+          {!compact && bring && (
+            <Reveal delay={90} className="about__bio" id="bring">
+              <h3 className="about__bio-title">{bring.title}</h3>
               <Paragraphs
-                items={about.biography}
+                items={bring.paragraphs}
                 placeholder="[BIOGRAPHY — to be supplied by the campaign.]"
                 tagLabel="Biography to be supplied"
               />
             </Reveal>
           )}
 
+          {!compact && why?.items?.length > 0 && (
+            <Reveal delay={120} className="about__why" id="why">
+              <h3 className="about__bio-title">{why.title}</h3>
+              {why.lead && <p className="about__why-lead">{why.lead}</p>}
+              <ul className="about__why-list">
+                {why.items.map((item) => (
+                  <li key={item}>
+                    <span className="tick tick--gold" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          )}
+
+          {!compact && priorities?.items?.length > 0 && (
+            <Reveal delay={150} className="about__priorities" id="priorities">
+              {priorities.eyebrow && (
+                <span className="eyebrow about__priorities-eyebrow">
+                  <span className="tick tick--gold" /> {priorities.eyebrow}
+                </span>
+              )}
+              <h3 className="about__bio-title">{priorities.title}</h3>
+              <ul className="about__priority-list">
+                {priorities.items.map((p) => (
+                  <li key={p.id} className="about__priority">
+                    <span className="about__priority-label">{p.label}</span>
+                    <span className="about__priority-text">{p.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          )}
+
           {about.cta?.enabled && (
-            <Reveal delay={140} className="about__cta">
+            <Reveal delay={190} className="about__cta">
               <Button to={about.cta.to} variant="primary" size="lg">
                 {about.cta.label} <Icon name="arrow" size={18} />
               </Button>

@@ -79,10 +79,10 @@ export default function Donate() {
 
               {!live && (
                 <div className="placeholder-note">
-                  <strong>For the campaign team:</strong> the donation platform
-                  ({donation.provider}) isn't connected yet. Paste the real Zeffy / Square
-                  link into <code>donation.url</code> in <code>src/content/site.json</code>{' '}
-                  and every donate button across the site activates.
+                  <strong>For the campaign team:</strong> {donation.provider} isn't
+                  connected yet. Paste the {donation.provider} checkout link into{' '}
+                  <code>donation.url</code> in <code>src/content/site.json</code> and every
+                  donate button across the site activates.
                 </div>
               )}
 

@@ -15,23 +15,60 @@
   padding: clamp(20px, 3vw, 44px) 0 0;
 }
 
-/* ---- Background: flyer paper + ghosted schoolhouse ---- */
+/* ---- Background ----
+   Five stacked layers, all of them low contrast on purpose. The rule for the
+   whole stack: nothing here may read as an object in its own right. If a layer
+   becomes something you look AT rather than something the page is printed on,
+   it is too strong. */
 .hero__bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+
+/* Layer 1 + 2 — the paper. A left-to-right shift does the real work: the copy
+   side stays the lightest surface on the page so the navy/red lockup keeps its
+   full contrast, and the stock warms and deepens toward the right, giving the
+   candidate a ground to stand against instead of flat cream. The two radials
+   on top keep it from reading as a mechanical gradient. */
 .hero__wash {
   position: absolute; inset: 0;
   background:
-    radial-gradient(120% 80% at 80% 0%, rgba(22, 51, 107, 0.09), transparent 62%),
-    radial-gradient(80% 60% at 0% 100%, rgba(240, 169, 43, 0.13), transparent 65%);
+    radial-gradient(120% 80% at 82% 0%, rgba(22, 51, 107, 0.075), transparent 60%),
+    radial-gradient(70% 55% at 2% 96%, rgba(240, 169, 43, 0.12), transparent 68%),
+    linear-gradient(100deg, #faf8f4 0%, #f5f2eb 46%, #efe9dc 100%);
 }
-/* Held fainter than it was: with the portrait no longer boxed in a white card,
-   this sits in open background directly behind the candidate and would
-   otherwise compete with him. */
+
+/* Layer 4 — the schoolhouse.
+   Anchored to the base of the hero and overlapping the portrait rather than
+   pinned to a corner: it sits behind the candidate as a setting, and the
+   darken composite lets its lines pass behind his silhouette exactly as they
+   would on the printed flyer. Kept under 5% so it never becomes a watermark —
+   at these widths a 2.6px stroke is already plenty to read. */
 .hero__school {
   position: absolute;
-  top: 3%; right: 1%;
-  width: min(40%, 400px);
+  right: 1%;
+  top: 7%;
+  width: min(43%, 440px);
   color: var(--navy);
   opacity: 0.05;
+}
+
+/* Layer 5 — the shade the candidate stands in.
+   A wide, very soft pool of navy centred on the portrait. Because the photo is
+   composited with `darken`, this also darkens the frame's own backdrop where
+   it overlaps, so the cutout gains a halo that separates him from the paper
+   without any shadow on the image itself — which would give the rectangle
+   away. Wide and closest-side so the falloff never draws an edge. */
+.hero__glow {
+  position: absolute;
+  right: -4%;
+  bottom: -14%;
+  width: min(62%, 780px);
+  aspect-ratio: 1 / 1;
+  background: radial-gradient(
+    closest-side,
+    rgba(22, 51, 107, 0.085),
+    rgba(22, 51, 107, 0.05) 46%,
+    rgba(22, 51, 107, 0.018) 70%,
+    transparent 84%
+  );
 }
 /* A halftone dot screen, not a blueprint grid: the flyer was printed, and
    coarse dots are what that stock actually shows under magnification. Two
@@ -125,7 +162,17 @@
   color: var(--muted);
   max-width: 46ch;
 }
-.hero__join { margin-top: clamp(26px, 3vw, 36px); }
+.hero__actions {
+  margin-top: clamp(26px, 3vw, 36px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+/* Both buttons go full width once they can no longer sit side by side — a
+   half-width button on a phone reads as a fragment of a row. */
+@media (max-width: 420px) {
+  .hero__actions { flex-direction: column; align-items: stretch; }
+}
 
 /* ---- Portrait ----
    No card: the candidate stands directly in the hero, grounded on its bottom
@@ -209,34 +256,6 @@
   color: var(--gold);
 }
 
-/* ---- The flyer's navy tagline band ---- */
-.hero__band {
-  position: relative;
-  z-index: 1;
-  background: var(--navy);
-  color: #fff;
-}
-.hero__band-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  padding: clamp(18px, 2.6vw, 26px) 0;
-}
-.hero__band-text {
-  font-family: var(--display);
-  font-variation-settings: "wdth" 90;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  font-size: clamp(1.05rem, 2.5vw, 1.7rem);
-  line-height: 1.2;
-  margin: 0;
-}
-.hero__band-text em { font-style: normal; color: var(--gold); }
-.hero__band-script { color: var(--gold); white-space: nowrap; }
-
 /* ---- Tablet: still two columns ----
    The composition only works side by side, and at 760px+ it still does: the
    name lockup, the role line and the two-up form row all fit the left column,
@@ -250,7 +269,7 @@
     min-height: 0;
   }
   .hero__lede { font-size: 1rem; max-width: 40ch; }
-  .hero__join { margin-top: 22px; }
+  .hero__actions { margin-top: 22px; }
   .joinform .field__control { min-height: 46px; padding: 10px 13px; }
   .hero__badge {
     left: 2%;
@@ -258,7 +277,7 @@
     width: min(96%, 400px);
     padding: 13px 18px 20px 27px;
   }
-  .hero__school { width: 34%; opacity: 0.045; }
+  .hero__school { width: 40%; opacity: 0.04; }
 }
 
 @media (max-width: 760px) {
@@ -285,13 +304,10 @@
     width: min(100%, 420px);
     padding: 15px 20px 22px 30px;
   }
-  /* Stacked, a schoolhouse pinned to the top-right sits beside the headline
-     with nothing to anchor it. Re-parked over the portrait, where it reads as
-     the backdrop the candidate stands against — the darken composite lets its
-     lines run behind him exactly as on the flyer. */
-  .hero__school { top: auto; bottom: 6%; right: -6%; width: 62%; opacity: 0.05; }
-}
-@media (max-width: 560px) {
-  .hero__band-inner { justify-content: flex-start; }
-  .hero__band-script { display: none; }
+  /* Stacked, the portrait moves to the bottom of the hero and both background
+     accents have to follow it. Left where it is, the schoolhouse would sit
+     behind the name lockup instead — a watermark over the headline, which is
+     exactly what it must never be. */
+  .hero__school { top: auto; bottom: 14%; right: 4%; width: 62%; }
+  .hero__glow { right: -14%; bottom: -8%; width: 108%; }
 }

@@ -80,6 +80,73 @@
    at 3px it read as an accent bar the content never earned. */
 .about__bio .prose { border-left: 1px solid var(--line); padding-left: 20px; }
 
+/* The three campaign words, directly under the ask. Set in the display face
+   and spaced out, so it reads as a motto rather than as a third line of the
+   lede it follows. */
+.about__motto {
+  margin-top: 10px;
+  font-family: var(--display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.86rem;
+  color: var(--navy-900);
+}
+
+.about__compact-bio {
+  margin-top: 18px;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 62ch;
+}
+
+/* ---- Why I am running ---- */
+.about__why { margin-top: 30px; }
+.about__why-lead { color: var(--muted); margin-bottom: 14px; }
+.about__why-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+  max-width: 62ch;
+}
+.about__why-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.about__why-list .tick { --tick-size: 20px; flex: 0 0 auto; margin-top: 2px; }
+
+/* ---- My priorities ----
+   A definition-style list: the priority is the thing being named, its line is
+   the gloss. Ruled between rows rather than boxed — five cards here would
+   compete with the issue cards further down the page. */
+.about__priorities { margin-top: 34px; }
+.about__priorities-eyebrow { margin-bottom: 10px; }
+.about__priority-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+.about__priority {
+  display: grid;
+  grid-template-columns: minmax(170px, 15rem) 1fr;
+  gap: 6px 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.about__priority-label {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--navy-900);
+}
+.about__priority-text { color: var(--muted); line-height: 1.5; }
+
 .about__cta {
   display: flex;
   align-items: center;
@@ -91,6 +158,9 @@
 @media (max-width: 880px) {
   .about__grid { grid-template-columns: 1fr; }
   .about__media { position: static; max-width: 440px; }
+}
+@media (max-width: 620px) {
+  .about__priority { grid-template-columns: 1fr; gap: 2px; }
 }
 @media (max-width: 480px) {
   .about__stats { grid-template-columns: 1fr; }

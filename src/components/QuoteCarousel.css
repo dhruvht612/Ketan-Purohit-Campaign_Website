@@ -68,37 +68,89 @@
 .qc__btn:hover:not(:disabled) { background: var(--gold); border-color: var(--gold); color: var(--navy-900); }
 .qc__btn:disabled { opacity: 0.32; cursor: not-allowed; }
 
-/* ---- The scroll track ---- */
-.qc__track {
+/* ---- The moving track ----------------------------------------------------
+   Three nested jobs, kept on three elements so they never interfere:
+
+     .qc__viewport  what you can see — full-bleed, clipped, faded at the edges
+     .qc__shift     where the user has pushed it — arrows and topic jumps
+     .qc__track     the marquee — one animation, started once, never restarted
+
+   The travel distance (--qc-span) and the duration (--qc-duration) are written
+   from JS after measuring the real laid-out track: span is the distance from
+   card 1 to card N+1, and duration is span / 35px-per-second. A hard-coded
+   duration would change speed with the card count and the viewport; a
+   hard-coded -50% would be half a flex gap short of a whole list and lurch
+   once per loop.
+   -------------------------------------------------------------------------- */
+.qc__viewport {
   position: relative;
-  display: flex;
-  gap: clamp(16px, 2vw, 24px);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  /* Inset so card 1 lines up with the page container, and the last card can
-     still reach the left edge. */
-  padding-inline: max(22px, calc((100vw - var(--maxw)) / 2));
-  padding-block: 6px 22px;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  overflow: hidden;
+  /* Cards dissolve into the navy at both ends instead of being guillotined by
+     the clip. Held to a narrow band so no card body is ever dimmed. */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
 }
-.qc__track::-webkit-scrollbar { display: none; }
-.qc__track:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
+
+.qc__shift {
+  transform: translate3d(0, 0, 0);
+  transition-property: transform;
+  transition-duration: 0ms;
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.qc__track {
+  display: flex;
+  width: max-content;
+  gap: clamp(16px, 2vw, 24px);
+  /* Card 1 lines up with the page container at rest. */
+  padding-inline: max(22px, calc((100vw - var(--maxw)) / 2));
+  /* Room for the cards' drop shadow inside the clipped viewport. */
+  padding-block: 8px 24px;
+  animation: qc-marquee var(--qc-duration, 240s) linear infinite;
+}
+@keyframes qc-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(-1 * var(--qc-span, 0px)), 0, 0); }
+}
+/* Hover, focus, off-screen, hidden tab, or the pause button. Play-state holds
+   the track exactly where it is and resumes from there — it never rewinds. */
+.qc.is-paused .qc__track { animation-play-state: paused; }
+
+.qc__cell { display: flex; }
 
 @media (max-width: 560px) {
-  .qc__track { padding-inline: 16px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .qc__track { scroll-behavior: auto; }
+  .qc__track { padding-inline: 16px; gap: 16px; }
 }
 
-/* ---- Statement card ---- */
+/* No motion at all when it is not wanted: the list is rendered once (see
+   QuoteCarousel.jsx) and the viewport becomes an ordinary horizontal
+   scroller. The arrows and topic buttons drive it exactly as before. */
+@media (prefers-reduced-motion: reduce) {
+  .qc__viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .qc__viewport::-webkit-scrollbar { display: none; }
+  .qc__viewport:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
+  .qc__track { animation: none; width: max-content; }
+  .qc__shift { transform: none !important; transition: none; }
+  .qcard { scroll-snap-align: start; }
+}
+
+/* ---- Campaign board card ----
+   The artwork is the card. These boards are 3:2 designs with their own
+   headline and four supporting lines set into them, so the card carries no
+   copy of its own beyond the topic name in the foot — and it has to be wide
+   enough for those baked-in lines to be worth showing at all. At the upper
+   clamp a board is 600px wide, which puts its supporting lines at roughly
+   13px; below that the headline still reads and the expand control is how the
+   rest is reached. */
 .qcard {
   flex: 0 0 auto;
-  width: clamp(255px, 78vw, 330px);
-  scroll-snap-align: start;
+  width: clamp(300px, 86vw, 600px);
   background: #fff;
   /* Squared foot under the 5px topic rule — the ruled-edge convention. */
   border-radius: var(--radius) var(--radius) 0 0;
@@ -111,73 +163,90 @@
 }
 .qcard--red { border-bottom-color: var(--red); }
 .qcard--gold { border-bottom-color: var(--gold); }
-.qcard.is-active { transform: translateY(-4px); }
+/* Hovering is also what halts the track, so the lift reads as "this one has
+   stopped for you" rather than as decoration. */
+.qcard.is-active,
+.qcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 
-.qcard__media { position: relative; }
+/* The whole board is the button that opens it full size. */
+.qcard__media {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  line-height: 0;
+}
 .qcard__media .ph { border: 0; border-bottom: 1px solid var(--line); }
-.qcard__topic {
+.qcard__media:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: -3px;
+}
+
+/* Resting at low contrast against the artwork's own pale left column, and
+   coming forward on hover or focus — it is an affordance, not a badge. */
+.qcard__zoom {
   position: absolute;
-  left: 12px; bottom: 12px;
+  top: 10px; right: 10px;
+  width: 34px; height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  background: rgba(12, 30, 66, 0.52);
+  backdrop-filter: blur(2px);
+  opacity: 0.75;
+  transition: opacity .25s var(--ease), background-color .25s var(--ease);
+}
+.qcard__media:hover .qcard__zoom,
+.qcard__media:focus-visible .qcard__zoom { opacity: 1; background: var(--navy); }
+
+.qcard__foot {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px 13px;
+  border-top: 1px solid var(--line-cool);
+}
+/* Real text, not the headline painted into the board: this is the one label
+   that stays legible at every card width, and it names the expand button's
+   target for anyone reading the foot instead of the artwork. */
+.qcard__topic {
   font-family: var(--display);
-  font-size: 0.64rem;
+  font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: #fff;
-  background: var(--navy);
-  padding: 6px 11px;
-  border-radius: var(--radius-sm);
-  max-width: calc(100% - 24px);
-}
-.qcard--red .qcard__topic { background: var(--red); }
-.qcard--gold .qcard__topic { background: var(--gold); color: var(--navy-900); }
-
-.qcard__body {
-  position: relative;
-  padding: 22px 22px 20px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-.qcard__mark { color: var(--navy-soft); margin-bottom: 6px; }
-.qcard--red .qcard__mark { color: var(--red-soft); }
-.qcard--gold .qcard__mark { color: var(--gold-soft); }
-
-.qcard__quote {
-  font-family: var(--display);
-  font-variation-settings: "wdth" 92;
-  font-weight: 800;
-  font-size: 1.28rem;
-  line-height: 1.16;
-  letter-spacing: -0.005em;
   color: var(--navy-900);
-  flex: 1;
 }
+.qcard--red .qcard__topic { color: var(--red); }
+.qcard--gold .qcard__topic { color: #8a6206; }
 
-.qcard__by {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line-cool);
-  font-size: 0.82rem;
-  color: var(--muted);
-}
-.qcard__by .tick { --tick-size: 18px; }
-.qcard--red .qcard__by .tick { background: var(--red); }
-.qcard--gold .qcard__by .tick { background: var(--gold); }
-.qcard--gold .qcard__by .tick::after { border-color: var(--navy-900); }
-.qcard__by strong {
+/* ---- One board, full size ---- */
+.lightbox__inner--board { max-width: min(1180px, 94vw); }
+.qc__board {
   display: block;
-  font-family: var(--display);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: 0.8rem;
-  color: var(--navy-900);
+  width: 100%;
+  max-height: 74vh;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
 }
-.qcard__role { display: block; font-size: 0.74rem; color: var(--muted-2); }
+/* The board's own lines, repeated as text — the last resort on a phone, where
+   even the full-size artwork cannot render them large enough to read. */
+.qc__board-lines {
+  list-style: none;
+  margin: 16px auto 0;
+  padding: 0;
+  display: grid;
+  gap: 8px 26px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  max-width: 900px;
+  color: #dbe4f4;
+  font-size: 0.92rem;
+}
+.qc__board-lines li { display: flex; align-items: center; gap: 10px; }
+.qc__board-lines .tick { --tick-size: 17px; flex: 0 0 auto; }
 
 /* ---- Footer: topic dots + counter ---- */
 .qc__foot {
@@ -190,6 +259,8 @@
 }
 .qc__dots { display: flex; flex-wrap: wrap; gap: 8px; }
 .qc__dot {
+  position: relative;
+  overflow: hidden;
   min-height: 34px;
   padding: 6px 12px;
   border-radius: var(--radius-sm);
@@ -207,13 +278,43 @@
     color .2s var(--ease);
 }
 .qc__dot:hover { border-color: var(--gold); color: #fff; }
+/* The topic being read now. The label stays white on navy rather than going
+   dark on a solid gold chip: the chip is no longer solid — the gold is the
+   progress bar underneath it, and white-on-gold would fail contrast the
+   moment the bar reached the text. */
 .qc__dot.is-active {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: var(--navy-900);
+  background: rgba(240, 169, 43, 0.14);
+  border-color: rgba(240, 169, 43, 0.6);
+  color: #fff;
 }
+.qc__dot-label { position: relative; z-index: 1; }
+
+/* How far the track has travelled through this topic. Written from JS twice a
+   second; the linear transition draws the frames in between. Linear, not
+   eased — the track moves at a constant rate and the bar must not pretend
+   otherwise.
+   Drawn at full width and scaled, rather than animated by width: scaleX is a
+   compositor transform, where a width transition would relayout the bar on
+   every frame of every fill. --qc-fill is therefore a ratio, not a
+   percentage. Corners are left square — .qc__dot clips them to its own
+   radius, which is what makes the collapsed mobile pill work. */
+.qc__dot-fill {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  background: var(--gold);
+  transform: scaleX(var(--qc-fill, 0));
+  transform-origin: left center;
+  transition: transform 520ms linear;
+}
+/* Nothing to report for a topic that is not on screen — and no 520ms wipe
+   back to zero as the track leaves it. */
+.qc__dot:not(.is-active) .qc__dot-fill { transition: none; transform: scaleX(0); }
 .qc__count {
   font-family: var(--display);
+  text-transform: uppercase;
   font-weight: 700;
   font-size: 0.82rem;
   letter-spacing: 0.1em;
@@ -249,7 +350,13 @@
     padding: 0; margin: -1px; overflow: hidden;
     clip: rect(0 0 0 0); white-space: nowrap; border: 0;
   }
-  .qc__dot.is-active { width: 30px; border-radius: 6px; }
+  /* Collapsed to a pill, the whole dot becomes the progress bar — there is no
+     room beside a 12px circle for a separate one. */
+  .qc__dot.is-active { width: 34px; border-radius: 7px; }
+  /* Stretched between the edges rather than given a height: the collapsed
+     pill carries a 2px border, and `height: 100%` would resolve against the
+     content box and leave the bar floating short of the top. */
+  .qc__dot-fill { top: 0; bottom: 0; height: auto; }
 }
 @media (max-width: 480px) {
   .qc__foot { justify-content: space-between; }

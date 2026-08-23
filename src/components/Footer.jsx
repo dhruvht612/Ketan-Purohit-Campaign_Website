@@ -44,12 +44,10 @@ export default function Footer() {
           <p className="footer__script script">{brand.footerLine}</p>
         </div>
 
-        <nav className="footer__col" aria-label="Take action">
-          <h3 className="footer__h">Take action</h3>
+        <nav className="footer__col" aria-label="Connect">
+          <h3 className="footer__h">Connect</h3>
           <Link to="/volunteer">Volunteer</Link>
-          <Link to="/donate">Donate</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/groups">Groups</Link>
+          <Link to="/donate">Contribute</Link>
         </nav>
 
         <nav className="footer__col" aria-label="Campaign">
@@ -57,7 +55,7 @@ export default function Footer() {
           <Link to="/about">About Ketan</Link>
           <Link to="/issues">Issues</Link>
           <Link to="/media">News &amp; Media</Link>
-          <Link to="/pictures">Photos</Link>
+          <Link to="/faq">FAQ</Link>
         </nav>
 
         <nav className="footer__col" aria-label="Legal and information">

@@ -83,6 +83,16 @@ const paths = {
       <path d="M19 14v4.5A1.5 1.5 0 0 1 17.5 20h-11A1.5 1.5 0 0 1 5 18.5v-11A1.5 1.5 0 0 1 6.5 6H11" />
     </>
   ),
+  /* Four corners pushing outward — "see this bigger", not "go somewhere else",
+     which is what `external` would say. */
+  expand: (
+    <>
+      <path d="M9 4H5.5A1.5 1.5 0 0 0 4 5.5V9" />
+      <path d="M15 4h3.5A1.5 1.5 0 0 1 20 5.5V9" />
+      <path d="M20 15v3.5a1.5 1.5 0 0 1-1.5 1.5H15" />
+      <path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20H9" />
+    </>
+  ),
   pause: (
     <>
       <rect x="7" y="5" width="3.4" height="14" rx="1" fill="currentColor" stroke="none" />
