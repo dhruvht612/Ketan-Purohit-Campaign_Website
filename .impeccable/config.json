@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-08-23T17:59:06.360Z",
         "reason": "user confirmed: brief sections 17-18 specify this exact element - 'Under the carousel, use a very thin campaign accent line... red + gold. Keep it approximately 3-5px. This should act as a visual separator.' .cc is a full-bleed campaign band, not a card, and ruled edges are an existing convention in this design system (global.css .card--ruled, .bar-accent, the nav masthead rule)."
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/pages/Volunteer.css"
+        ],
+        "createdAt": "2026-08-24T23:23:21.675Z",
+        "reason": "False positive: .vol__card pairs border-top:5px with border-radius:0 0 lg lg, so the ruled edge is square. This follows the documented 'heavy rules land on square edges' system rule at src/styles/global.css:306."
       }
     ]
   }

@@ -1,8 +1,6 @@
 import Hero from '../components/Hero.jsx'
 import QuoteCarousel from '../components/QuoteCarousel.jsx'
 import AboutSection from '../components/AboutSection.jsx'
-import DonateCTA from '../components/DonateCTA.jsx'
-import Reveal from '../components/Reveal.jsx'
 import { getQuotes } from '../lib/cms.js'
 
 export default function Home() {
@@ -22,15 +20,6 @@ export default function Home() {
       />
 
       <AboutSection compact />
-
-      {/* Donation CTA */}
-      <section className="section section--cream">
-        <div className="container">
-          <Reveal>
-            <DonateCTA variant="band" />
-          </Reveal>
-        </div>
-      </section>
     </>
   )
 }

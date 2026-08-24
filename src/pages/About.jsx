@@ -1,7 +1,5 @@
 import PageHeader from '../components/PageHeader.jsx'
 import AboutSection from '../components/AboutSection.jsx'
-import DonateCTA from '../components/DonateCTA.jsx'
-import Reveal from '../components/Reveal.jsx'
 import { getAbout } from '../lib/cms.js'
 
 export default function About() {
@@ -17,14 +15,6 @@ export default function About() {
 
       {/* Full About block: large photo, intro, complete biography, CTA. */}
       <AboutSection />
-
-      <section className="section section--tint">
-        <div className="container">
-          <Reveal>
-            <DonateCTA variant="band" />
-          </Reveal>
-        </div>
-      </section>
     </>
   )
 }

@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import PageHeader from '../components/PageHeader.jsx'
 import Reveal from '../components/Reveal.jsx'
 import Icon from '../components/Icon.jsx'
-import DonateCTA from '../components/DonateCTA.jsx'
 import { getFaq } from '../lib/cms.js'
 
 /**
@@ -75,14 +74,6 @@ export default function Faq() {
               </Reveal>
             ))}
           </ul>
-        </div>
-      </section>
-
-      <section className="section section--tint">
-        <div className="container">
-          <Reveal>
-            <DonateCTA variant="band" />
-          </Reveal>
         </div>
       </section>
     </>

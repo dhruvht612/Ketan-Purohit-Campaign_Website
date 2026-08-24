@@ -1,5 +1,4 @@
 import PageHeader from '../components/PageHeader.jsx'
-import DonateCTA from '../components/DonateCTA.jsx'
 import Reveal from '../components/Reveal.jsx'
 import Icon from '../components/Icon.jsx'
 import Button from '../components/Button.jsx'
@@ -33,8 +32,30 @@ export default function Donate() {
         <div className="container">
           <div className="donate-layout">
             <div className="donate-main">
-              <Reveal>
-                <DonateCTA variant="band" />
+              {/* The hand-off itself. The page header above already makes the
+                  ask, so this is the button and nothing else — a second
+                  headline here would only repeat the one directly above it. */}
+              <Reveal className="donate-go">
+                {live ? (
+                  <Button
+                    href={donation.url}
+                    variant="accent"
+                    size="lg"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    {donation.label} <Icon name="arrow" size={18} />
+                  </Button>
+                ) : (
+                  /* No URL set: disabled rather than a dead link. The note in
+                     the sidebar explains why to the campaign team. */
+                  <Button variant="accent" size="lg" disabled title="Donation link not connected yet">
+                    {donation.label} <Icon name="arrow" size={18} />
+                  </Button>
+                )}
+                <p className="donate-go__note">
+                  Donations are processed securely by {donation.provider}.
+                </p>
               </Reveal>
 
               <Reveal delay={80} className="donate-amounts">

@@ -1,5 +1,4 @@
 import PageHeader from '../components/PageHeader.jsx'
-import DonateCTA from '../components/DonateCTA.jsx'
 import Reveal from '../components/Reveal.jsx'
 import Icon from '../components/Icon.jsx'
 import { getBrand } from '../lib/cms.js'
@@ -131,10 +130,6 @@ export default function Volunteer() {
                   <Icon name="external" size={14} />
                 </a>
               </p>
-            </Reveal>
-
-            <Reveal delay={90}>
-              <DonateCTA variant="panel" />
             </Reveal>
           </div>
         </div>

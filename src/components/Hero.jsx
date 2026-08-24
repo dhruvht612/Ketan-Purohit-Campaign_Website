@@ -143,7 +143,7 @@ export default function Hero() {
               </Button>
             ) : (
               /* No donation URL set: a disabled button rather than a dead
-                 link, matching how DonateCTA behaves everywhere else. */
+                 link, matching the Donate page. */
               <Button variant="accent" size="lg" disabled title="Donation link not connected yet">
                 {donation.label} <Icon name="arrow" size={18} />
               </Button>
