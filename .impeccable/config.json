@@ -20,6 +20,15 @@
         ],
         "createdAt": "2026-08-24T23:23:21.675Z",
         "reason": "False positive: .vol__card pairs border-top:5px with border-radius:0 0 lg lg, so the ruled edge is square. This follows the documented 'heavy rules land on square edges' system rule at src/styles/global.css:306."
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/QuoteCarousel.css"
+        ],
+        "createdAt": "2026-08-24T23:41:54.930Z",
+        "reason": "False positive: .qc__stage pairs border-top:5px with border-top-left-radius:0 and border-top-right-radius:0 (L71-72), so the ruled edge is square and no radius is crossed. Follows the documented 'heavy rules land on square edges' system rule at src/styles/global.css:306."
       }
     ]
   }

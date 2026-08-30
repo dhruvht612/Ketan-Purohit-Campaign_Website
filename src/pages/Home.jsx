@@ -16,7 +16,7 @@ export default function Home() {
         cards={quotes}
         eyebrow={null}
         title="Where Ketan stands"
-        lede="Six campaign boards, one per theme. Open any of them to read it full size."
+        lede="Six campaign boards, one per theme. Swipe, or pick one from the strip below."
       />
 
       <AboutSection compact />
