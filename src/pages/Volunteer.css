@@ -1,211 +1,347 @@
 /* =================================================================
-   Volunteer — campaign pitch on the left, the campaign's live Google
-   Form on the right.
+   Volunteer sign-up form (Formspree)
 
-   The whole section is built around one constraint: the form is an
-   iframe on a Google origin, so nothing in here can style a single
-   pixel inside it. Everything this file does is therefore about the
-   frame around the frame — giving Google's plain white questionnaire
-   a card that belongs to the campaign, and keeping the page's own
-   colour and pattern well clear of it so the two never look like they
-   are fighting for the same space.
+   A single white card on a light ground, centred in the page. Deliberately
+   quieter than the rest of the site: this page has one job, and the flyer's
+   heavy navy bands and ruled edges would compete with a form this long.
+   Brand still shows in the accents — the label face, the red required marks,
+   the navy selected states and the gold focus ring — so it reads as part of
+   the site rather than a bolted-on widget.
    ================================================================= */
-.vol {
-  position: relative;
-  overflow: hidden;
-  background: var(--cream);
-  padding: clamp(48px, 6vw, 84px) 0 clamp(56px, 7vw, 96px);
-}
+.vf-section { background: var(--cream); }
+.vf-wrap { width: min(100% - 40px, 780px); margin-inline: auto; }
 
-/* ---- Background ----
-   Two soft washes and the halftone screen the rest of the site uses. Kept to
-   the left and the very top: the form card sits on the right, and a pattern
-   running under a white card only shows up as noise at its edges. */
-.vol__bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.vol__wash {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(58% 46% at 0% 0%, rgba(22, 51, 107, 0.09), transparent 64%),
-    radial-gradient(46% 40% at 6% 100%, rgba(240, 169, 43, 0.14), transparent 68%),
-    linear-gradient(104deg, #f7f4ed 0%, var(--cream) 52%, #efe9dc 100%);
-}
-.vol__grid {
-  position: absolute; inset: 0;
-  background-image:
-    radial-gradient(rgba(22, 51, 107, 0.12) 1.1px, transparent 1.2px),
-    radial-gradient(rgba(22, 51, 107, 0.12) 1.1px, transparent 1.2px);
-  background-size: 14px 14px;
-  background-position: 0 0, 7px 7px;
-  mask-image: radial-gradient(ellipse 60% 60% at 0% 12%, #000, transparent 74%);
-  -webkit-mask-image: radial-gradient(ellipse 60% 60% at 0% 12%, #000, transparent 74%);
-}
-
-/* ---- Layout ----
-   40 / 60. The form is the reason for the page, so it takes the larger
-   column; Google's questions have their own internal measure and get cramped
-   below about 560px of card. */
-.vol__inner {
-  position: relative;
+.vf {
+  /* No green in the site palette — the campaign runs navy/red/gold — so the
+     one "you're done" colour is defined here rather than invented globally. */
+  --vf-go: #2e7d4f;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 2px rgba(16, 32, 64, 0.04), 0 12px 32px -12px rgba(16, 32, 64, 0.14);
+  padding: clamp(22px, 4vw, 44px);
   display: grid;
-  grid-template-columns: minmax(0, 40fr) minmax(0, 60fr);
-  gap: clamp(28px, 4vw, 60px);
-  align-items: start;
+  gap: clamp(20px, 2.6vw, 26px);
 }
 
-/* ---- Left: the pitch ---- */
-.vol__pitch { position: relative; padding-top: 4px; }
-
-.vol__title {
-  margin-top: 14px;
-  font-size: clamp(2rem, 4vw, 3.05rem);
-  line-height: 1.02;
-  color: var(--navy);
-  text-transform: uppercase;
-}
-.vol__title span { display: block; }
-.vol__title-accent { color: var(--red); }
-
-.vol__lede {
-  margin-top: 18px;
-  color: var(--muted);
-  font-size: 1.06rem;
-  max-width: 44ch;
-}
-
-/* Four roles. A rule down the left edge ties them into one list rather than
-   four floating rows — the flyer's bar motif at list scale. */
-.vol__roles {
-  display: grid;
-  gap: 2px;
-  margin-top: clamp(26px, 3vw, 36px);
-  border-left: 3px solid var(--red);
-  padding-left: clamp(16px, 2vw, 22px);
-}
-.vol__role {
+/* ---- Progress meter ---- */
+.vf__progress { display: grid; gap: 8px; }
+.vf__progress-row {
   display: flex;
-  align-items: flex-start;
-  gap: 13px;
-  padding: 11px 12px 11px 0;
-  border-radius: var(--radius-sm);
-  transition: background-color .2s var(--ease), transform .2s var(--ease);
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
 }
-.vol__role:hover { background: rgba(22, 51, 107, 0.055); transform: translateX(3px); }
-.vol__role-icon {
-  flex: none;
-  width: 34px; height: 34px;
-  display: grid; place-items: center;
-  border-radius: var(--radius-sm);
-  background: var(--navy-soft);
-  color: var(--navy);
-  transition: background-color .2s var(--ease), color .2s var(--ease);
-}
-.vol__role:hover .vol__role-icon { background: var(--navy); color: #fff; }
-.vol__role-text { display: grid; gap: 1px; min-width: 0; }
-.vol__role-text strong {
-  font-family: var(--display);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  font-size: 0.86rem;
-  color: var(--navy-900);
-}
-.vol__role-text span { font-size: 0.9rem; color: var(--muted-2); }
-
-.vol__note {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  margin-top: clamp(24px, 3vw, 34px);
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
+.vf__progress-label {
   font-family: var(--display);
   font-weight: 700;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.82rem;
-  color: var(--navy);
+  letter-spacing: 0.12em;
+  color: var(--muted-2);
 }
-.vol__note .tick { flex: none; }
-
-/* ---- Right column ---- */
-.vol__side { display: grid; gap: clamp(18px, 2.4vw, 26px); }
-
-/* ---- The form card ----
-   Radius is on the card, and the card clips — that is what keeps Google's
-   square-cornered white page from poking out past the rounded corners. */
-.vol__card {
-  position: relative;
-  background: #fff;
-  border: 1px solid var(--line-cool);
-  /* The ruled top edge stays square, per the system rule in global.css:
-     heavy rules land on square edges. */
-  border-top: 5px solid var(--navy);
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-  box-shadow: var(--shadow);
+.vf__progress-pct {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted-2);
+  transition: color .3s var(--ease);
+}
+.vf__progress-pct.is-ready { color: var(--vf-go); }
+.vf__progress-track {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--navy-mist);
   overflow: hidden;
 }
-.vol__card-head {
-  padding: clamp(20px, 2.6vw, 28px) clamp(20px, 2.6vw, 30px) 0;
-}
-.vol__card-title {
-  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
-  color: var(--navy-900);
-  text-transform: uppercase;
-}
-.vol__card-sub { margin-top: 7px; color: var(--muted); font-size: 0.98rem; }
-
-/* ---- The embed ----
-   Google ships its own generous page padding inside the frame, so the card
-   adds only a little of its own — doubling them up leaves the questions
-   stranded in the middle of a very wide white box. */
-.vol__embed {
-  padding: 4px clamp(4px, 1vw, 12px) 0;
-}
-.vol__iframe {
+.vf__progress-bar {
   display: block;
-  width: 100%;
-  height: 1100px;
-  border: 0;
-  /* The frame scrolls itself; this stops a stray horizontal bar on narrow
-     phones where Google's own min-width kicks in. */
-  max-width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--navy);
+  transition: background-color .3s var(--ease);
+}
+.vf__progress-bar.is-ready { background: var(--vf-go); }
+
+/* ---- Fields ---- */
+.vf__row { display: grid; gap: clamp(16px, 2vw, 20px); }
+.vf__row--2 { grid-template-columns: 1fr 1fr; }
+.vf__field { display: grid; gap: 7px; align-content: start; }
+
+.vf__label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--navy-900);
+  padding: 0;
+}
+.vf__req { color: var(--red); }
+.vf__opt {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--muted-2);
+  text-transform: none;
 }
 
-.vol__fallback {
-  padding: 4px clamp(20px, 2.6vw, 30px) clamp(18px, 2.2vw, 24px);
-  font-size: 0.88rem;
-  color: var(--muted-2);
-  border-top: 1px solid var(--line-soft);
-  margin-top: 6px;
-  padding-top: 16px;
+.vf__control {
+  width: 100%;
+  /* 16px minimum: anything smaller makes iOS Safari zoom the page on focus. */
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--ink);
+  min-height: 50px;
+  padding: 13px 16px;
+  background: #fff;
+  border: 1px solid var(--line-cool);
+  border-radius: var(--radius-sm);
+  transition: border-color .18s var(--ease), box-shadow .18s var(--ease);
 }
-.vol__fallback a {
+.vf__control::placeholder { color: #9aa4b8; }
+.vf__control:hover { border-color: #c3d0e6; }
+.vf__control:focus {
+  outline: none;
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(22, 51, 107, 0.14);
+}
+.vf__control.has-error { border-color: var(--danger); background: #fdf5f5; }
+.vf__control.has-error:focus { box-shadow: 0 0 0 3px rgba(178, 34, 52, 0.14); }
+
+select.vf__control {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2356617a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 44px;
+}
+/* The unselected placeholder option reads as placeholder text, not as an answer. */
+select.vf__control:invalid,
+select.vf__control:has(option[value=""]:checked) { color: #9aa4b8; }
+
+textarea.vf__control { resize: vertical; min-height: 116px; line-height: 1.55; }
+
+.vf__error {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--danger);
+  margin: 0;
+}
+
+/* ---- Groups (radio + checkbox) ---- */
+.vf__group { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; }
+.vf__group-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.vf__badge {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: var(--navy-soft);
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+/* ---- Yes / No pills ---- */
+.vf__yesno { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.vf__pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-cool);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink);
+  transition: border-color .18s var(--ease), background .18s var(--ease), color .18s var(--ease);
+}
+.vf__pill:hover { border-color: #c3d0e6; background: var(--navy-mist); }
+.vf__pill.is-on {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: #fff;
+}
+/* The radio itself is the accessible control; it is covered by the pill, not
+   removed, so keyboard focus and screen readers still find it. */
+.vf__pill input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+.vf__pill:has(input:focus-visible) { outline: 3px solid var(--gold); outline-offset: 2px; }
+.vf__group.has-error .vf__pill { border-color: var(--danger); }
+
+/* ---- Checkbox grid ---- */
+.vf__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.vf__check {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 11px 13px;
+  border: 1px solid var(--line-cool);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  color: var(--ink);
+  transition: border-color .18s var(--ease), background .18s var(--ease), transform .18s var(--ease);
+}
+.vf__check:hover { border-color: #c3d0e6; background: var(--navy-mist); }
+.vf__check:active { transform: scale(0.985); }
+.vf__check.is-on { border-color: var(--navy); background: var(--navy-soft); }
+.vf__check input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+.vf__check:has(input:focus-visible) { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* A drawn box rather than the native control, so the tick can animate and the
+   checked state matches the navy used everywhere else. */
+.vf__box {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--line-cool);
+  border-radius: 5px;
+  background: #fff;
+  color: transparent;
+  transition: background .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease);
+}
+.vf__check.is-on .vf__box {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+.vf__box svg { transform: scale(0.6); opacity: 0; transition: transform .18s var(--ease), opacity .18s var(--ease); }
+.vf__check.is-on .vf__box svg { transform: scale(1); opacity: 1; }
+.vf__check-text { min-width: 0; }
+
+/* ---- Error banner ---- */
+.vf__alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  overflow: hidden;
+  color: #8c1b2b;
+  background: #fdf1f2;
+  border: 1px solid #f3ccd2;
+  border-radius: var(--radius-sm);
+  padding: 13px 16px;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.vf__alert svg { flex: none; margin-top: 1px; }
+
+/* ---- Submit ---- */
+.vf__submit { display: grid; gap: 10px; }
+.vf__button {
+  width: 100%;
+  min-height: 56px;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  color: var(--navy);
-  font-weight: 600;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-decoration-color: var(--gold);
-  text-underline-offset: 3px;
-  transition: color .18s var(--ease), text-decoration-color .18s var(--ease);
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: var(--radius-btn);
+  background: var(--red);
+  color: #fff;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 0.98rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
 }
-.vol__fallback a:hover { color: var(--red); text-decoration-color: var(--red); }
+.vf__button:hover:not(:disabled) {
+  background: var(--red-700);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.vf__button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.vf__button:disabled { opacity: 0.72; cursor: progress; transform: none; }
 
-/* ---- Responsive ---- */
-@media (max-width: 1023px) {
-  .vol__inner { grid-template-columns: 1fr; gap: clamp(30px, 5vw, 44px); }
-  .vol__lede { max-width: 60ch; }
-  /* Two-up once the pitch has the full width to itself. */
-  .vol__roles { grid-template-columns: 1fr 1fr; gap: 2px 18px; }
+.vf__spinner {
+  width: 17px; height: 17px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  animation: vf-spin .7s linear infinite;
 }
-@media (max-width: 620px) {
-  .vol__roles { grid-template-columns: 1fr; }
-  /* Google's form is taller once its fields stack, and a fixed 1100px would
-     leave the frame scrolling inside a page that is already scrolling. */
-  .vol__iframe { height: 1360px; }
+@keyframes vf-spin { to { transform: rotate(360deg); } }
+
+.vf__fineprint { font-size: 0.84rem; color: var(--muted-2); text-align: center; }
+
+/* ---- Success ---- */
+.vf--done { text-align: center; justify-items: center; padding: clamp(38px, 6vw, 64px); }
+.vf__done-mark {
+  width: 76px; height: 76px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  color: #2e7d4f;
 }
-@media (max-width: 420px) {
-  .vol__iframe { height: 1480px; }
+.vf__done-title { font-size: clamp(1.7rem, 4vw, 2.2rem); color: var(--navy-900); }
+.vf__done-text { color: var(--muted); max-width: 44ch; }
+.vf__done-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+.vf__again {
+  background: none;
+  border: 0;
+  padding: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.vf__again:hover { color: var(--red); }
+
+/* ---- Responsive: one column on mobile ---- */
+@media (max-width: 760px) {
+  .vf__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .vf__row--2 { grid-template-columns: 1fr; }
+  .vf__grid { grid-template-columns: 1fr; }
+  .vf-wrap { width: min(100% - 28px, 780px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf__spinner { animation-duration: 1.6s; }
+  .vf__check:active { transform: none; }
 }
