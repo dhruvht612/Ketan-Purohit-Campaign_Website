@@ -12,7 +12,11 @@
   --hero-bleed: clamp(0px, (100vw - var(--maxw)) / 2 - 20px, 110px);
   /* Kept tight so the whole composition — name through sign-up, and the
      candidate head to foot — lands inside the first viewport. */
-  padding: clamp(20px, 3vw, 44px) 0 0;
+  /* The masthead is fixed and transparent at rest, so the wash above runs
+     under it to the top of the viewport and the two read as one surface. The
+     hero carries the header's height itself; the total clearance above the
+     eyebrow is unchanged from when the header sat in flow. */
+  padding: calc(var(--nav-h) + clamp(0px, 1.4vw, 22px)) 0 0;
 }
 
 /* ---- Background ----
@@ -70,6 +74,25 @@
     transparent 84%
   );
 }
+/* Dark theme: the same pool, inverted in role. On cream it is a shade the
+   candidate stands in; on the dark paper it has to be a light he stands in
+   front of, or he has nothing to separate from. Geometry is untouched — only
+   the paint — so neither theme shifts by a pixel. Kept low and wide: it is a
+   ground for him, not a spotlight on him, and it must never read as a glow
+   in its own right. */
+[data-theme='dark'] .hero__glow {
+  background: radial-gradient(
+    closest-side,
+    rgba(126, 169, 245, 0.15),
+    rgba(126, 169, 245, 0.085) 46%,
+    rgba(126, 169, 245, 0.03) 70%,
+    transparent 84%
+  );
+}
+/* The schoolhouse is a line drawing at 5% — enough on cream, too thin to
+   register once it is pale ink on a dark ground. */
+[data-theme='dark'] .hero__school { opacity: 0.08; }
+
 /* A halftone dot screen, not a blueprint grid: the flyer was printed, and
    coarse dots are what that stock actually shows under magnification. Two
    offset lattices give the 45° screen angle of real halftone. */
@@ -82,6 +105,13 @@
   background-position: 0 0, 7px 7px;
   mask-image: radial-gradient(ellipse 85% 70% at 50% 0%, #000, transparent 78%);
   -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 0%, #000, transparent 78%);
+}
+/* Navy dots on navy paper are no dots at all — the screen has to print in the
+   light ink once the stock goes dark. */
+[data-theme='dark'] .hero__grid {
+  background-image:
+    radial-gradient(rgba(146, 178, 235, 0.10) 1.1px, transparent 1.2px),
+    radial-gradient(rgba(146, 178, 235, 0.10) 1.1px, transparent 1.2px);
 }
 
 /* ---- Layout ----
@@ -210,6 +240,55 @@
      the Submit button underneath it. */
   pointer-events: none;
 }
+
+/* ---- Portrait, dark theme -------------------------------------------
+   `darken` cannot cut the photo out on a dark ground. It keeps whichever of
+   photo-or-page is darker per channel, and only 0.49% of this photograph is
+   darker than the dark paper (#0a1120) — so 99.5% of the candidate is thrown
+   away and the page is painted through him. That is the black silhouette.
+
+   Neither source file can help: the .jpg has no alpha channel at all, and the
+   .png is RGBA in name only — every one of its 1,070,720 pixels is fully
+   opaque. So the cutout is made properly instead, from a real alpha mask
+   keyed off the photo's flat #F7F7F7 studio backdrop (a border flood fill, so
+   his light shirt is never keyed out, eroded 1px so no JPEG fringe survives
+   as a pale outline on navy). Same JPEG, same crop, same pixels, same colours
+   — the only thing that changes is which of them are drawn.
+
+   The mask is sized `cover` / `center bottom` rather than `100% 100%`, to
+   mirror the `object-fit: cover` + `object-position: center bottom` that the
+   photo itself is drawn with. The frame carries 24% empty backdrop above the
+   head, and Hero.jsx crops it off by handing Placeholder `ratio="1152 / 1160"`
+   against a 1152x1365 source — so the box is NOT the image's natural ratio and
+   a stretched mask would sit ~15% out of register. Because the mask file has
+   the photo's exact intrinsic dimensions, `cover` fits the two identically
+   into the same box at every viewport. --------------------------------- */
+[data-theme='dark'] .hero__portrait .ph-img {
+  mix-blend-mode: normal;
+  -webkit-mask-image: url('/images/ketan-portrait-mask.png');
+  mask-image: url('/images/ketan-portrait-mask.png');
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center bottom;
+  mask-position: center bottom;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  /* Full strength. True colour comes from the `img--full` opt-out that
+     Hero.jsx passes — the site-wide dark-mode image dimming is for photos on
+     a page that used to be white; the candidate is not dimmed. */
+  opacity: 1;
+}
+
+/* Separation from the navy, on the wrapper rather than the image: filters
+   apply before masking, so a drop-shadow on the <img> would trace its
+   rectangle instead of his silhouette. Two passes — a hairline pale rim that
+   lifts the shoulder line off the ground, and a soft shadow that keeps him
+   standing on the hero rather than floating. Neither touches the photo. */
+[data-theme='dark'] .hero__portrait {
+  filter:
+    drop-shadow(0 0 1px rgba(206, 224, 255, 0.42))
+    drop-shadow(0 14px 30px rgba(0, 0, 0, 0.5));
+}
 /* The flyer's painted plaque, not a card: white script over a navy brush
    block, gold caps beneath, red stroke sweeping the lower edge. Padding is
    keyed to the brush shape — left clears the trailing streaks, bottom clears
@@ -234,7 +313,7 @@
   width: 100%;
   height: 100%;
 }
-.hero__paint-navy { fill: var(--navy); }
+.hero__paint-navy { fill: var(--brand-solid); }
 .hero__paint-red { fill: var(--red); }
 .hero__badge-script,
 .hero__badge-line { position: relative; margin: 0; }
