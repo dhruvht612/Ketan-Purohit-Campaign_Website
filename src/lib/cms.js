@@ -63,6 +63,8 @@ export const getWardsMeta = () => wards
 
 export const getLegal = () => legal
 export const getConsentText = () => legal.smsConsent
+/** Wording for the required authorization checkbox on the volunteer form. */
+export const getSubmitConsent = () => legal.submitConsent
 export const getPrivacy = () => legal.privacy
 export const getTerms = () => legal.terms
 /** Terms only linked once the campaign supplies a real terms document. */

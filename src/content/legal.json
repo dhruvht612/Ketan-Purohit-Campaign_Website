@@ -11,6 +11,13 @@
     "requiredError": "Please agree to the messaging terms, or clear the text-message opt-in above."
   },
 
+  "submitConsent": {
+    "label": "I authorize the Ketan Purohit campaign to use the details above to contact me about volunteering.",
+    "hint": "Required. Your details are handled as described in our {PRIVACY}.",
+    "privacyLabel": "Privacy Policy",
+    "requiredError": "Please authorize the campaign to contact you before submitting."
+  },
+
   "terms": {
     "enabled": true,
     "route": "/terms",

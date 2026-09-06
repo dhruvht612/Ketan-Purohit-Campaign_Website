@@ -1,5 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import { getSubmitConsent } from '../lib/cms.js'
 import PageHeader from '../components/PageHeader.jsx'
 import Icon from '../components/Icon.jsx'
 import Button from '../components/Button.jsx'
@@ -70,8 +72,14 @@ const SKILLS = [
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-/** The four fields that must be filled. Drives validation and the progress meter. */
-const REQUIRED = ['name', 'email', 'age_group', 'student']
+/* Authorization wording lives in src/content/legal.json alongside the rest of
+   the legal copy, so the campaign can reword it without touching this file.
+   Distinct from the SMS opt-in in <ConsentCheckbox>: that one is optional by
+   law, this one gates the submission. */
+const CONSENT = getSubmitConsent()
+
+/** The fields that must be filled. Drives validation and the progress meter. */
+const REQUIRED = ['name', 'email', 'age_group', 'student', 'consent']
 
 const EMPTY = {
   name: '',
@@ -83,6 +91,7 @@ const EMPTY = {
   availability: [],
   skills: [],
   notes: '',
+  consent: false,
 }
 
 export default function Volunteer() {
@@ -104,6 +113,11 @@ export default function Volunteer() {
     setErrors((x) => ({ ...x, [key]: undefined }))
   }
 
+  const setConsent = (checked) => {
+    setValues((v) => ({ ...v, consent: checked }))
+    setErrors((x) => ({ ...x, consent: undefined }))
+  }
+
   const toggle = (key, option) => {
     setValues((v) => {
       const list = v[key]
@@ -122,6 +136,7 @@ export default function Volunteer() {
     }
     if (key === 'age_group' && !value) return 'Please choose an age group.'
     if (key === 'student' && !value) return 'Please let us know if you are a student.'
+    if (key === 'consent' && !value) return CONSENT.requiredError
     return undefined
   }
 
@@ -149,7 +164,7 @@ export default function Volunteer() {
       if (message) found[k] = message
     })
     setErrors(found)
-    setTouched((t) => ({ ...t, name: true, email: true, age_group: true, student: true }))
+    setTouched((t) => ({ ...t, ...Object.fromEntries(REQUIRED.map((k) => [k, true])) }))
 
     if (Object.keys(found).length) {
       setStatus('error')
@@ -470,6 +485,45 @@ export default function Volunteer() {
                   />
                 </motion.div>
 
+                {/* ---- Authorization ---- */}
+                <motion.div className="vf__field" {...rise(0.38)}>
+                  <label className={`vf__check vf__consent ${values.consent ? 'is-on' : ''} ${errors.consent ? 'has-error' : ''}`}>
+                    <input
+                      id="consent"
+                      type="checkbox"
+                      name="consent"
+                      value="Yes"
+                      required
+                      checked={values.consent}
+                      onChange={(e) => setConsent(e.target.checked)}
+                      onBlur={onBlur('consent')}
+                      aria-invalid={errors.consent ? true : undefined}
+                      aria-describedby={errors.consent ? 'consent-error' : 'consent-hint'}
+                    />
+                    <span className="vf__box" aria-hidden="true">
+                      <Icon name="check" size={13} strokeWidth={3.2} />
+                    </span>
+                    <span className="vf__check-text">
+                      {CONSENT.label} <span className="vf__req" aria-hidden="true">*</span>
+                    </span>
+                  </label>
+                  <p id="consent-hint" className="vf__consent-hint">
+                    {/* {PRIVACY} is a link token in the JSON; the link sits
+                        outside the <label> so clicking it opens the policy
+                        instead of toggling the box. */}
+                    {CONSENT.hint.split(/(\{PRIVACY\})/g).map((part, i) =>
+                      part === '{PRIVACY}' ? (
+                        <Link key={i} to="/privacy" className="vf__consent-link">
+                          {CONSENT.privacyLabel}
+                        </Link>
+                      ) : (
+                        <span key={i}>{part}</span>
+                      ),
+                    )}
+                  </p>
+                  <FieldError id="consent-error" message={errors.consent} />
+                </motion.div>
+
                 {/* ---- Error banner ---- */}
                 <AnimatePresence>
                   {status === 'error' && failure && (
@@ -487,7 +541,7 @@ export default function Volunteer() {
                   )}
                 </AnimatePresence>
 
-                <motion.div className="vf__submit" {...rise(0.4)}>
+                <motion.div className="vf__submit" {...rise(0.42)}>
                   <button
                     type="submit"
                     className="vf__button"
