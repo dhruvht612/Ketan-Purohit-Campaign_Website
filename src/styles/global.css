@@ -16,6 +16,8 @@
    ================================================================= */
 
 :root {
+  color-scheme: light;
+
   /* ---- Core palette (flyer-sampled) ---- */
   --navy:        #16336b;
   --navy-600:    #1d4183;
@@ -37,6 +39,31 @@
   --cream:       #f4f1ea;   /* flyer paper stock */
   --cream-deep:  #ebe6db;
   --white:       #ffffff;
+
+  /* ---- Semantic surfaces ---------------------------------------------
+     `--surface` is "a raised card sitting on the paper". In the light
+     theme that is literally white; in the dark theme it is a lifted navy
+     slate. Component CSS asks for the role, not the colour, so the whole
+     site re-grounds itself from one place.                              */
+  --surface:     #ffffff;
+
+  /* Navy as a *filled ground* under white text, as opposed to `--navy`
+     which is also asked to be readable *as text on the paper*. The two
+     roles pull in opposite directions once the paper goes dark, so they
+     are separate tokens. Identical in the light theme.                  */
+  --brand-solid: #16336b;
+
+  /* The same split for campaign red. On the dark paper `--red` has to lift to
+     stay legible as ink, which takes it too bright to carry white text: white
+     on the lifted red measures 3.4:1. `--red-solid` is the red used as a
+     ground under white — Contribute, Donate — and stays deep enough for AA.
+     Identical to `--red` in the light theme. */
+  --red-solid:     #b8202b;
+  --red-solid-600: #9d1a23;
+
+  /* Ink that must stay dark in BOTH themes — it sits on gold, on white
+     chips, on the selection highlight: surfaces that never invert. */
+  --ink-dark:    #091734;
 
   --ink:         #16233c;   /* body text */
   --muted:       #56617a;
@@ -86,7 +113,164 @@
   --ring: 0 0 0 4px rgba(22, 51, 107, 0.18);
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --nav-h: 74px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ---- Masthead ------------------------------------------------------
+     The header floats: `--nav-bar-h` is the glass bar itself and
+     `--nav-gap` the air around it. `--nav-h` is the pair, and is what the
+     rest of the page uses for `scroll-padding-top` and for anchoring the
+     mobile panel — so those stay correct if the bar is ever resized. */
+  --nav-bar-h: 68px;
+  --nav-gap: 14px;
+  --nav-h: calc(var(--nav-bar-h) + var(--nav-gap) * 2);
+  --nav-maxw: 1320px;
+
+  /* Frosted masthead glass, in its at-rest and scrolled states. */
+  --glass:        rgba(248, 246, 240, 0.66);
+  --glass-strong: rgba(248, 246, 240, 0.86);
+  /* Menus and the mobile panel sit over whatever section happens to be under
+     them — including the navy and red bands — so they need enough body that
+     their text contrast does not depend on the page behind. Still frosted,
+     just not see-through. */
+  --glass-panel:  rgba(250, 248, 243, 0.98);
+  --glass-line:        rgba(22, 51, 107, 0.10);
+  --glass-line-strong: rgba(22, 51, 107, 0.16);
+  --glass-lift:  0 12px 34px -18px rgba(9, 23, 52, 0.42), 0 2px 6px -3px rgba(9, 23, 52, 0.10);
+  --glass-hover: rgba(22, 51, 107, 0.06);
+}
+
+/* =================================================================
+   Dark theme
+   -----------------------------------------------------------------
+   A token-level inversion, not a second design. The flyer's geometry,
+   type and motifs are unchanged; only the ground and the ink move.
+
+   Two tokens do the heavy lifting and are worth understanding:
+
+     · --navy-900 is the site's *darkest* ink in the light theme and its
+       *lightest* in the dark one. Everything that reads as a heading
+       follows it automatically. The handful of places where it meant
+       "dark ink on a surface that never inverts" (gold buttons, the
+       selection highlight, the white carousel controls) were moved to
+       --ink-dark first, so they stay put.
+
+     · --navy stays a brand blue that is legible *as text on the page*.
+       Where navy is instead a filled ground under white text, the
+       override block below repoints it at --brand-solid, which is
+       darkened enough to keep white text at AA.
+   ================================================================= */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --navy:        #7ea9f5;   /* brand blue as INK on dark paper */
+  --navy-600:    #98bbfb;
+  --navy-700:    #6d97e4;
+  --navy-800:    #0c1729;   /* .section--dark ground — still the darkest band */
+  --navy-900:    #eef3fd;   /* darkest ink → lightest ink */
+  --navy-soft:   #1a2846;
+  --navy-mist:   #131e35;
+
+  --red:         #f2545f;
+  --red-600:     #ff6f78;
+  --red-700:     #ff8d94;
+  --red-soft:    #2e1418;
+
+  --gold:        #f0a92b;
+  --gold-600:    #ffc25c;
+  --gold-soft:   #2a2011;
+
+  --cream:       #0a1120;   /* the paper */
+  --cream-deep:  #101a2c;
+  --white:       #131f36;
+  --surface:     #131f36;
+  --brand-solid: #2b56ae;   /* navy as a ground: white on it clears AA */
+  --red-solid:     #d1333d;   /* white on this: 4.94:1 */
+  /* Hover goes *darker* here rather than lighter — the light theme's own red,
+     at 6.4:1 — because lifting it further would drop white text below AA. */
+  --red-solid-600: #b8202b;
+
+  --ink:         #dde5f3;
+  --muted:       #a3b1c9;
+  --muted-2:     #97a6c0;
+  --line:        #24314c;
+  --line-cool:   #27354f;
+  --line-soft:   #1c2740;
+  --good:        #45c98c;
+  --danger:      #f2545f;
+
+  --shadow-sm: 0 2px 8px -3px rgba(0, 0, 0, 0.5);
+  --shadow:    0 14px 34px -20px rgba(0, 0, 0, 0.8);
+  --shadow-lg: 0 28px 60px -28px rgba(0, 0, 0, 0.9);
+  --ring:      0 0 0 4px rgba(126, 169, 245, 0.26);
+
+  --glass:        rgba(16, 26, 45, 0.62);
+  --glass-strong: rgba(14, 23, 40, 0.86);
+  --glass-panel:  rgba(18, 28, 47, 0.985);
+  --glass-line:        rgba(160, 190, 245, 0.12);
+  --glass-line-strong: rgba(160, 190, 245, 0.20);
+  --glass-lift:  0 14px 38px -18px rgba(0, 0, 0, 0.85), 0 2px 6px -3px rgba(0, 0, 0, 0.5);
+  --glass-hover: rgba(160, 190, 245, 0.10);
+}
+
+/* Navy-as-a-ground. In the light theme --navy and --brand-solid are the
+   same colour, so these selectors need no override there; on dark they
+   would otherwise become pale blue slabs carrying white text. */
+:root[data-theme="dark"] .btn--primary,
+:root[data-theme="dark"] .btn--secondary:hover,
+:root[data-theme="dark"] .skip-link,
+:root[data-theme="dark"] .tick,
+:root[data-theme="dark"] .brand__mark,
+:root[data-theme="dark"] .issue-card__icon,
+:root[data-theme="dark"] .issue-full__icon,
+:root[data-theme="dark"] .media-card__outlet,
+:root[data-theme="dark"] .aside-card,
+:root[data-theme="dark"] .subsection-head__icon,
+:root[data-theme="dark"] .group-card__logo,
+:root[data-theme="dark"] .contact-item__icon,
+:root[data-theme="dark"] .vf__progress-bar,
+:root[data-theme="dark"] .vf__pill.is-on,
+:root[data-theme="dark"] .vf__check.is-on .vf__box { background: var(--brand-solid); }
+:root[data-theme="dark"] .btn--primary:hover { background: #3563c2; }
+/* Red as a ground under white text — same reasoning as --brand-solid above. */
+:root[data-theme="dark"] .footer__social-link:hover,
+:root[data-theme="dark"] .contact-social a:hover { background: var(--red-solid); }
+:root[data-theme="dark"] .btn--secondary { border-color: var(--navy-700); }
+/* The gold/cream focus ring is invisible on gold in light mode and on the
+   dark ground it is the clearest ring we have — keep it gold, but the
+   navy override for gold surfaces must lighten with the theme. */
+:root[data-theme="dark"] .section--gold :focus-visible,
+:root[data-theme="dark"] .btn--gold:focus-visible { outline-color: var(--ink-dark); }
+/* Photographs and the flyer scan are mastered for a white page, and read a
+   touch hot against the dark stock. `.img--full` opts an image out — for the
+   hero portrait, which is the focal point of the page and is composited
+   through an alpha mask at true colour and full strength. */
+:root[data-theme="dark"] img:not([src$=".svg"]):not(.img--full) {
+  filter: brightness(0.92) contrast(1.02);
+}
+/* Notices whose ink was written as a literal hex against a pale gold or pink
+   ground. The grounds invert with --gold-soft / --red-soft; the ink has to be
+   told. Left as hex here rather than tokenised because each is a one-off tint
+   of its own ground, not a palette colour used anywhere else. */
+:root[data-theme="dark"] .placeholder-note,
+:root[data-theme="dark"] .issues-notice p,
+:root[data-theme="dark"] .ph--gold { color: #ecce97; }
+:root[data-theme="dark"] .ph--gold { border-color: rgba(236, 206, 151, 0.32); }
+:root[data-theme="dark"] .placeholder-note code,
+:root[data-theme="dark"] .issues-notice code { background: rgba(255, 255, 255, 0.10); }
+:root[data-theme="dark"] .vf__alert {
+  color: #ffa6ad;
+  background: var(--red-soft);
+  border-color: rgba(255, 166, 173, 0.28);
+}
+:root[data-theme="dark"] .vf__done-mark { color: #6fd8a2; }
+
+/* The hero's paper layer is the one place the stock is painted literally
+   rather than from a token — it needs the same left-to-right shift, in ink. */
+:root[data-theme="dark"] .hero__wash {
+  background:
+    radial-gradient(120% 80% at 82% 0%, rgba(126, 169, 245, 0.10), transparent 60%),
+    radial-gradient(70% 55% at 2% 96%, rgba(240, 169, 43, 0.10), transparent 68%),
+    linear-gradient(100deg, #0c1424 0%, #0a1120 46%, #060c17 100%);
 }
 
 /* ---------- Reset & base ---------- */
@@ -121,7 +305,7 @@ a { color: inherit; text-decoration: none; }
    not draw inside the same design.                                      */
 ::selection {
   background: var(--gold);
-  color: var(--navy-900);
+  color: var(--ink-dark);
 }
 :root { accent-color: var(--navy); caret-color: var(--navy); }
 
@@ -162,7 +346,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 }
 /* On gold/cream surfaces the gold ring would vanish — go navy instead. */
 .section--gold :focus-visible,
-.btn--gold:focus-visible { outline-color: var(--navy-900); }
+.btn--gold:focus-visible { outline-color: var(--ink-dark); }
 
 .skip-link {
   position: absolute; left: 14px; top: -70px;
@@ -188,6 +372,15 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .section--paper { background: var(--white); }
 .section--dark { background: var(--navy-800); color: #d7e0f0; }
 .section--gold { background: var(--gold-soft); }
+
+/* The masthead is fixed (see Nav.css), and .hero / .page-header carry its
+   height in their own top padding so their backgrounds run underneath it.
+   Any page that opens with neither — /404 is the only one today — has to add
+   the clearance back, or its first line lands behind the bar. Declared after
+   .section so it beats that rule's `padding` shorthand. */
+main > :first-child:not(.hero):not(.page-header) {
+  padding-top: calc(var(--nav-h) + clamp(36px, 6vw, 80px));
+}
 
 @media (max-width: 560px) {
   .container, .container--narrow { width: min(100% - 32px, var(--maxw)); }
@@ -257,7 +450,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   transform: rotate(40deg);
   border-radius: 1px;
 }
-.tick--gold::after { border-color: var(--navy-900); }
+.tick--gold::after { border-color: var(--ink-dark); }
 
 /* ---------- Signature: the star rule (★ ELECTION 2026 ★) ---------- */
 .star-rule {

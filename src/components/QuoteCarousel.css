@@ -105,7 +105,7 @@
   border-radius: 50%;
   border: 0;
   background: rgba(255, 255, 255, 0.92);
-  color: var(--navy-900);
+  color: var(--ink-dark);
   box-shadow: var(--shadow);
   cursor: pointer;
   z-index: 2;

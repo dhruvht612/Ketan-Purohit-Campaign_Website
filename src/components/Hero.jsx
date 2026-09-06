@@ -93,11 +93,16 @@ export default function Hero() {
           soft pool of shade the candidate stands in. Every layer is CSS or
           inline SVG — no background photograph to download, and nothing that
           can out-weigh the portrait or the name lockup. */}
+      {/* Layer order is the composition: paper, halftone, the pool the
+          candidate stands in, then the schoolhouse he stands in front of.
+          The glow sits under the schoolhouse and the whole of .hero__bg sits
+          under .hero__inner, so nothing here ever paints over the candidate
+          or the lockup. */}
       <div className="hero__bg" aria-hidden="true">
         <span className="hero__wash" />
         <span className="hero__grid" />
-        <Schoolhouse className="hero__school" />
         <span className="hero__glow" />
+        <Schoolhouse className="hero__school" />
       </div>
 
       <div className="container hero__inner">
@@ -164,6 +169,9 @@ export default function Hero() {
               edge — object-fit: cover on .ph-img makes the cut — so the
               candidate fills the column instead of floating in dead space,
               and none of him is lost. */}
+          {/* `img--full` opts the candidate out of the dark theme's photo
+              dimming: he is the focal point and is shown at true colour and
+              full strength. See global.css and the portrait rules in Hero.css. */}
           <div className="hero__portrait">
             <Placeholder
               src={site.images.portrait}
@@ -174,6 +182,7 @@ export default function Hero() {
               objectPosition="center bottom"
               loading="eager"
               fetchPriority="high"
+              className="img--full"
             />
           </div>
           <div className="hero__badge">

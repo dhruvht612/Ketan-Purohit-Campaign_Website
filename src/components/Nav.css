@@ -1,209 +1,634 @@
-/* Navigation — flyer masthead: cream stock, navy ink, red accents,
-   topped with the flyer's thin navy/red rule. */
+/* =====================================================================
+   Masthead — a floating frosted bar under the flyer's navy/red hairline.
+
+   The one structural rule everything else follows: the header's OUTER
+   height never changes. `.nav__shell` is pinned to --nav-h and the glass
+   bar shrinks inside it, so the scrolled state is a change of size and
+   material, never a reflow of the page behind it.
+   ===================================================================== */
 .nav {
-  position: sticky;
+  /* Fixed rather than sticky-in-flow, so the page's own masthead — the hero
+     wash, the interior page-header — runs to the top of the viewport *behind*
+     a bar that carries no material of its own. Sticky would reserve a band of
+     body cream above them and leave a seam across the top of every page.
+     The two components pay for the space with their own top padding; see the
+     `--nav-h` offsets in Hero.css and PageHeader.css. */
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 200;
-  background: rgba(244, 241, 234, 0.88);
-  backdrop-filter: saturate(180%) blur(14px);
-  border-bottom: 1px solid transparent;
-  transition: background .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
-}
-/* The flyer's navy → red hairline across the very top of the sheet. */
-.nav::before {
-  content: "";
-  display: block;
-  height: 4px;
-  background: linear-gradient(90deg, var(--navy) 0 62%, var(--red) 62% 100%);
-}
-.nav--scrolled {
-  background: rgba(244, 241, 234, 0.97);
-  border-bottom-color: var(--line);
-  box-shadow: 0 6px 20px -16px rgba(9, 23, 52, 0.5);
-}
-.nav__inner {
-  height: var(--nav-h);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  /* The bar's own height, animated. The shell that holds it does not move. */
+  --bar-h: var(--nav-bar-h);
+  --bar-radius: 20px;
+  --bar-gutter: 22px;
 }
 
-/* ---- Brand ---- */
-.brand { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
-/* Campaign mark: white open book in a solid navy disc. */
+/* The site-wide focus ring is gold, which is right on navy bands and unusable
+   on the cream/glass of the masthead (gold on cream measures ~1.9:1). Inside
+   the header the ring is the darkest ink available on the current paper. */
+.nav :focus-visible { outline-color: var(--navy); }
+[data-theme='dark'] .nav :focus-visible { outline-color: var(--gold); }
+
+/* The flyer's navy → red rule, full bleed across the top of the sheet. It is
+   the one hard edge in an otherwise soft header, and it is what keeps this
+   reading as campaign print rather than as a product chrome. */
+.nav__rule {
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, var(--navy) 0 62%, var(--red) 62% 100%);
+}
+[data-theme='dark'] .nav__rule {
+  background: linear-gradient(90deg, var(--brand-solid) 0 62%, var(--red) 62% 100%);
+}
+
+.nav__shell {
+  position: relative;
+  width: min(100% - var(--bar-gutter) * 2, var(--nav-maxw));
+  margin-inline: auto;
+  /* Constant: the bar shrinks, the band it floats in does not. */
+  height: calc(var(--nav-h) - 3px);
+  display: flex;
+  align-items: center;
+}
+
+/* ---- The glass bar ---- */
+.nav__bar {
+  width: 100%;
+  height: var(--bar-h);
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 28px);
+  padding: 0 10px 0 12px;
+  border: 1px solid transparent;
+  border-radius: var(--bar-radius);
+  background: transparent;
+  transition:
+    height 0.34s var(--ease-out),
+    background-color 0.34s var(--ease),
+    border-color 0.34s var(--ease),
+    box-shadow 0.34s var(--ease),
+    backdrop-filter 0.34s var(--ease);
+}
+
+/* At rest the bar carries no material of its own, so the hero reads straight
+   through it and the masthead sits *in* the composition rather than on top of
+   it. Everything below is the scrolled state. */
+.nav--scrolled {
+  --bar-h: 56px;
+  --bar-radius: 18px;
+}
+.nav--scrolled .nav__bar,
+.nav--open .nav__bar {
+  background: var(--glass-strong);
+  border-color: var(--glass-line);
+  box-shadow: var(--glass-lift);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  backdrop-filter: saturate(180%) blur(18px);
+}
+/* The panel hangs off the bar, so while it is open the bar must have a
+   material even at the top of the page. */
+.nav--open { --bar-radius: 18px; }
+
+/* ---------------------------------------------------------------
+   Brand
+   --------------------------------------------------------------- */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  flex: none;
+  padding: 4px;
+  margin: -4px;
+  border-radius: 12px;
+}
+
+/* Campaign mark: white open book in a solid navy disc, ringed in campaign
+   red. The ring is drawn with box-shadow so it costs no layout and can be
+   grown on hover without nudging the lockup beside it. */
 .brand__mark {
-  width: 42px; height: 42px;
+  position: relative;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: var(--navy);
   color: #fff;
-  display: grid; place-items: center;
+  display: grid;
+  place-items: center;
   flex: none;
+  box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px rgba(184, 32, 43, 0.5);
+  transition:
+    transform 0.32s var(--ease-out),
+    box-shadow 0.32s var(--ease);
 }
-.brand__text { display: flex; flex-direction: column; line-height: 1.05; min-width: 0; }
+[data-theme='dark'] .brand__mark {
+  box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px rgba(242, 84, 95, 0.55);
+}
+.brand:hover .brand__mark,
+.brand:focus-visible .brand__mark {
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 0 0 2px var(--cream), 0 0 0 4.5px var(--red);
+}
+/* The book leans open a touch as the disc lifts — a single small move, not a
+   spin. */
+.brand__mark svg {
+  transition: transform 0.32s var(--ease-out);
+}
+.brand:hover .brand__mark svg { transform: rotate(-6deg); }
+
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  line-height: 1;
+  min-width: 0;
+}
 .brand__name {
   font-family: var(--display);
-  font-variation-settings: "wdth" 88;
-  font-weight: 800;
-  font-size: 1.2rem;
+  font-variation-settings: 'wdth' 86;
+  font-weight: 900;
+  font-size: 1.12rem;
   text-transform: uppercase;
-  color: var(--navy-900);
-  letter-spacing: -0.005em;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
 }
 /* Flyer lockup: navy first name, red surname. */
-.brand__first { color: var(--navy); }
+.brand__first { color: var(--navy-900); }
 .brand__last { color: var(--red); }
-.brand__sub {
-  font-size: 0.68rem;
-  color: var(--red);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 700;
-  font-family: var(--display);
-}
 
-/* ---- Desktop nav ---- */
-.nav__desktop { display: flex; align-items: center; gap: 14px; }
-.nav__list { display: flex; align-items: center; gap: 2px; }
+/* The role line is the quiet half of the lockup: smaller, wide-tracked, and
+   in slate rather than red so the red stays owned by PUROHIT and the CTA. */
+.brand__sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--display);
+  font-size: 0.615rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.155em;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color 0.22s var(--ease);
+}
+/* The tick reserves its full extended width and scales the paint inside it,
+   rather than animating `width` — growing the box would relay out the role
+   line sitting beside it on every frame of the hover. */
+.brand__tick {
+  width: 18px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--red);
+  flex: none;
+  transform: scaleX(0.66);
+  transform-origin: left center;
+  transition: transform 0.3s var(--ease-out);
+}
+.brand:hover .brand__sub { color: var(--navy-900); }
+.brand:hover .brand__tick { transform: scaleX(1); }
+
+/* ---------------------------------------------------------------
+   Desktop links
+   --------------------------------------------------------------- */
+/* `margin-left: auto` on both the link list and the actions splits the free
+   space evenly between them, so the links sit centred between the lockup and
+   the CTA at every width instead of drifting with the lockup's length. */
+.nav__desktop {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  min-width: 0;
+}
+.nav__list { display: flex; align-items: center; gap: 2px; margin: 0; }
 .nav__item { position: relative; }
+
 .nav__link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 5px;
   font-family: var(--display);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.84rem;
+  letter-spacing: 0.045em;
+  font-size: 0.795rem;
   color: var(--navy-900);
-  padding: 10px 13px;
-  border-radius: var(--radius-sm);
-  transition: color .18s var(--ease), background-color .18s var(--ease);
+  padding: 9px 13px 10px;
+  border-radius: 11px;
+  white-space: nowrap;
+  transition:
+    color 0.22s var(--ease),
+    background-color 0.22s var(--ease);
 }
-.nav__link:hover { color: var(--red); background: rgba(184, 32, 43, 0.07); }
-.nav__link.is-active { color: var(--navy); }
-.nav__link.is-active::after {
-  content: "";
-  position: absolute;
-  left: 13px; right: 13px; bottom: 2px;
-  height: 3px; border-radius: 2px;
-  background: var(--red);
-}
-.nav__dropbtn { cursor: pointer; }
-.nav__caret { transition: transform .2s var(--ease); transform: rotate(90deg); margin-top: 1px; }
-.nav__item--drop:hover .nav__caret,
-.nav__dropbtn[aria-expanded="true"] .nav__caret { transform: rotate(-90deg); }
+.nav__link:hover { color: var(--navy); background: var(--glass-hover); }
 
-/* dropdown menu */
+/* Current page: a soft navy pill plus the flyer's red underscore. The
+   underscore is drawn on .nav__label so it tracks the word, not the pill. */
+.nav__link.is-active {
+  color: var(--navy);
+  background: var(--navy-soft);
+}
+.nav__label { position: relative; display: inline-block; }
+.nav__label::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.26s var(--ease-out);
+}
+.nav__link.is-active .nav__label::after { transform: scaleX(1); }
+
+.nav__dropbtn { cursor: pointer; }
+.nav__caret {
+  margin-top: 1px;
+  opacity: 0.65;
+  transition:
+    transform 0.24s var(--ease-out),
+    opacity 0.24s var(--ease);
+}
+.nav__link:hover .nav__caret { opacity: 1; }
+.nav__dropbtn[aria-expanded='true'] .nav__caret { transform: rotate(180deg); opacity: 1; }
+
+/* ---- Dropdown ---- */
 .nav__menu {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 10px);
   left: 0;
-  min-width: 200px;
-  background: #fff;
-  border: 1px solid var(--line-cool);
-  border-top: 3px solid var(--red);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow);
-  padding: 8px;
+  min-width: 214px;
+  padding: 7px;
+  background: var(--glass-panel);
+  /* Blur without the saturation boost: the bar can afford saturate(180%)
+     because it is 14% transparent over page background, but on a near-opaque
+     panel it only serves to drag a saturated red button behind it into a
+     visible pink wash. */
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-line-strong);
+  border-radius: 16px;
+  box-shadow: var(--glass-lift);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(6px);
-  transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s;
+  transform: translateY(-6px) scale(0.97);
+  transform-origin: top left;
+  /* `visibility` is stepped, not eased: it flips to visible the instant the
+     menu opens and only waits out the fade on the way back. Transitioning it
+     like the other two would leave the links unfocusable for the first frame
+     after opening, which is exactly the frame the keyboard handler in Nav.jsx
+     tries to move focus into them. */
+  transition:
+    opacity 0.2s var(--ease),
+    transform 0.24s var(--ease-out),
+    visibility 0s linear 0.24s;
 }
-.nav__menu.is-open { opacity: 1; visibility: visible; transform: none; }
+.nav__menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+/* Bridges the 10px gap so the pointer can travel from the trigger into the
+   menu without passing over the page and closing it. Inert until the item is
+   actually hovered, so approaching from below cannot open a menu — and once
+   the pointer is on the trigger the bridge activates and keeps :hover alive
+   all the way down. */
+.nav__item--drop::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 12px;
+  pointer-events: none;
+}
+.nav__item--drop:hover::after { pointer-events: auto; }
+.nav__menu ul { margin: 0; }
 .nav__menu-link {
-  display: block;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
   font-family: var(--display);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.8rem;
+  letter-spacing: 0.045em;
+  font-size: 0.755rem;
   color: var(--navy-900);
+  transition:
+    background-color 0.18s var(--ease),
+    color 0.18s var(--ease);
 }
-.nav__menu-link:hover, .nav__menu-link.active { background: var(--navy-soft); color: var(--navy); }
+.nav__menu-link:hover,
+.nav__menu-link.active {
+  background: var(--navy-soft);
+  color: var(--navy);
+}
+.nav__menu-out { opacity: 0.5; flex: none; }
 
-/* ---- Mobile toggle ---- */
+/* ---------------------------------------------------------------
+   Actions — theme switch, the CTA, the mobile toggle
+   --------------------------------------------------------------- */
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: none;
+  margin-left: auto;
+}
+
+/* Contribute is the one saturated object in the header. */
+.nav__cta {
+  border-radius: 13px;
+  min-height: 40px;
+  padding: 9px 15px 9px 17px;
+  font-size: 0.775rem;
+  letter-spacing: 0.055em;
+  gap: 7px;
+  box-shadow: 0 6px 16px -8px rgba(184, 32, 43, 0.75);
+}
+.nav__cta:hover {
+  transform: translateY(-1.5px) scale(1.015);
+  box-shadow: 0 12px 24px -10px rgba(184, 32, 43, 0.7);
+}
+.nav__cta-arrow {
+  transition: transform 0.24s var(--ease-out);
+}
+.nav__cta:hover .nav__cta-arrow,
+.nav__cta:focus-visible .nav__cta-arrow { transform: translateX(3px); }
+
+/* ---- Hamburger ---- */
 .nav__toggle {
   display: none;
-  width: 48px; height: 48px;
-  border-radius: var(--radius-sm);
-  border: 2px solid var(--navy);
-  background: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-line-strong);
+  background: var(--glass);
+  -webkit-backdrop-filter: saturate(150%) blur(8px);
+  backdrop-filter: saturate(150%) blur(8px);
   place-items: center;
   flex: none;
+  transition:
+    background-color 0.22s var(--ease),
+    border-color 0.22s var(--ease);
 }
-.nav__bars, .nav__bars::before, .nav__bars::after {
-  content: "";
+.nav__toggle:hover { background: var(--glass-hover); border-color: var(--navy); }
+.nav__bars,
+.nav__bars::before,
+.nav__bars::after {
+  content: '';
   display: block;
-  width: 22px; height: 2.5px;
+  width: 19px;
+  height: 2.2px;
   background: var(--navy-900);
   border-radius: 2px;
-  transition: transform .28s var(--ease), opacity .2s var(--ease);
+  transition:
+    transform 0.3s var(--ease-out),
+    background-color 0.2s var(--ease);
 }
 .nav__bars { position: relative; }
-.nav__bars::before { position: absolute; top: -7px; }
-.nav__bars::after { position: absolute; top: 7px; }
+.nav__bars::before { position: absolute; top: -6px; }
+/* The short bottom bar is drawn at full width and scaled, so the hover and
+   the X both ride on transform alone. */
+.nav__bars::after {
+  position: absolute;
+  top: 6px;
+  transform: scaleX(0.68);
+  transform-origin: left center;
+}
+/* Scoped away from .is-x: otherwise this outranks the X's own transform and
+   the closed state's hover would flatten one arm of the cross. */
+.nav__toggle:hover .nav__bars:not(.is-x)::after { transform: scaleX(1); }
 .nav__bars.is-x { background: transparent; }
-.nav__bars.is-x::before { transform: translateY(7px) rotate(45deg); }
-.nav__bars.is-x::after { transform: translateY(-7px) rotate(-45deg); }
+.nav__bars.is-x::before { transform: translateY(6px) rotate(45deg); }
+.nav__bars.is-x::after { transform: translateY(-6px) rotate(-45deg); }
 
-/* ---- Mobile menu ---- */
-.nav__mobile {
-  position: fixed;
-  inset: calc(var(--nav-h) + 4px) 0 0;
-  background: var(--cream);
+/* ---------------------------------------------------------------
+   Mobile panel — the same glass, dropped under the bar on the same
+   gutters, so it reads as the masthead extending rather than as a
+   second surface arriving from off-screen.
+   --------------------------------------------------------------- */
+.nav__panel {
+  position: absolute;
+  top: calc(50% + var(--bar-h) / 2 + 10px);
+  left: 0;
+  right: 0;
+  max-height: calc(100vh - var(--nav-h) - 24px);
+  max-height: calc(100dvh - var(--nav-h) - 24px);
   overflow-y: auto;
   overscroll-behavior: contain;
-  transform: translateX(100%);
-  transition: transform .32s var(--ease);
+  padding: 10px;
+  background: var(--glass-panel);
+  /* Blur without the saturation boost: the bar can afford saturate(180%)
+     because it is 14% transparent over page background, but on a near-opaque
+     panel it only serves to drag a saturated red button behind it into a
+     visible pink wash. */
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-line-strong);
+  border-radius: 20px;
+  box-shadow: var(--glass-lift);
+  opacity: 0;
   visibility: hidden;
+  transform: translateY(-10px) scale(0.985);
+  transform-origin: top center;
+  /* Stepped visibility — see the note on .nav__menu. */
+  transition:
+    opacity 0.24s var(--ease),
+    transform 0.3s var(--ease-out),
+    visibility 0s linear 0.3s;
 }
-.nav__mobile.is-open { transform: none; visibility: visible; }
-.nav__mobile-inner { padding: 20px 22px 48px; }
+.nav__panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+.nav__panel-inner ul { margin: 0; }
+
 .nav__m-link {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   width: 100%;
-  padding: 16px 4px;
+  min-height: 54px;
+  padding: 14px 16px;
+  border-radius: 13px;
   font-family: var(--display);
-  font-variation-settings: "wdth" 92;
+  font-variation-settings: 'wdth' 92;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  font-size: 1.3rem;
+  letter-spacing: 0.03em;
+  font-size: 1.02rem;
   color: var(--navy-900);
-  border-bottom: 1px solid var(--line);
+  transition:
+    background-color 0.2s var(--ease),
+    color 0.2s var(--ease);
 }
-.nav__m-link.is-active { color: var(--red); }
-.nav__m-caret { transform: rotate(90deg); transition: transform .25s var(--ease); color: var(--muted); }
-.nav__m-caret.is-open { transform: rotate(-90deg); }
+.nav__m-link:hover { background: var(--glass-hover); }
+.nav__m-link.is-active {
+  position: relative;
+  color: var(--navy);
+  background: var(--navy-soft);
+  padding-left: 24px;
+}
+/* A straight marker, not an inset shadow: an inset shadow follows the row's
+   13px radius and curls into a hook at the corners. */
+.nav__m-link.is-active::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  border-radius: 2px;
+  background: var(--red);
+}
+.nav__m-caret {
+  color: var(--muted);
+  transition: transform 0.26s var(--ease-out);
+  flex: none;
+}
+.nav__m-caret.is-open { transform: rotate(180deg); }
+
 .nav__m-sub {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .3s var(--ease);
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s var(--ease-out);
 }
-.nav__m-sub.is-open { max-height: 240px; }
+.nav__m-sub.is-open { grid-template-rows: 1fr; }
+/* grid-template-rows: 0fr only collapses a child that is allowed to be
+   shorter than its content, hence the min-height reset. */
+.nav__m-sub > ul { overflow: hidden; min-height: 0; }
+
 .nav__m-sublink {
-  display: block;
-  padding: 14px 18px;
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 16px 12px 30px;
+  border-radius: 11px;
+  font-size: 0.97rem;
   font-weight: 600;
   color: var(--muted);
-  border-bottom: 1px solid var(--line-soft);
+  transition:
+    background-color 0.18s var(--ease),
+    color 0.18s var(--ease);
 }
-.nav__m-sublink:hover, .nav__m-sublink.active { color: var(--red); }
-.nav__m-cta { margin-top: 24px; }
+.nav__m-sublink:hover,
+.nav__m-sublink.active { color: var(--red); background: var(--glass-hover); }
+.nav__m-cta {
+  margin-top: 12px;
+  border-radius: 14px;
+}
 
-/* ---- Responsive switch ---- */
-@media (max-width: 940px) {
+/* Theme row — see the note in Nav.jsx: only in play at the widths where the
+   bar has to give the switch up. */
+.nav__m-theme {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--glass-line);
+}
+.nav__m-theme-label {
+  font-family: var(--display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+/* Scrim behind the panel. Inert until the panel opens, so it can never eat a
+   click on the page. */
+.nav__scrim {
+  position: fixed;
+  inset: var(--nav-h) 0 0;
+  background: rgba(9, 23, 52, 0.28);
+  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(1.5px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s var(--ease);
+  z-index: -1;
+}
+.nav--open .nav__scrim { opacity: 1; pointer-events: auto; }
+
+/* ---------------------------------------------------------------
+   Responsive
+   --------------------------------------------------------------- */
+@media (max-width: 1060px) {
+  .nav__link { padding-inline: 10px; font-size: 0.76rem; }
+}
+@media (max-width: 960px) {
+  .nav { --bar-gutter: 16px; }
   .nav__desktop { display: none; }
   .nav__toggle { display: grid; }
+  .nav__actions { gap: 8px; }
 }
-@media (max-width: 400px) {
-  .brand__name { font-size: 1.05rem; }
-  .brand__sub { font-size: 0.62rem; }
+@media (max-width: 560px) {
+  .nav { --bar-gutter: 12px; --nav-bar-h: 62px; }
+  .nav--scrolled { --bar-h: 54px; }
+  .nav__bar { padding: 0 8px 0 10px; gap: 10px; }
+  .brand__mark { width: 34px; height: 34px; }
+  .brand__name { font-size: 0.96rem; }
+  /* Tracked in tighter than the desktop lockup so the role line stays
+     narrower than the name above it and cannot widen the brand block. */
+  .brand__sub { font-size: 0.5rem; letter-spacing: 0.085em; }
+  .brand__tick { width: 13px; }
+  .nav__cta { padding: 8px 12px; font-size: 0.72rem; min-height: 38px; gap: 5px; }
+}
+/* Phone widths: the lockup, the switch, the CTA and the menu button cannot
+   all hold their tap targets on one line. The switch is the only one of the
+   four that is not navigation, so it is the one that moves — into the panel,
+   where it gets a labelled full-width row. */
+@media (max-width: 620px) {
+  .nav__theme { display: none; }
+  .nav__m-theme { display: flex; }
+}
+/* Small phones. Four things compete for one line — lockup, CTA, menu button
+   and the gaps — and below ~430px they no longer all fit at full size. Rather
+   than truncate the candidate's name or drop the CTA, everything gives a
+   little: the CTA loses its arrow (the button is the affordance; the arrow was
+   the flourish), the lockup tightens, and the tap targets stay at 38px+. */
+@media (max-width: 430px) {
+  .nav__bar { padding: 0 6px 0 8px; gap: 8px; }
+  .brand { gap: 8px; }
+  .brand__name { font-size: 0.88rem; }
+  .brand__mark { width: 32px; height: 32px; }
+  .brand__sub { font-size: 0.47rem; letter-spacing: 0.06em; }
+  .nav__cta { padding: 8px 11px; font-size: 0.67rem; letter-spacing: 0.03em; }
+  .nav__cta .nav__cta-arrow { display: none; }
+  .nav__toggle { width: 40px; height: 40px; }
+}
+@media (max-width: 350px) {
+  /* Last resort before the lockup would have to break: the role line goes,
+     and the name alone carries the brand. */
+  .brand__sub { display: none; }
+  .brand__name { font-size: 0.84rem; }
+  .nav__cta { padding: 8px 9px; font-size: 0.63rem; }
+  .nav__bar { gap: 6px; padding-inline: 6px; }
+  .brand { gap: 7px; }
+  .nav__toggle { width: 38px; height: 38px; }
+}
+
+/* Hover affordances are meaningless on touch, and the sticky :hover state
+   they leave behind on tap is worse than none. */
+@media (hover: none) {
+  .brand:hover .brand__mark { transform: none; }
+  .nav__cta:hover { transform: none; }
 }

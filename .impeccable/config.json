@@ -29,6 +29,24 @@
         ],
         "createdAt": "2026-08-24T23:41:54.930Z",
         "reason": "False positive: .qc__stage pairs border-top:5px with border-top-left-radius:0 and border-top-right-radius:0 (L71-72), so the ruled edge is square and no radius is crossed. Follows the documented 'heavy rules land on square edges' system rule at src/styles/global.css:306."
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "src/components/Hero.css"
+        ],
+        "createdAt": "2026-09-06T01:30:35.668Z",
+        "reason": "False positive: the rule reads a CSS mask-image url() as an <img> src. Hero.css contains no img tags. The referenced asset public/images/ketan-portrait-mask.png is real and verified in-browser this session: HTTP 200, 47153 bytes, decoded and applied (39% mask coverage, silhouette registered to the photo within 0-3px at desktop/tablet/mobile)."
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-09-06T01:32:22.541Z",
+        "reason": "False positive on the merits: the rule reports the accent border clashing with rounded corners, but every ruled surface in this file squares the corners the rule touches. .card--ruled pairs border-top:4px with border-radius:0 0 r r; .placeholder-note pairs border-left:4px with border-radius:0 r r 0. There is no arc under either rule. The file documents this as a system convention ('heavy rules land on square edges', 'flat bands, hard rules - not pills'), sampled from the printed campaign flyer. Pre-existing code, not authored in this session."
       }
     ]
   }

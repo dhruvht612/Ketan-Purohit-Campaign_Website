@@ -3,8 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#16336b" />
+    <meta name="theme-color" content="#f4f1ea" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!--
+      Theme, resolved before first paint. This has to be inline and blocking:
+      if React set the attribute instead, a dark-mode visitor would get a
+      full flash of cream paper on every load. Mirrors src/lib/theme.js.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('kp-theme')
+          var theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+          document.documentElement.dataset.theme = theme
+          if (theme === 'dark') {
+            document
+              .querySelector('meta[name="theme-color"]')
+              .setAttribute('content', '#0a1120')
+          }
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light'
+        }
+      })()
+    </script>
 
     <title>Ketan Purohit for TDSB Ward 12 Trustee | Integrity · Vision · Leadership</title>
     <meta

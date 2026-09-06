@@ -12,7 +12,7 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--line);
   border-left: 5px solid var(--good);
   border-radius: 14px;
