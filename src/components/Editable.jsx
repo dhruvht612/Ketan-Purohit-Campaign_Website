@@ -33,6 +33,16 @@ export function Text({ value, as: Tag = 'p', className = '', children, ...rest }
  * A block of paragraphs. Falls back to `placeholder` when the campaign hasn't
  * supplied the copy yet (used by Issues / Privacy / Terms, where the real text
  * must come from the campaign verbatim).
+ *
+ * An entry is normally a plain string. Two object forms exist because the
+ * supplied legal documents contain structure a flat string cannot carry
+ * without misrepresenting it:
+ *
+ *   { list: ['…', '…'] }            a real <ul>, for the policy's bullet lists
+ *   { lead: 'Contact information.', text: '…' }
+ *                                   a paragraph opening with a bold term
+ *
+ * Both render the document's own wording; neither adds any.
  */
 export function Paragraphs({
   items = [],
@@ -41,7 +51,12 @@ export function Paragraphs({
   tagLabel = 'Awaiting final content',
   onDark = false,
 }) {
-  const filled = (items || []).filter((p) => typeof p === 'string' && p.trim() !== '')
+  const filled = (items || []).filter((p) => {
+    if (typeof p === 'string') return p.trim() !== ''
+    if (p && Array.isArray(p.list)) return p.list.length > 0
+    if (p && typeof p.text === 'string') return p.text.trim() !== ''
+    return false
+  })
 
   if (!filled.length) {
     if (!placeholder) return null
@@ -53,15 +68,40 @@ export function Paragraphs({
     )
   }
 
-  const anyPending = filled.some(isPlaceholder)
+  /* Placeholder flagging looks at the prose only — a bullet list is never a
+     half-written slot. */
+  const anyPending = filled.some((p) => isPlaceholder(typeof p === 'string' ? p : p?.text ?? ''))
+
   return (
     <div className={className}>
       {anyPending && <PlaceholderTag onDark={onDark}>{tagLabel}</PlaceholderTag>}
-      {filled.map((p, i) => (
-        <p key={i} className={isPlaceholder(p) ? 'placeholder-text' : ''} style={anyPending && i === 0 ? { marginTop: '10px' } : undefined}>
-          {p}
-        </p>
-      ))}
+      {filled.map((p, i) => {
+        const spacing = anyPending && i === 0 ? { marginTop: '10px' } : undefined
+
+        if (typeof p !== 'string' && Array.isArray(p.list)) {
+          return (
+            <ul key={i} style={spacing}>
+              {p.list.map((item, j) => (
+                <li key={j}>{item}</li>
+              ))}
+            </ul>
+          )
+        }
+
+        if (typeof p !== 'string') {
+          return (
+            <p key={i} className={isPlaceholder(p.text) ? 'placeholder-text' : ''} style={spacing}>
+              <strong>{p.lead}</strong> {p.text}
+            </p>
+          )
+        }
+
+        return (
+          <p key={i} className={isPlaceholder(p) ? 'placeholder-text' : ''} style={spacing}>
+            {p}
+          </p>
+        )
+      })}
     </div>
   )
 }
