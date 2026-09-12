@@ -67,6 +67,7 @@
 /* ---- Fields ---- */
 .vf__row { display: grid; gap: clamp(16px, 2vw, 20px); }
 .vf__row--2 { grid-template-columns: 1fr 1fr; }
+.vf__row--3 { grid-template-columns: 1.3fr 1fr 0.9fr; }
 .vf__field { display: grid; gap: 7px; align-content: start; }
 
 .vf__label {
@@ -361,6 +362,10 @@ textarea.vf__control { resize: vertical; min-height: 116px; line-height: 1.55; }
 }
 @media (max-width: 560px) {
   .vf__row--2 { grid-template-columns: 1fr; }
+  /* City takes the full width; Province and Postal code stay paired beneath it
+     rather than becoming two more full-height rows. */
+  .vf__row--3 { grid-template-columns: 1fr 1fr; }
+  .vf__row--3 > :first-child { grid-column: 1 / -1; }
   .vf__grid { grid-template-columns: 1fr; }
   .vf-wrap { width: min(100% - 28px, 780px); }
 }

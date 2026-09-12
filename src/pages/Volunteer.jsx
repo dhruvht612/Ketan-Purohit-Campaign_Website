@@ -59,6 +59,7 @@ const AVAILABILITY = [
 ]
 
 const SKILLS = [
+  'Lawn Sign',
   'Door Knocking',
   'Phone Banking',
   'Social Media',
@@ -70,7 +71,21 @@ const SKILLS = [
   'Fundraising',
 ]
 
+/* Two-letter codes rather than full names: the Province column is the narrow
+   one of the three, and select.vf__control reserves 44px on the right for its
+   chevron, so "Newfoundland and Labrador" would truncate. */
+const PROVINCES = ['AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT']
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+/* Canadian postal code, lenient about the separator and case: M9M 2E2,
+   M9M2E2 and m9m-2e2 all pass. */
+const POSTAL_RE = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/
+
+/* Phone is checked by digit count rather than by shape, so (416) 555-0123,
+   416-555-0123 and +1 416 555 0123 are all accepted. */
+const PHONE_MIN_DIGITS = 10
+const digitsOf = (value) => value.replace(/\D/g, '')
 
 /* Authorization wording lives in src/content/legal.json alongside the rest of
    the legal copy, so the campaign can reword it without touching this file.
@@ -79,12 +94,27 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const CONSENT = getSubmitConsent()
 
 /** The fields that must be filled. Drives validation and the progress meter. */
-const REQUIRED = ['name', 'email', 'age_group', 'student', 'consent']
+const REQUIRED = [
+  'name',
+  'email',
+  'phone',
+  'street_address',
+  'city',
+  'province',
+  'postal_code',
+  'age_group',
+  'student',
+  'consent',
+]
 
 const EMPTY = {
   name: '',
   email: '',
   phone: '',
+  street_address: '',
+  city: '',
+  province: '',
+  postal_code: '',
   age_group: '',
   student: '',
   school_hours: '',
@@ -133,6 +163,17 @@ export default function Volunteer() {
     if (key === 'email') {
       if (!value.trim()) return 'Please enter your email address.'
       if (!EMAIL_RE.test(value)) return 'That email address does not look right.'
+    }
+    if (key === 'phone') {
+      if (!value.trim()) return 'Please enter your phone number.'
+      if (digitsOf(value).length < PHONE_MIN_DIGITS) return 'That phone number does not look right.'
+    }
+    if (key === 'street_address' && !value.trim()) return 'Please enter your street address.'
+    if (key === 'city' && !value.trim()) return 'Please enter your city.'
+    if (key === 'province' && !value) return 'Please choose a province.'
+    if (key === 'postal_code') {
+      if (!value.trim()) return 'Please enter your postal code.'
+      if (!POSTAL_RE.test(value.trim())) return 'That postal code does not look right.'
     }
     if (key === 'age_group' && !value) return 'Please choose an age group.'
     if (key === 'student' && !value) return 'Please let us know if you are a student.'
@@ -402,19 +443,90 @@ export default function Volunteer() {
                 {/* ---- Phone, full width ---- */}
                 <motion.div className="vf__field" {...rise(0.1)}>
                   <label className="vf__label" htmlFor="phone">
-                    Phone <span className="vf__opt">(optional)</span>
+                    Phone <span className="vf__req" aria-hidden="true">*</span>
                   </label>
                   <input
                     id="phone"
                     type="tel"
+                    required
                     autoComplete="tel"
                     placeholder="(123) 456-7890"
                     {...fieldProps('phone')}
                   />
+                  <FieldError id="phone-error" message={errors.phone} />
+                </motion.div>
+
+                {/* ---- Address ----
+                    Split into four fields rather than one free-text box so the
+                    campaign can route lawn-sign drops and map volunteers to
+                    wards without re-parsing the address by hand. */}
+                <motion.div className="vf__field" {...rise(0.14)}>
+                  <label className="vf__label" htmlFor="street_address">
+                    Street address <span className="vf__req" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    id="street_address"
+                    type="text"
+                    required
+                    autoComplete="address-line1"
+                    placeholder="123 Finch Ave W"
+                    {...fieldProps('street_address')}
+                  />
+                  <FieldError id="street_address-error" message={errors.street_address} />
+                </motion.div>
+
+                <motion.div className="vf__row vf__row--3" {...rise(0.18)}>
+                  <div className="vf__field">
+                    <label className="vf__label" htmlFor="city">
+                      City <span className="vf__req" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      id="city"
+                      type="text"
+                      required
+                      autoComplete="address-level2"
+                      placeholder="Toronto"
+                      {...fieldProps('city')}
+                    />
+                    <FieldError id="city-error" message={errors.city} />
+                  </div>
+
+                  <div className="vf__field">
+                    <label className="vf__label" htmlFor="province">
+                      Province <span className="vf__req" aria-hidden="true">*</span>
+                    </label>
+                    <select
+                      id="province"
+                      required
+                      autoComplete="address-level1"
+                      {...fieldProps('province')}
+                    >
+                      <option value="" disabled>Select</option>
+                      {PROVINCES.map((p) => (
+                        <option key={p} value={p}>{p}</option>
+                      ))}
+                    </select>
+                    <FieldError id="province-error" message={errors.province} />
+                  </div>
+
+                  <div className="vf__field">
+                    <label className="vf__label" htmlFor="postal_code">
+                      Postal code <span className="vf__req" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      id="postal_code"
+                      type="text"
+                      required
+                      autoComplete="postal-code"
+                      placeholder="M9M 2E2"
+                      {...fieldProps('postal_code')}
+                    />
+                    <FieldError id="postal_code-error" message={errors.postal_code} />
+                  </div>
                 </motion.div>
 
                 {/* ---- Age group ---- */}
-                <motion.div className="vf__field" {...rise(0.15)}>
+                <motion.div className="vf__field" {...rise(0.22)}>
                   <label className="vf__label" htmlFor="age_group">
                     Age group <span className="vf__req" aria-hidden="true">*</span>
                   </label>
@@ -428,7 +540,7 @@ export default function Volunteer() {
                 </motion.div>
 
                 {/* ---- The two yes/no questions, grouped in a row ---- */}
-                <motion.div className="vf__row vf__row--2" {...rise(0.2)}>
+                <motion.div className="vf__row vf__row--2" {...rise(0.26)}>
                   <YesNo
                     name="student"
                     legend="Are you a student?"
@@ -449,7 +561,7 @@ export default function Volunteer() {
                 </motion.div>
 
                 {/* ---- Availability ---- */}
-                <motion.div {...rise(0.25)}>
+                <motion.div {...rise(0.3)}>
                   <CheckGrid
                     legend="Availability"
                     name="availability[]"
@@ -461,7 +573,7 @@ export default function Volunteer() {
                 </motion.div>
 
                 {/* ---- Skills ---- */}
-                <motion.div {...rise(0.3)}>
+                <motion.div {...rise(0.34)}>
                   <CheckGrid
                     legend="Skills & interests"
                     name="skills[]"
@@ -473,7 +585,7 @@ export default function Volunteer() {
                 </motion.div>
 
                 {/* ---- Notes ---- */}
-                <motion.div className="vf__field" {...rise(0.35)}>
+                <motion.div className="vf__field" {...rise(0.38)}>
                   <label className="vf__label" htmlFor="notes">
                     Additional notes <span className="vf__opt">(optional)</span>
                   </label>
@@ -486,7 +598,7 @@ export default function Volunteer() {
                 </motion.div>
 
                 {/* ---- Authorization ---- */}
-                <motion.div className="vf__field" {...rise(0.38)}>
+                <motion.div className="vf__field" {...rise(0.42)}>
                   <label className={`vf__check vf__consent ${values.consent ? 'is-on' : ''} ${errors.consent ? 'has-error' : ''}`}>
                     <input
                       id="consent"
@@ -541,7 +653,7 @@ export default function Volunteer() {
                   )}
                 </AnimatePresence>
 
-                <motion.div className="vf__submit" {...rise(0.42)}>
+                <motion.div className="vf__submit" {...rise(0.46)}>
                   <button
                     type="submit"
                     className="vf__button"
